@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -33,13 +34,20 @@ public class Tree_rumyancev implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		FlowPanel mainPanel = new FlowPanel(); // панель для веток
+		FlowPanel rootPanel = new FlowPanel();// Родительская ветка
+		
 		Button showNode = new Button("+");
 		Label nodeName = new Label("Root Node");
-		//showNode.setText("-");
 		showNode.getElement().setId("RootNode");
 		nodeName.getElement().setId("RootNodeName");
-		RootPanel.get("RootNode").add(showNode);
-		RootPanel.get("RootNodeName").add(nodeName);
+		rootPanel.getElement().setId("RootNodePanel");
+		
+		rootPanel.add(showNode);
+		rootPanel.add(nodeName);
+		mainPanel.add(rootPanel);
+		
+		RootPanel.get("NodesContainer").add(mainPanel);
 		
 	}
 }
