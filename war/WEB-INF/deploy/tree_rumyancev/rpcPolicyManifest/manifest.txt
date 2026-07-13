@@ -1,3 +1,2 @@
 # Module tree_rumyancev
 # RPC service class, partial path of RPC policy file
-com.example.tree_rumyancev.client.GreetingService, 68527C15032CBFAA8DE639861C04867C.gwt.rpc

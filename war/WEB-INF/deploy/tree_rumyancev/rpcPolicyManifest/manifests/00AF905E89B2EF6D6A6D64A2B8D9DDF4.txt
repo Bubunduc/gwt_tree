@@ -1,2 +1,0 @@
-serviceClass: com.example.tree_rumyancev.client.GreetingService
-path: 68527C15032CBFAA8DE639861C04867C.gwt.rpc
