@@ -5,8 +5,15 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-
-  
+<!-- Servlets -->
+  <servlet>
+    <servlet-name>treeServlet</servlet-name>
+    <servlet-class>com.example.tree_rumyancev.server.TreeServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+        <servlet-name>treeServlet</servlet-name>
+        <url-pattern>/tree_rumyancev/tree</url-pattern>
+   </servlet-mapping>
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Tree_rumyancev.html</welcome-file>
