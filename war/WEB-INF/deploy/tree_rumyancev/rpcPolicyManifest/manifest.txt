@@ -1,2 +1,0 @@
-# Module tree_rumyancev
-# RPC service class, partial path of RPC policy file
