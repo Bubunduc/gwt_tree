@@ -40,9 +40,12 @@ public class Tree_rumyancev implements EntryPoint {
 	 */
 	private Node rootNode;
 	List<Node> allNodes;
+	FlexTable AllDatatable = new FlexTable();
+	FlexTable currentNodeTable = new FlexTable();
 	public void onModuleLoad() {
 		initTree();
 		initAllNodesTable();
+		initCurrentNodeTable();
 		
 	}					
 	public void initTree() 
@@ -66,6 +69,23 @@ public class Tree_rumyancev implements EntryPoint {
 		});
 		
 	}
+	public void initCurrentNodeTable() {
+		currentNodeTable.setText(0, 0, "Id");
+		currentNodeTable.setWidget(0, 1, new TextBox());
+
+		currentNodeTable.setText(1, 0, "parentId");
+		currentNodeTable.setWidget(1, 1, new TextBox());
+
+		currentNodeTable.setText(2, 0, "name");
+		currentNodeTable.setWidget(2, 1, new TextBox());
+
+		currentNodeTable.setText(3, 0, "ip");
+		currentNodeTable.setWidget(3, 1, new TextBox());
+
+		currentNodeTable.setText(4, 0, "port");
+		currentNodeTable.setWidget(4, 1, new TextBox());
+	    RootPanel.get("CurrentNodeContainer").add(currentNodeTable);
+	}
 	public void initAllNodesTable() 
 	{
 			treeService.getAllData(new AsyncCallback<List<Node>>() {
@@ -73,32 +93,32 @@ public class Tree_rumyancev implements EntryPoint {
 			@Override
 			public void onSuccess(List<Node> result) {
 				allNodes = result;
-				FlexTable table = new FlexTable();
+				
 				Button refreshButton = new Button("обновить");
-				table.setWidget(0, 0, refreshButton);
+				AllDatatable.setWidget(0, 0, refreshButton);
 				int counter = 2;
-				table.setText(1, 0, "Id");
-				table.setText(1, 1, "parentId");
-				table.setText(1, 2, "name");
-				table.setText(1, 3, "ip");
-				table.setText(1, 4, "port");
+				AllDatatable.setText(1, 0, "Id");
+				AllDatatable.setText(1, 1, "parentId");
+				AllDatatable.setText(1, 2, "name");
+				AllDatatable.setText(1, 3, "ip");
+				AllDatatable.setText(1, 4, "port");
 				for (Node node : allNodes)
 				{
-					table.setText(counter, 0, node.getId().toString());
+					AllDatatable.setText(counter, 0, node.getId().toString());
 					if (node.getParentId()!= null) 
 					{
-						table.setText(counter, 1, node.getParentId().toString());
+						AllDatatable.setText(counter, 1, node.getParentId().toString());
 					}
 					else
 					{
-						table.setText(counter, 1, "корень");
+						AllDatatable.setText(counter, 1, "корень");
 					}
-					table.setText(counter, 2, node.getName());
-					table.setText(counter, 3, node.getIp());
-					table.setText(counter, 4, node.getPort().toString());
+					AllDatatable.setText(counter, 2, node.getName());
+					AllDatatable.setText(counter, 3, node.getIp());
+					AllDatatable.setText(counter, 4, node.getPort().toString());
 					counter++;
 				}
-				RootPanel.get("AllNodesTable").add(table);
+				RootPanel.get("AllNodesTable").add(AllDatatable);
 			}
 			
 			@Override
@@ -122,16 +142,17 @@ public class Tree_rumyancev implements EntryPoint {
 		panel.getElement().setId("Panel " + id);
 		panel.add(showNode);
 		panel.add(nodeName);
-		showNode.addClickHandler(new MyClickHandler(node.getId(),panel));
+		showNode.addClickHandler(new TreeClickHandler(node.getId(),panel));
+		nodeName.addClickHandler(new NodeClickHandler(node));
 		
 		return panel;
 	}
-	public class MyClickHandler implements ClickHandler {
+	public class TreeClickHandler implements ClickHandler {
 		private final Long id;
 		FlowPanel panel;
 		FlowPanel childPanel = new FlowPanel();
 		boolean isLoaded = false;
-		public MyClickHandler(Long id,FlowPanel panel) {
+		public TreeClickHandler(Long id,FlowPanel panel) {
 			this.id = id;
 			this.panel = panel;
 	
@@ -191,5 +212,44 @@ public class Tree_rumyancev implements EntryPoint {
 		   
 		}
 	
-	
+	public class NodeClickHandler implements ClickHandler
+	{
+		Node node;
+		public NodeClickHandler(Node node) 
+		{
+		this.node = node;	
+		}
+		@Override 
+		public void onClick(ClickEvent event)
+		{
+		
+			TextBox id =  new TextBox();
+			
+			TextBox parentId =  new TextBox();
+			
+			TextBox name =  new TextBox();
+			
+			TextBox ip =  new TextBox();
+			
+			TextBox port =  new TextBox();
+			id.setText(node.getId().toString());
+			if (node.getParentId()!=null)
+			{
+				parentId.setText(node.getParentId().toString());
+			}
+			else
+			{
+				parentId.setText("Корень дерева");
+			}
+			name.setText(node.getName());
+			ip.setText(node.getIp());
+			port.setText(node.getPort().toString());
+			
+			currentNodeTable.setWidget(0, 1,id );
+			currentNodeTable.setWidget(1, 1,parentId);
+			currentNodeTable.setWidget(2, 1, name);
+			currentNodeTable.setWidget(3, 1, ip);
+			currentNodeTable.setWidget(4, 1, port);
+		}
+	}
 }
