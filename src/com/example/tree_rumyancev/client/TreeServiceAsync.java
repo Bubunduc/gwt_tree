@@ -16,4 +16,5 @@ public interface TreeServiceAsync {
 	void isparent(Long childId, Long parentId, AsyncCallback<Boolean> callback);
 	void getChildrenList(Long parentId,AsyncCallback<List<Node>> callback);
 	void getRootNode(AsyncCallback<Node> callback);
+	void getAllData(AsyncCallback<List<Node>> callback);
 }

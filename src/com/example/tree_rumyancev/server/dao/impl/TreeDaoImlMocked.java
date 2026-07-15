@@ -22,6 +22,7 @@ public class TreeDaoImlMocked implements TreeDao {
 	public List<Node> getAllData() 
 	{
 		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(getRootNode());
 	    nodes.add(new Node(1L, 0L, "database-server", "192.168.1.10", (short) 3306));
         nodes.add(new Node(2L, 0L, "web-server", "192.168.1.20", (short) 8080));
         nodes.add(new Node(3L, 0L, "cache-server", "192.168.1.30", (short) 6379));

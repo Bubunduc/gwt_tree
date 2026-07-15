@@ -15,4 +15,5 @@ public interface TreeService  extends RemoteService {
 	boolean isparent(Long childId, Long parentId);
 	public List<Node> getChildrenList(Long parentId);
 	public Node getRootNode();
+	public List<Node> getAllData();
 }

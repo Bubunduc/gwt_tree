@@ -60,4 +60,8 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	{
 		return dao.getRootNode();
 	}
+	@Override
+	public List<Node> getAllData() {
+		return dao.getAllData();
+	}
 }

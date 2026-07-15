@@ -9,10 +9,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -37,7 +39,14 @@ public class Tree_rumyancev implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	private Node rootNode;
+	List<Node> allNodes;
 	public void onModuleLoad() {
+		initTree();
+		initAllNodesTable();
+		
+	}					
+	public void initTree() 
+	{
 		final FlowPanel mainPanel = new FlowPanel(); // панель для веток	
 		RootPanel.get("NodesContainer").add(mainPanel);
 		treeService.getRootNode(new AsyncCallback<Node>() {
@@ -55,8 +64,52 @@ public class Tree_rumyancev implements EntryPoint {
 				
 			}
 		});
-	}					
-	
+		
+	}
+	public void initAllNodesTable() 
+	{
+			treeService.getAllData(new AsyncCallback<List<Node>>() {
+			
+			@Override
+			public void onSuccess(List<Node> result) {
+				allNodes = result;
+				FlexTable table = new FlexTable();
+				Button refreshButton = new Button("обновить");
+				table.setWidget(0, 0, refreshButton);
+				int counter = 2;
+				table.setText(1, 0, "Id");
+				table.setText(1, 1, "parentId");
+				table.setText(1, 2, "name");
+				table.setText(1, 3, "ip");
+				table.setText(1, 4, "port");
+				for (Node node : allNodes)
+				{
+					table.setText(counter, 0, node.getId().toString());
+					if (node.getParentId()!= null) 
+					{
+						table.setText(counter, 1, node.getParentId().toString());
+					}
+					else
+					{
+						table.setText(counter, 1, "корень");
+					}
+					table.setText(counter, 2, node.getName());
+					table.setText(counter, 3, node.getIp());
+					table.setText(counter, 4, node.getPort().toString());
+					counter++;
+				}
+				RootPanel.get("AllNodesTable").add(table);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+	}
 	public FlowPanel createNode(Node node) 
 	{
 		String id  = node.getId().toString();
@@ -112,7 +165,7 @@ public class Tree_rumyancev implements EntryPoint {
 				   }
 				   else 
 				   {
-					   childPanel.setVisible(true);
+					   hideNodes();
 				   }
 				   
 			   }
@@ -133,7 +186,7 @@ public class Tree_rumyancev implements EntryPoint {
 		   }
 		   public void hideNodes() 
 		   {
-			   
+			   childPanel.setVisible(true);
 		   }
 		   
 		}
