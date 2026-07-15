@@ -10,4 +10,6 @@ public interface TreeDao {
 	
 	public List<Node> getAllData();
 	
+	public List<Node> getChildrenList(Long parentId);
+	
 }

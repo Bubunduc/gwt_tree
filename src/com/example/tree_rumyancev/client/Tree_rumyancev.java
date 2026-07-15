@@ -70,26 +70,34 @@ public class Tree_rumyancev implements EntryPoint {
 		panel.add(showNode);
 		panel.add(nodeName);
 		showNode.addClickHandler(new MyClickHandler(node.getId(),panel));
-		System.out.print(node.getId());
+		
 		return panel;
 	}
 	public class MyClickHandler implements ClickHandler {
 		private final Long id;
 		FlowPanel panel;
+		FlowPanel childPanel = new FlowPanel();
+		boolean isLoaded = false;
 		public MyClickHandler(Long id,FlowPanel panel) {
 			this.id = id;
 			this.panel = panel;
+	
+			
 		}
 		   @Override
 		   public void onClick(ClickEvent event) {
 			   ToggleButton toggleButton = (ToggleButton) event.getSource();
 			   if (toggleButton.isDown() == true) 
 			   {
+				   if (isLoaded == false)
+				   {
 				   toggleButton.setText("−");
 				   treeService.getChildrenList(id,new AsyncCallback<List<Node>>() {
 						
 						@Override
 						public void onSuccess(List<Node> result) {
+							isLoaded = true;
+							
 							showNodes(result);
 
 
@@ -101,18 +109,27 @@ public class Tree_rumyancev implements EntryPoint {
 							
 						}
 					});
+				   }
+				   else 
+				   {
+					   childPanel.setVisible(true);
+				   }
+				   
 			   }
 			   else
 			   {
 				   toggleButton.setText("+");
+				   childPanel.setVisible(false);
 			   }
 		   }
 		   public void showNodes(List<Node> result) 
 		   {
+			   childPanel.getElement().setId("Node_child" + id.toString());
 			   for (Node node : result) 
 			   {
-				   panel.add(createNode(node));
+				   childPanel.add(createNode(node));
 			   }
+			   panel.add(childPanel);
 		   }
 		   public void hideNodes() 
 		   {

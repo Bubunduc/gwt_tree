@@ -47,4 +47,18 @@ public class TreeDaoImlMocked implements TreeDao {
         
         return nodes;
 	}
+	@Override
+	public List<Node> getChildrenList(Long parentId)
+	{
+		List<Node> childrenList = new ArrayList<Node>();
+		List<Node> nodes = getAllData();
+		for (Node node : nodes) 
+		{
+			if (parentId.equals(node.getParentId()))
+			{
+				childrenList.add(node);
+			}
+		}
+		return childrenList;
+	}
 }

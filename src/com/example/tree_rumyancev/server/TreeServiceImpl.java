@@ -52,16 +52,8 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	@Override
 	public List<Node> getChildrenList(Long parentId)
 	{
-		List<Node> childrenList = new ArrayList<Node>();
-		List<Node> nodes = dao.getAllData();
-		for (Node node : nodes) 
-		{
-			if (parentId == node.getId())
-			{
-				childrenList.add(node);
-			}
-		}
-		return childrenList;
+		
+		return dao.getChildrenList(parentId);
 	}
 	@Override
 	public Node getRootNode() 

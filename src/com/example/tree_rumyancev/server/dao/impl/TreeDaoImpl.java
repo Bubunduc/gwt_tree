@@ -17,5 +17,10 @@ public class TreeDaoImpl  implements TreeDao{
 	{
 	return null;	
 	}
+	@Override
+	public List<Node> getChildrenList(Long parentId)
+	{
+	return null;	
+	}
 
 }
