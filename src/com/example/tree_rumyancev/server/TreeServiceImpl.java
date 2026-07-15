@@ -32,8 +32,14 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	@Override
 	public void update(Node node) {
-		// TODO Auto-generated method stub
-		
+		if (node.getPort().toString().length() != 4)
+		{
+			throw new IllegalArgumentException("Port must be exactly 4 digits");
+		}
+		if (node.getIp().matches("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b")) {
+			throw new IllegalArgumentException("incorrect ip address");
+		}
+		dao.update(node);
 	}
 
 	@Override

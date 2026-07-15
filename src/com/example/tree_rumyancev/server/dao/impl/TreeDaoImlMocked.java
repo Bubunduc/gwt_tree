@@ -7,21 +7,9 @@ import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.shared.model.Node;
 
 public class TreeDaoImlMocked implements TreeDao {
-	@Override
-	public Node getRootNode() 
-	{
-		return new Node(
-	            0L,           // id
-	            null,         // parentId (корневой узел не имеет родителя)
-	            "rootNode",   // name
-	            "127.0.0.1",  // ip
-	            (short) 1111  // port
-	        );
-	}
-	@Override
-	public List<Node> getAllData() 
-	{
-		List<Node> nodes = new ArrayList<Node>();
+	List<Node> nodes = new ArrayList<Node>();
+	public TreeDaoImlMocked() {
+		
 		nodes.add(getRootNode());
 	    nodes.add(new Node(1L, 0L, "database-server", "192.168.1.10", (short) 3306));
         nodes.add(new Node(2L, 0L, "web-server", "192.168.1.20", (short) 8080));
@@ -46,7 +34,23 @@ public class TreeDaoImlMocked implements TreeDao {
         nodes.add(new Node(13L, 8L, "microservice-users", "192.168.1.22", (short) 9002));
         nodes.add(new Node(14L, 8L, "microservice-orders", "192.168.1.22", (short) 9003));
         
-        return nodes;
+      
+	}
+	@Override
+	public Node getRootNode() 
+	{
+		return new Node(
+	            0L,           // id
+	            null,         // parentId (корневой узел не имеет родителя)
+	            "rootNode",   // name
+	            "127.0.0.1",  // ip
+	            (short) 1111  // port
+	        );
+	} 
+	@Override
+	public List<Node> getAllData() 
+	{
+		  return nodes;
 	}
 	@Override
 	public List<Node> getChildrenList(Long parentId)
@@ -62,4 +66,26 @@ public class TreeDaoImlMocked implements TreeDao {
 		}
 		return childrenList;
 	}
+	@Override
+	public void update(Node node) {
+		for (Node i : nodes) 
+		{
+			if (i.getId().equals(node.getId())) 
+			{
+				nodes.set(nodes.indexOf(i), node);
+				break;
+			}
+		}
+	}
+	@Override
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void findById(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
