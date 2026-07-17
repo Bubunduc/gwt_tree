@@ -3,9 +3,11 @@ package com.example.tree_rumyancev.client;
 import java.util.List;
 
 import com.example.tree_rumyancev.shared.model.Node;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -52,7 +54,7 @@ public class TreeWidget extends Composite{
 		});
 		
 	}
-	public FlowPanel createNode(Node node) 
+	public FlowPanel createNode(Long node) 
 	{
 		String id  = node.getId().toString();
 		FlowPanel panel = new FlowPanel();
@@ -64,40 +66,41 @@ public class TreeWidget extends Composite{
 		panel.getElement().setId("Panel " + id);
 		panel.add(showNode);
 		panel.add(nodeName);
-		showNode.addClickHandler(new TreeClickHandler(node.getId(),panel));
+		//showNode.addClickHandler(new TreeClickHandler(node.getId(),panel));
 		nodeName.addClickHandler(new NodeClickHandler(node,selectedNodePanel));
 		
 		return panel;
 	}
 	
-	public class TreeClickHandler implements ClickHandler {
-		private final Long id;
-		FlowPanel panel;
-		FlowPanel childPanel = new FlowPanel();
-		boolean isLoaded = false;
-		public TreeClickHandler(Long id,FlowPanel panel) {
-			this.id = id;
-			this.panel = panel;
 	
+	
+	public Command getOnAddHandler ()
+	{
+		return new Command() {
 			
-		}
+			@Override
+			public void execute() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+	}
+	
+	public class TreeClickHandler implements ClickHandler {
+		boolean isLoaded = false;	
 		   @Override
 		   public void onClick(ClickEvent event) {
-			   ToggleButton toggleButton = (ToggleButton) event.getSource();
-			   if (toggleButton.isDown() == true) 
+			   if (parentNode.isButtonDowned()) 
 			   {
 				   if (isLoaded == false)
 				   {
-				   toggleButton.setText("−");
-				   treeService.getChildrenList(id,new AsyncCallback<List<Node>>() {
+				   parentNode.downButton();
+				   treeService.getChildrenList(id,new AsyncCallback<List<Long>>() {
 						
 						@Override
-						public void onSuccess(List<Node> result) {
+						public void onSuccess(List<Long> result) {
 							isLoaded = true;
 							
-							showNodes(result);
-
-
 						}
 						
 						@Override
@@ -109,37 +112,22 @@ public class TreeWidget extends Composite{
 				   }
 				   else 
 				   {
-					   hideNodes();
+					   parentNode.downButton();
 				   }
 				   
 			   }
 			   else
 			   {
-				   toggleButton.setText("+");
-				   childPanel.setVisible(false);
+				  parentNode.upButton();
 			   }
-		   }
-		   public void showNodes(List<Node> result) 
-		   {
-			   childPanel.getElement().setId("Node_child" + id.toString());
-			   for (Node node : result) 
-			   {
-				   childPanel.add(createNode(node));
-			   }
-			   panel.add(childPanel);
-		   }
-		   public void hideNodes() 
-		   {
-			   childPanel.setVisible(true);
-		   }
-		   
+		   }	   
 		}
 	
 	public class NodeClickHandler implements ClickHandler
 	{
-		private Node node;
+		private Long node;
 		private SelectedNodeWidget selectedNodePanel;
-		public NodeClickHandler(Node node, SelectedNodeWidget selectedNodePanel) 
+		public NodeClickHandler(Long node, SelectedNodeWidget selectedNodePanel) 
 		{
 		this.node = node;	
 		

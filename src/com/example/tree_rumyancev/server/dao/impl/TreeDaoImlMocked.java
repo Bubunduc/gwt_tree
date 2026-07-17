@@ -53,7 +53,7 @@ public class TreeDaoImlMocked implements TreeDao {
 		  return nodes;
 	}
 	@Override
-	public List<Node> getChildrenList(Long parentId)
+	public List<Node> getChildrenList(Node parentId)
 	{
 		List<Node> childrenList = new ArrayList<Node>();
 		List<Node> nodes = getAllData();
@@ -78,12 +78,12 @@ public class TreeDaoImlMocked implements TreeDao {
 		}
 	}
 	@Override
-	public void delete(Long id) {
+	public void delete(Node id) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void findById(Long id) {
+	public void findById(Node id) {
 		// TODO Auto-generated method stub
 		
 	}
