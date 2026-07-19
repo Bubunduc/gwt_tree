@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public class TreeWidget extends Composite{
-	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
+	/*private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 	
 	final FlowPanel mainPanel = new FlowPanel();
 	private SelectedNodeWidget selectedNodePanel;
@@ -54,7 +54,7 @@ public class TreeWidget extends Composite{
 		});
 		
 	}
-	public FlowPanel createNode(Long node) 
+	public FlowPanel createNode(Node node) 
 	{
 		String id  = node.getId().toString();
 		FlowPanel panel = new FlowPanel();
@@ -139,6 +139,6 @@ public class TreeWidget extends Composite{
 		{
 			selectedNodePanel.showNode(node);
 		}
-	}
+	}*/
 	
 }

@@ -3,19 +3,21 @@ package com.example.tree_rumyancev.client;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.example.tree_rumyancev.client.TreeWidget.NodeClickHandler;
 import com.example.tree_rumyancev.shared.model.Node;
-import com.example.tree_rumyancev.shared.model.TreeNode;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 public class TreeViewImpl implements TreeView
 {
-	final FlowPanel mainPanel = new FlowPanel();
+	final private FlowPanel mainPanel = new FlowPanel();
+	
+	private FlowPanel rootPanel;
 	
 	private Map<Long, ToggleButton> buttons = new HashMap();
 	
@@ -23,9 +25,9 @@ public class TreeViewImpl implements TreeView
 	
 	private Map<Long, FlowPanel> panels = new HashMap<>();
 	
-	public TreeViewImpl(Node rootNode)
+	public TreeViewImpl(FlowPanel rootPanel)
 	{
-		initTree(rootNode);
+		this.rootPanel = rootPanel;
 	}
 	
 	@Override
@@ -43,6 +45,9 @@ public class TreeViewImpl implements TreeView
 		panel.add(showNode);
 		panel.add(nodeName);
 		
+		panel.setStyleName("nodePanel");
+		showNode.setStyleName("nodeButton");
+		nodeName.setStyleName("nodeLabel");
 		
 		buttons.put(id, showNode);
 		labels.put(id, nodeName);
@@ -50,11 +55,7 @@ public class TreeViewImpl implements TreeView
 		
 		return panel;
 		
-		//showNode.addClickHandler(new TreeClickHandler(node.getId(),panel));
-		//nodeName.addClickHandler(new NodeClickHandler(node,selectedNodePanel));
-		
-		
-		
+			
 	}
 
 	@Override
@@ -71,7 +72,10 @@ public class TreeViewImpl implements TreeView
 		}
 		for (Node children : child)
 		{
-			parentpanel.add(showNode(children));
+			FlowPanel childPanel = showNode(children);
+			childPanel.addStyleName("nodeChild");
+			parentpanel.add(childPanel);
+			
 		}
 		
 	}
@@ -80,7 +84,39 @@ public class TreeViewImpl implements TreeView
 	public void initTree(Node node) 
 	{
 		mainPanel.add(showNode(node));
-		RootPanel.get("treeRootPanel").add(mainPanel);
+		rootPanel.add(mainPanel);
+	}
+
+	@Override
+	public void setButtonHandler(Long id, ClickHandler handler) {
+		ToggleButton button = buttons.get(id);
+		button.addClickHandler(handler);
+		
+	}
+
+	@Override
+	public void setLabelHandler(Long id, ClickHandler handler) {
+		Label label = labels.get(id);
+		label.addClickHandler(handler);
+		
+	}
+
+	@Override
+	public void setNodeVisible(Long id, boolean stage) {
+		FlowPanel panel = panels.get(id);
+		ToggleButton button = buttons.get(id);
+		if (stage == true) 
+		{
+			button.setText("-");
+		}
+		else {
+			button.setText("+");
+		}
+		for (int i = 2; i < panel.getWidgetCount(); i++) { //0 кнопка 1 табличка
+		    Widget child = panel.getWidget(i);
+		    child.setVisible(stage); 
+		}
+		
 	}
 	
 

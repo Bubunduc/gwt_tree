@@ -34,19 +34,26 @@ public class Tree_rumyancev implements EntryPoint {
 	 */
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
-	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
+	
 	/**
 	 * This is the entry point method.
 	 */
-	private Node rootNode;
-	private List<Node> allNodes;
+	
 	
 	public void onModuleLoad() {
-		SelectedNodeWidget selectedNode = new SelectedNodeWidget();
-		RootPanel.get("CurrentNodeContainer").add(selectedNode);
-		TreeWidget tree = new TreeWidget(selectedNode);
-		RootPanel.get("NodesContainer").add(tree);
-		TableWidget allNodesTable = new TableWidget();
-		RootPanel.get("AllNodesTable").add(allNodesTable);
+		FlowPanel mainRootPanel = new FlowPanel() ;
+		TreeView treeView = new TreeViewImpl(mainRootPanel);
+		TreePresenter treePresenter = new TreePresenter(treeView);
+		RootPanel.get("NodesContainer").add(mainRootPanel);
+		treePresenter.go();
+		
+		
+		
+		//SelectedNodeWidget selectedNode = new SelectedNodeWidget();
+		//RootPanel.get("CurrentNodeContainer").add(selectedNode);
+		//TreeWidget tree = new TreeWidget(selectedNode);
+		//RootPanel.get("NodesContainer").add(tree);
+		//TableWidget allNodesTable = new TableWidget();
+		//RootPanel.get("AllNodesTable").add(allNodesTable);
 	}					
 }

@@ -18,7 +18,7 @@ public class TreeDaoImpl  implements TreeDao{
 	return null;	
 	}
 	@Override
-	public List<Node> getChildrenList(Node parentId)
+	public List<Node> getChildrenList(Long parentId)
 	{
 	return null;	
 	}
@@ -30,13 +30,13 @@ public class TreeDaoImpl  implements TreeDao{
 	}
 
 	@Override
-	public void delete(Node id) {
+	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void findById(Node id) {
+	public void findById(Long id) {
 		// TODO Auto-generated method stub
 		
 	}

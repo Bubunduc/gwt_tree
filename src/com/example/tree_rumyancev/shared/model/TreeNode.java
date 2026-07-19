@@ -2,7 +2,7 @@ package com.example.tree_rumyancev.shared.model;
 
 import java.io.Serializable;
 import java.util.List;
-import com.example.tree_rumyancev.shared.model.Node;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;

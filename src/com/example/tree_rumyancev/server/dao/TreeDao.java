@@ -10,13 +10,13 @@ public interface TreeDao {
 	
 	public List<Node> getAllData();
 	
-	public List<Node> getChildrenList(Node parentId);
+	public List<Node> getChildrenList(Long parentId);
 	
 	public void update(Node node);
 	
-	public void delete(Node id);
+	public void delete(Long id);
 	
-	public void findById(Node id);
+	public void findById(Long id);
 	
 	
 	

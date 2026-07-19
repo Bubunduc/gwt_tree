@@ -25,7 +25,7 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	}
 
 	@Override
-	public Node read(Node id) {
+	public Node read(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -43,20 +43,20 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	}
 
 	@Override
-	public void delete(Node id) {
+	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public boolean isparent(Node childId,Node parentId) {
+	public boolean isparent(Long childId,Long parentId) {
 		if (childId.equals(parentId)){
 			return true;
 		}
 		return false;
 	}
 	@Override
-	public List<Node> getChildrenList(Node parentId)
+	public List<Node> getChildrenList(Long parentId)
 	{
 		
 		return dao.getChildrenList(parentId);
