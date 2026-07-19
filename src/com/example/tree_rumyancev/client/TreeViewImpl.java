@@ -1,10 +1,13 @@
 package com.example.tree_rumyancev.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import com.example.tree_rumyancev.shared.model.Node;
-
+import com.example.tree_rumyancev.client.NodeViewHolder;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -15,15 +18,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TreeViewImpl implements TreeView
 {
-	final private FlowPanel mainPanel = new FlowPanel();
+	private NodeViewHolder mainPanel;
 	
-	private FlowPanel rootPanel;
+	private  FlowPanel rootPanel;
 	
-	private Map<Long, ToggleButton> buttons = new HashMap();
-	
-	private Map<Long, Label> labels = new HashMap<>();
-	
-	private Map<Long, FlowPanel> panels = new HashMap<>();
+	private Map<Long, NodeViewHolder> treeNodes = new HashMap<>();;
 	
 	public TreeViewImpl(FlowPanel rootPanel)
 	{
@@ -31,7 +30,7 @@ public class TreeViewImpl implements TreeView
 	}
 	
 	@Override
-	public FlowPanel showNode(Node node) {
+	public NodeViewHolder showNode(Node node) {
 		Long id  = node.getId();
 		
 		FlowPanel panel = new FlowPanel();
@@ -49,11 +48,12 @@ public class TreeViewImpl implements TreeView
 		showNode.setStyleName("nodeButton");
 		nodeName.setStyleName("nodeLabel");
 		
-		buttons.put(id, showNode);
-		labels.put(id, nodeName);
-		panels.put(id, panel);
+		NodeViewHolder holder = new NodeViewHolder(panel,  showNode,nodeName);
 		
-		return panel;
+		treeNodes.put(id,holder);
+		
+		
+		return holder;
 		
 			
 	}
@@ -61,50 +61,61 @@ public class TreeViewImpl implements TreeView
 	@Override
 	public void showChildList(List<Node> child) {
 		Long parentId = child.get(0).getParentId();
-		FlowPanel parentpanel;
-		if (!panels.get(parentId).equals(null)) 
+		NodeViewHolder parentpanel;
+		if (!treeNodes.get(parentId).equals(null)) 
 		{
-			parentpanel = panels.get(parentId);
+			parentpanel = treeNodes.get(parentId);
 		}
 		else
 		{
 			parentpanel = mainPanel;
 		}
+		Set<Long> childIds = new HashSet<Long>();
+		
+		
 		for (Node children : child)
 		{
-			FlowPanel childPanel = showNode(children);
-			childPanel.addStyleName("nodeChild");
-			parentpanel.add(childPanel);
+			NodeViewHolder childPanel = showNode(children);
+			
+			childPanel.getPanel().addStyleName("nodeChild");
+			
+			treeNodes.put(children.getId(),childPanel);
+			childIds.add(children.getId());
+			
+			parentpanel.getPanel().add(childPanel.getPanel());
 			
 		}
+		
+		parentpanel.setChildIds(childIds);
+		
 		
 	}
 	
 	@Override
 	public void initTree(Node node) 
 	{
-		mainPanel.add(showNode(node));
-		rootPanel.add(mainPanel);
+		mainPanel = showNode(node);
+		rootPanel.add(mainPanel.getPanel());
 	}
 
 	@Override
 	public void setButtonHandler(Long id, ClickHandler handler) {
-		ToggleButton button = buttons.get(id);
+		ToggleButton button = treeNodes.get(id).getShowNode();
 		button.addClickHandler(handler);
 		
 	}
 
 	@Override
 	public void setLabelHandler(Long id, ClickHandler handler) {
-		Label label = labels.get(id);
+		Label label = treeNodes.get(id).getNodeName();
 		label.addClickHandler(handler);
 		
 	}
 
 	@Override
 	public void setNodeVisible(Long id, boolean stage) {
-		FlowPanel panel = panels.get(id);
-		ToggleButton button = buttons.get(id);
+		Set<Long> childIds =  treeNodes.get(id).getChildIds();
+		ToggleButton button = treeNodes.get(id).getShowNode();
 		if (stage == true) 
 		{
 			button.setText("-");
@@ -112,9 +123,10 @@ public class TreeViewImpl implements TreeView
 		else {
 			button.setText("+");
 		}
-		for (int i = 2; i < panel.getWidgetCount(); i++) { //0 кнопка 1 табличка
-		    Widget child = panel.getWidget(i);
-		    child.setVisible(stage); 
+		
+		for (Long i : childIds)
+		{
+			 treeNodes.get(i).getPanel().setVisible(stage);
 		}
 		
 	}
