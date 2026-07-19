@@ -8,7 +8,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FlowPanel;
+
 
 public class TreePresenter {
 	
@@ -18,9 +18,9 @@ public class TreePresenter {
 	private Set<Long> loadedIds = new HashSet<Long>();
 	private Set<Long> expandedIds = new HashSet<Long>();
 	
-	SelectedNodeView selectedNode;
+	SelectedNodeDisplay selectedNode;
 	
-	public TreePresenter(TreeDisplay treeView, SelectedNodeView selectedNode)
+	public TreePresenter(TreeDisplay treeView, SelectedNodeDisplay selectedNode)
 	{
 		this.treeView = treeView;
 		this.selectedNode = selectedNode;
@@ -28,7 +28,7 @@ public class TreePresenter {
 	public void go() 
 	{
 		treeService.getRootNode(new AsyncCallback<Node>() {
-			private FlowPanel rootPanel = new FlowPanel();
+			
 			@Override
 			public void onSuccess(Node result) {
 				Node rootNode = result;

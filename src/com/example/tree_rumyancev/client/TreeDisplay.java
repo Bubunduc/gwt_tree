@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 public interface TreeDisplay {
 	
-	public NodeViewHolder showNode(Node node);
 	public void showChildList(List<Node> child);
 	public void initTree(Node node);
 	public void setButtonHandler(Long id, ClickHandler handler);

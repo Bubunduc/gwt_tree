@@ -28,9 +28,8 @@ public class TreeView implements TreeDisplay
 	{
 		this.rootPanel = rootPanel;
 	}
-	
-	@Override
-	public NodeViewHolder showNode(Node node) {
+
+	private NodeViewHolder showNode(Node node) {
 		Long id  = node.getId();
 		
 		FlowPanel panel = new FlowPanel();
