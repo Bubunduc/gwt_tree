@@ -41,15 +41,14 @@ public class Tree_rumyancev implements EntryPoint {
 	
 	
 	public void onModuleLoad() {
+		SelectedNodeView selectedNode = new SelectedNodeView();
 		FlowPanel mainRootPanel = new FlowPanel() ;
-		TreeView treeView = new TreeViewImpl(mainRootPanel);
-		TreePresenter treePresenter = new TreePresenter(treeView);
+		TreeDisplay treeView = new TreeView(mainRootPanel);
+		TreePresenter treePresenter = new TreePresenter(treeView,selectedNode);
 		RootPanel.get("NodesContainer").add(mainRootPanel);
 		treePresenter.go();
 		
-		
-		
-		//SelectedNodeWidget selectedNode = new SelectedNodeWidget();
+	
 		//RootPanel.get("CurrentNodeContainer").add(selectedNode);
 		//TreeWidget tree = new TreeWidget(selectedNode);
 		//RootPanel.get("NodesContainer").add(tree);

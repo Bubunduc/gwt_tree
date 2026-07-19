@@ -14,13 +14,16 @@ public class TreePresenter {
 	
 	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 	
-	private TreeView treeView;
+	private TreeDisplay treeView;
 	private Set<Long> loadedIds = new HashSet<Long>();
 	private Set<Long> expandedIds = new HashSet<Long>();
 	
-	public TreePresenter(TreeView treeView)
+	SelectedNodeView selectedNode;
+	
+	public TreePresenter(TreeDisplay treeView, SelectedNodeView selectedNode)
 	{
 		this.treeView = treeView;
+		this.selectedNode = selectedNode;
 	}
 	public void go() 
 	{
@@ -109,7 +112,7 @@ public class TreePresenter {
 	
 	private void onNodeLabelClicked(Node node)
 	{
-		
+		selectedNode.showNode(node);
 	}
 	 
 	 

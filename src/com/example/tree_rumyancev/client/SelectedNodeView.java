@@ -9,13 +9,15 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class SelectedNodeWidget extends Composite {
+public class SelectedNodeView implements SelectedNodeDisplay {
 	private FlexTable selectedNodeTable = new FlexTable();
-	public SelectedNodeWidget() {
+	
+	public SelectedNodeView() {
+		
 		initSelectedNodeTable();
-		initWidget(selectedNodeTable);
 	}
 	
+	@Override
 	public void initSelectedNodeTable() {
 		TextBox id = new TextBox();
 		id.setReadOnly(true);
@@ -45,36 +47,10 @@ public class SelectedNodeWidget extends Composite {
 	    selectedNodeTable.setWidget(5, 1, editButton);
 	    selectedNodeTable.setWidget(5, 2, deleteButton);
 	    
-	    addButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				
-			}
-		});
 	    
-	    editButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) 
-			{
-				try 
-				{
-					
-				}
-				catch (IllegalArgumentException e) 
-				{
-					
-				}
-			}
-		});
-	    
-	    deleteButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event)
-			{
-				
-			}
-		});
-	    
-	    
+		RootPanel.get("CurrentNodeContainer").add(selectedNodeTable);
 	}
-	
+	@Override
 	public void showNode(Node node) 
 	{
 		TextBox id =  new TextBox();
