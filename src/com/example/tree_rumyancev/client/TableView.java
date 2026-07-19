@@ -4,55 +4,39 @@ import java.util.List;
 
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class TableWidget extends Composite
+public class TableView implements TableDisplay
 {
-	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
-	private List<Node> allNodes;
+	
 	private FlexTable AllDatatable = new FlexTable();
+	Button refreshButton = new Button("обновить");
+	ClickHandler refreshHandler;
 	
-	public TableWidget()
+	@Override
+	public void setRefreshButtonClickHandler(ClickHandler handler)
 	{
-		initWidget(AllDatatable);
-		initAllNodesTable();
+		refreshHandler = handler;
 	}
 	
-	public void initAllNodesTable() 
+	@Override
+	public void fillTable(List<Node> nodes) 
 	{
-			treeService.getAllData(new AsyncCallback<List<Node>>() {
-			
-			@Override
-			public void onSuccess(List<Node> result) {
-				allNodes = result;
-				
-				Button refreshButton = new Button("обновить");
-				AllDatatable.setWidget(0, 0, refreshButton);
-				fillTable();
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
-	}
-	public void fillTable() 
-	{
+		AllDatatable.clear();
+		AllDatatable.setWidget(0, 0, refreshButton);
+		//refreshButton.addClickHandler(refreshHandler); //Раскоментировать как только появится хендлер
 		int counter = 2;
 		AllDatatable.setText(1, 0, "Id");
 		AllDatatable.setText(1, 1, "parentId");
 		AllDatatable.setText(1, 2, "name");
 		AllDatatable.setText(1, 3, "ip");
 		AllDatatable.setText(1, 4, "port");
-		for (Node node : allNodes)
+		for (Node node : nodes)
 		{
 			AllDatatable.setText(counter, 0, node.getId().toString());
 			if (node.getParentId()!= null) 
@@ -69,4 +53,13 @@ public class TableWidget extends Composite
 			counter++;
 		}
 	}
+	
+	@Override
+	public void initTable(List<Node> nodes)
+	{
+		RootPanel.get("AllNodesTable").add(AllDatatable);
+		fillTable(nodes);
+	}
+	
+	
 }
