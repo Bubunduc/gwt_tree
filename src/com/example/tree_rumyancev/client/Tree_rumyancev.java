@@ -1,5 +1,7 @@
 package com.example.tree_rumyancev.client;
 
+import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
+import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeView;
 import com.example.tree_rumyancev.client.table.TableDisplay;
 import com.example.tree_rumyancev.client.table.TablePresenter;
@@ -26,10 +28,12 @@ public class Tree_rumyancev implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-		SelectedNodeView selectedNode = new SelectedNodeView();
-
+		
+		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
+		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView);
+		
 		TreeDisplay treeView = new TreeView();
-		TreePresenter treePresenter = new TreePresenter(treeView, selectedNode);
+		TreePresenter treePresenter = new TreePresenter(treeView, selectedNodePresenter);
 		treePresenter.go();
 		RootPanel.get("NodesContainer").add(treeView.asWidget());
 

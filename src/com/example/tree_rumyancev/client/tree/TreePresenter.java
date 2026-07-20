@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.example.tree_rumyancev.client.selectedNode.NodeSelectionHandler;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
@@ -21,11 +22,11 @@ public class TreePresenter {
 	private Set<Long> loadedIds = new HashSet<Long>();
 	private Set<Long> expandedIds = new HashSet<Long>();
 
-	SelectedNodeDisplay selectedNode;
+	NodeSelectionHandler nodeSelectionHandler;
 
-	public TreePresenter(TreeDisplay treeView, SelectedNodeDisplay selectedNode) {
+	public TreePresenter(TreeDisplay treeView, NodeSelectionHandler nodeSelectionHandler) {
 		this.treeView = treeView;
-		this.selectedNode = selectedNode;
+		this.nodeSelectionHandler = nodeSelectionHandler;
 	}
 
 	public void go() {
@@ -107,7 +108,7 @@ public class TreePresenter {
 	}
 
 	private void onNodeLabelClicked(Node node) {
-		selectedNode.showNode(node);
+		nodeSelectionHandler.onNodeSelected(node);
 	}
 
 }

@@ -11,11 +11,6 @@ public class NodeViewHolder extends FlowPanel {
 	private Label nodeName;
 	private Set<Long> childIds;
 
-	// public NodeViewHolder(Node node) {
-	// add(showNode);
-
-	// }
-
 	public NodeViewHolder(Long id) {
 		createPanel(id);
 
