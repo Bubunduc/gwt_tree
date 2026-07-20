@@ -1,4 +1,4 @@
-package com.example.tree_rumyancev.client;
+package com.example.tree_rumyancev.client.tree;
 
 import java.util.List;
 

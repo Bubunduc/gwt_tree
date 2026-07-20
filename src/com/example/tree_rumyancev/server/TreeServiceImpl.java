@@ -2,7 +2,7 @@ package com.example.tree_rumyancev.server;
 
 import java.util.List;
 
-import com.example.tree_rumyancev.client.TreeService;
+import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.server.dao.impl.TreeDaoImlMocked;
 import com.example.tree_rumyancev.shared.model.Node;

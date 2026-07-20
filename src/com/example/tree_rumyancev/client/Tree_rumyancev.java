@@ -1,5 +1,12 @@
 package com.example.tree_rumyancev.client;
 
+import com.example.tree_rumyancev.client.selectedNode.SelectedNodeView;
+import com.example.tree_rumyancev.client.table.TableDisplay;
+import com.example.tree_rumyancev.client.table.TablePresenter;
+import com.example.tree_rumyancev.client.table.TableView;
+import com.example.tree_rumyancev.client.tree.TreeDisplay;
+import com.example.tree_rumyancev.client.tree.TreePresenter;
+import com.example.tree_rumyancev.client.tree.TreeView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootPanel;
 
