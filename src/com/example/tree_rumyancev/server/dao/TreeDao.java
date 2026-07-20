@@ -5,19 +5,19 @@ import java.util.List;
 import com.example.tree_rumyancev.shared.model.Node;
 
 public interface TreeDao {
-	
+
 	public Node getRootNode();
-	
+
 	public List<Node> getAllData();
-	
+
 	public List<Node> getChildrenList(Long parentId);
-	
+
+	List<Node> getParentList();
+
 	public void update(Node node);
-	
+
 	public void delete(Long id);
-	
+
 	public void findById(Long id);
-	
-	
-	
+
 }

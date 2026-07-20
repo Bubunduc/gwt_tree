@@ -6,25 +6,40 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-public class NodeViewHolder {
-	private FlowPanel panel;
+public class NodeViewHolder extends FlowPanel {
 	private ToggleButton showNode;
-	private Label nodeName ;
-	
+	private Label nodeName;
 	private Set<Long> childIds;
-	
-	public NodeViewHolder(FlowPanel panel, ToggleButton showNode, Label nodeName) {
-		this.panel = panel;
+
+	// public NodeViewHolder(Node node) {
+	// add(showNode);
+
+	// }
+
+	public NodeViewHolder(Long id) {
+		createPanel(id);
+
+	}
+
+	public NodeViewHolder(ToggleButton showNode, Label nodeName) {
 		this.showNode = showNode;
 		this.nodeName = nodeName;
 	}
 
-	public FlowPanel getPanel() {
-		return panel;
-	}
+	public void createPanel(Long id) {
 
-	public void setPanel(FlowPanel panel) {
-		this.panel = panel;
+		showNode = new ToggleButton("+");
+		nodeName = new Label("Panel" + id.toString());
+
+		showNode.getElement().setId("NodeButton " + id.toString());
+		nodeName.getElement().setId("Node Label " + id.toString());
+		getElement().setId("Panel " + id.toString());
+		add(showNode);
+		add(nodeName);
+
+		setStyleName("nodePanel");
+		showNode.setStyleName("nodeButton");
+		nodeName.setStyleName("nodeLabel");
 	}
 
 	public ToggleButton getShowNode() {
@@ -50,7 +65,5 @@ public class NodeViewHolder {
 	public void setChildIds(Set<Long> childIds) {
 		this.childIds = childIds;
 	}
-	
-	
-	
+
 }

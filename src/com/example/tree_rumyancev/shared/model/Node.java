@@ -3,19 +3,21 @@ package com.example.tree_rumyancev.shared.model;
 import java.io.Serializable;
 
 public class Node implements Serializable {
- 
+
 	Long id;
-	
+
 	Long parentId;
-	
+
 	String name;
-	
+
 	String ip;
-	
+
 	Short port;
+
 	public Node() {
-		
+
 	};
+
 	public Node(Long id, Long parentId, String name, String ip, Short port) {
 		super();
 		this.id = id;
@@ -24,11 +26,7 @@ public class Node implements Serializable {
 		this.ip = ip;
 		this.port = port;
 	}
-	
 
-	
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -69,7 +67,9 @@ public class Node implements Serializable {
 		this.port = port;
 	}
 
-	
-	
-	
+	@Override
+	public String toString() {
+		return "Node [id=" + id + ", parentId=" + parentId + ", name=" + name + ", ip=" + ip + ", port=" + port + "]";
+	}
+
 }
