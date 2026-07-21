@@ -65,7 +65,17 @@ public class TreePresenter {
 			}
 		});
 	}
+	private void  bind() {
+		treeView.setButtonHandler(new NodeSelectionHandler() {
 
+			@Override
+			public void onNodeSelected(Node node) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
 	private void onNodeButtonClicked(final Node node) {
 		final Long nodeId = node.getId();
 

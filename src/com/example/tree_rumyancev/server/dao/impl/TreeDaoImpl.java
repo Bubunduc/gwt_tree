@@ -34,8 +34,8 @@ public class TreeDaoImpl implements TreeDao {
 	}
 
 	@Override
-	public void findById(Long id) {
-		// TODO Auto-generated method stub
+	public Node findById(Long id) {
+		return null;
 
 	}
 

@@ -25,4 +25,6 @@ public interface TreeServiceAsync {
 	void getAllData(AsyncCallback<List<Node>> callback);
 
 	void getParentList(AsyncCallback<List<Node>> callback);
+	
+	void findById(Long id, AsyncCallback<Node> callback);
 }

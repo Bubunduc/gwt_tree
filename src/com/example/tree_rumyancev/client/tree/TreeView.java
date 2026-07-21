@@ -2,6 +2,7 @@ package com.example.tree_rumyancev.client.tree;
 
 import java.util.List;
 
+import com.example.tree_rumyancev.client.selectedNode.NodeSelectionHandler;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -42,5 +43,12 @@ public class TreeView implements TreeDisplay {
 	public Widget asWidget() {
 		return treeWidget;
 	}
+
+	@Override
+	public void setButtonHandler(NodeSelectionHandler handler) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

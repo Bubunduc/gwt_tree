@@ -25,4 +25,6 @@ public interface TreeService extends RemoteService {
 	public List<Node> getAllData();
 
 	List<Node> getParentList();
+	
+	Node findById(Long id);
 }

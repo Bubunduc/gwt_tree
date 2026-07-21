@@ -18,6 +18,6 @@ public interface TreeDao {
 
 	public void delete(Long id);
 
-	public void findById(Long id);
+	public Node findById(Long id);
 
 }

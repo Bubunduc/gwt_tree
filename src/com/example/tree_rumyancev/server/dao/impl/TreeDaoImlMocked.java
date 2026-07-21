@@ -83,8 +83,13 @@ public class TreeDaoImlMocked implements TreeDao {
 	}
 
 	@Override
-	public void findById(Long id) {
-		// TODO Auto-generated method stub
+	public Node findById(Long id) {
+		for (Node node : nodes) {
+			if (node.getId().equals(id)) {
+				return node;
+			}
+		}
+		return null;
 
 	}
 

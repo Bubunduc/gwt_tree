@@ -2,15 +2,22 @@ package com.example.tree_rumyancev.client.table;
 
 import java.util.List;
 
-import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
+import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
+import com.example.tree_rumyancev.shared.dto.TableViewData;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 
-public interface TableDisplay {
+public interface TableDisplay extends IsWidget {
 
-	public void fillTable(List<Node> nodes);
+	public void fillTable(List<TableViewData> nodes);
 
-	public void setRefreshButtonClickHandler(ClickHandler handler);
+	public void setRefreshButtonHandler(final RefreshButtonClickHandler handler);
 
-	public void initTable(List<Node> nodes);
+	void setSelectedRowHandler(final SelectedRowHandler handler);
+
+	void showSelectedRow(TableViewData currentRow);
+
+	Widget asWidget();
 
 }
