@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -64,45 +65,30 @@ public class TableView implements TableDisplay {
 
 	@Override
 	public void setSelectedRowHandler(final SelectedRowHandler handler) {
-		int rows = AllDatatable.getRowCount();
 
-		for (int i = 3; i < rows; i++) {
+	    AllDatatable.addClickHandler(new ClickHandler() {
 
-			final int rowIndex = i;
-			AllDatatable.getWidget(i, 0).addDomHandler(new ClickHandler() {
+	        @Override
+	        public void onClick(ClickEvent event) {
 
-				@Override
-				public void onClick(ClickEvent event) {
+	            HTMLTable.Cell cell =
+	                    AllDatatable.getCellForEvent(event);
 
-					final Long nodeId = rowToNodeId.get(rowIndex);
-					handler.onSelected(nodeId);
+	            if (cell == null) {
+	                return;
+	            }
 
-				}
-			}, ClickEvent.getType());
+	            int rowIndex = cell.getRowIndex();
 
-			AllDatatable.getWidget(i, 1).addDomHandler(new ClickHandler() {
+	            Long nodeId = rowToNodeId.get(rowIndex);
 
-				@Override
-				public void onClick(ClickEvent event) {
+	            if (nodeId == null) {
+	                return;
+	            }
 
-					final Long nodeId = rowToNodeId.get(rowIndex);
-					handler.onSelected(nodeId);
-
-				}
-			}, ClickEvent.getType());
-
-			AllDatatable.getWidget(i, 2).addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-
-					final Long nodeId = rowToNodeId.get(rowIndex);
-					handler.onSelected(nodeId);
-
-				}
-			}, ClickEvent.getType());
-
-		}
+	            handler.onSelected(nodeId);
+	        }
+	    });
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class TablePresenterImpl implements TablePresenter {
 
 		container.add(view.asWidget());
 		loadData();
-
+		bind();
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class TablePresenterImpl implements TablePresenter {
 
 				List<TableViewData> data = TableViewData.toDtoList(result);
 				view.fillTable(data);
-				bind();
+				
 			}
 
 			@Override
