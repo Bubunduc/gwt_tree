@@ -2,6 +2,10 @@ package com.example.tree_rumyancev.client.tree;
 
 import java.util.Set;
 
+import com.example.tree_rumyancev.client.handlers.tree.ShowTreeButtonHandler;
+import com.example.tree_rumyancev.client.selectedNode.NodeSelectionHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -11,6 +15,9 @@ public class NodeViewHolder extends FlowPanel {
 	private Label nodeName;
 	private Set<Long> childIds;
 
+	private ShowTreeButtonHandler showTreeButtonHandler;
+	private NodeSelectionHandler nodeSelectionHandler;
+	
 	public NodeViewHolder(Long id) {
 		createPanel(id);
 
@@ -25,18 +32,26 @@ public class NodeViewHolder extends FlowPanel {
 
 		showNode = new ToggleButton("+");
 		nodeName = new Label("Panel" + id.toString());
-
+		
 		showNode.getElement().setId("NodeButton " + id.toString());
 		nodeName.getElement().setId("Node Label " + id.toString());
 		getElement().setId("Panel " + id.toString());
 		add(showNode);
 		add(nodeName);
-
+			
 		setStyleName("nodePanel");
 		showNode.setStyleName("nodeButton");
 		nodeName.setStyleName("nodeLabel");
 	}
 
+	public void setShowTreeButtonHandler(ShowTreeButtonHandler handler) {
+		this.showTreeButtonHandler = handler;
+	}
+	
+	public void setNodeSelectionHandler(NodeSelectionHandler handler) {
+		this.nodeSelectionHandler = handler;
+	}
+	
 	public ToggleButton getShowNode() {
 		return showNode;
 	}

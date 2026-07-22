@@ -34,11 +34,13 @@ public class Tree_rumyancev implements EntryPoint {
 
 		TreeDisplay treeView = new TreeView();
 		TreePresenter treePresenter = new TreePresenter(treeView, selectedNodePresenter);
-		treePresenter.go();
-		RootPanel.get("NodesContainer").add(treeView.asWidget());
+		treePresenter.loadData();
+		treePresenter.go(RootPanel.get("NodesContainer"));
+		
 
 		TableDisplay allNodesTable = new TableView();
 		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
+		tablePresenter.loadData();
 		tablePresenter.go(RootPanel.get("AllNodesTable"));
 
 		// RootPanel.get("CurrentNodeContainer").add(selectedNode);

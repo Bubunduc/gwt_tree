@@ -9,86 +9,112 @@ import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
 import com.example.tree_rumyancev.shared.dto.TableViewData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TableView implements TableDisplay {
 
-	private FlexTable AllDatatable = new FlexTable();
-	Button refreshButton = new Button("обновить");
-	Label selectedRowLabel = new Label();
-	Map<Integer, Long> rowToNodeId = new HashMap<>();
+	private static final Integer HEADER_ROW = 0;
+
+	private FlowPanel panel;
+	private FlexTable allDatatable;
+	private Button refreshButton;
+	private Label selectedRowLabel;
+	private Map<Integer, Long> rowToNodeId;
+
+	private RefreshButtonClickHandler buttonClickHandler;
+	private SelectedRowHandler selectedRowHandler;
+
+	public TableView() {
+		this.rowToNodeId = new HashMap<>();
+		initWidget();
+		initHeaders();
+
+	}
+
+	private void initWidget() {
+
+		panel = new FlowPanel();
+
+		allDatatable = new FlexTable();
+		allDatatable.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				HTMLTable.Cell cell = allDatatable.getCellForEvent(event);
+
+				if (cell == null) {
+					return;
+				}
+
+				int rowIndex = cell.getRowIndex();
+
+				Long nodeId = rowToNodeId.get(rowIndex);
+
+				if (nodeId == null) {
+					return;
+				}
+
+				selectedRowHandler.onSelected(nodeId);
+			}
+		});
+
+		refreshButton = new Button("обновить");
+		refreshButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				buttonClickHandler.onClick();
+
+			}
+		});
+
+		selectedRowLabel = new Label();
+
+		panel.add(selectedRowLabel);
+		panel.add(refreshButton);
+		panel.add(allDatatable);
+
+	}
+
+	private void initHeaders() {
+
+		allDatatable.setText(HEADER_ROW, 0, "name");
+		allDatatable.setText(HEADER_ROW, 1, "ip");
+		allDatatable.setText(HEADER_ROW, 2, "port");
+
+	}
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
-		AllDatatable.clear();
-		AllDatatable.setWidget(0, 0, selectedRowLabel);
-		AllDatatable.setWidget(1, 0, refreshButton);
-		int counter = 3;
-		AllDatatable.setText(2, 0, "name");
-		AllDatatable.setText(2, 1, "ip");
-		AllDatatable.setText(2, 2, "port");
-
+		allDatatable.clear();
+		int counter = 1;
 		for (TableViewData node : nodes) {
 
-			Label nameLabel = new Label(node.getName());
-			Label ipLabel = new Label(node.getIp());
-			Label portLabel = new Label(node.getPort().toString());
-
-			AllDatatable.setWidget(counter, 0, nameLabel);
-			AllDatatable.setWidget(counter, 1, ipLabel);
-			AllDatatable.setWidget(counter, 2, portLabel);
+			allDatatable.setWidget(counter, 0, new Label(node.getName()));
+			allDatatable.setWidget(counter, 1, new Label(node.getIp()));
+			allDatatable.setWidget(counter, 2, new Label(node.getPort().toString()));
 
 			rowToNodeId.put(counter, node.getNodeId());
+
 			counter++;
 		}
 	}
 
 	@Override
 	public void setRefreshButtonHandler(final RefreshButtonClickHandler handler) {
-		refreshButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				handler.onClick();
-				Window.alert("Обновлено");
-
-			}
-		});
-
+		this.buttonClickHandler = handler;
 	}
 
 	@Override
 	public void setSelectedRowHandler(final SelectedRowHandler handler) {
 
-	    AllDatatable.addClickHandler(new ClickHandler() {
-
-	        @Override
-	        public void onClick(ClickEvent event) {
-
-	            HTMLTable.Cell cell =
-	                    AllDatatable.getCellForEvent(event);
-
-	            if (cell == null) {
-	                return;
-	            }
-
-	            int rowIndex = cell.getRowIndex();
-
-	            Long nodeId = rowToNodeId.get(rowIndex);
-
-	            if (nodeId == null) {
-	                return;
-	            }
-
-	            handler.onSelected(nodeId);
-	        }
-	    });
+		this.selectedRowHandler = handler;
 	}
 
 	@Override
@@ -104,7 +130,7 @@ public class TableView implements TableDisplay {
 	@Override
 	public Widget asWidget() {
 
-		return AllDatatable;
+		return panel;
 	}
 
 }

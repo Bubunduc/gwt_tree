@@ -79,6 +79,10 @@ public class TreeWidget extends Composite {
 		} else {
 			button.setText("+");
 		}
+		if (childIds.isEmpty()) 
+		{
+			button.setEnabled(false);
+		}
 
 		for (Long i : childIds) {
 			treeNodes.get(i).setVisible(stage);

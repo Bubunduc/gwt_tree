@@ -15,7 +15,7 @@ public class TableViewData {
 
 	Short port;
 
-	public static TableViewData toDto(Node node) {
+	public static TableViewData toViewData(Node node) {
 		TableViewData result = new TableViewData();
 
 		result.setNodeId(node.getId());
@@ -26,13 +26,13 @@ public class TableViewData {
 		return result;
 	}
 
-	public static List<TableViewData> toDtoList(List<Node> nodes) {
+	public static List<TableViewData> toViewDataList(List<Node> nodes) {
 
 		List<TableViewData> result = new ArrayList<TableViewData>();
 
 		for (Node i : nodes) {
 
-			result.add(toDto(i));
+			result.add(toViewData(i));
 
 		}
 

@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface TableDisplay extends IsWidget {
 
-	public void fillTable(List<TableViewData> nodes);
+	void fillTable(List<TableViewData> nodes);
 
-	public void setRefreshButtonHandler(final RefreshButtonClickHandler handler);
+	void setRefreshButtonHandler(final RefreshButtonClickHandler handler);
 
 	void setSelectedRowHandler(final SelectedRowHandler handler);
 
