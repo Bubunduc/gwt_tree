@@ -31,20 +31,17 @@ public class TreeWidget extends Composite {
 		treeNodes = new HashMap<>();
 		init();
 		initWidget(rootPanel);
-//		addDomHandler(new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//			//Window.alert(event.getRelativeElement().toString());
-//			Element clickedElement =  event
-//		                .getNativeEvent()
-//		                .getEventTarget().cast();
-//			Element target = Element.as(event.getNativeEvent().getEventTarget());
-//			Label l = Label.wrap(target);
-//			Window.alert(l.toString());
-//			
-//			}
-//		}, ClickEvent.getType());
+		addDomHandler(
+			        new ClickHandler()
+			        {
+			            @Override
+			            public void onClick(ClickEvent event)
+			            {
+			                handleTreeClick(event);
+			            }
+			        },
+			        ClickEvent.getType()
+			    );
 		
 	}
 	private void init() {
@@ -102,7 +99,7 @@ public class TreeWidget extends Composite {
 
 	}
 	
-	private NodeViewHolder getNodeViewHolder()
+	public NodeViewHolder getNodeViewHolder()
 	{
 		return null;
 	}
@@ -131,23 +128,38 @@ public class TreeWidget extends Composite {
 
 	}
 
-	public void setButtonHandler(Long id, ClickHandler handler) {
-		
-		ToggleButton button = treeNodes.get(id).getShowNode();
-		button.addClickHandler(handler);
 
-	}
-	
-	private void setTreeHandler(TreeHandler handler) {
+	public void setTreeHandler(TreeHandler handler) {
 		
 		this.treeWidgetHandler = handler;
 	}
 
-	public void setLabelHandler(Long id, ClickHandler handler) {
-		
-		Label label = treeNodes.get(id).getNodeName();
-		label.addClickHandler(handler);
+	private void handleTreeClick(ClickEvent event)
+	{
 
+	    Element clickedElement = event
+	            .getNativeEvent()
+	            .getEventTarget()
+	            .cast();
+
+	    for (Map.Entry<Long, NodeViewHolder> entry
+	            : treeNodes.entrySet())
+	    {
+	        Long nodeId = entry.getKey();
+	        NodeViewHolder holder = entry.getValue();
+
+	        if (holder.getShowNode().getElement().isOrHasChild(clickedElement))
+	        {
+	            treeWidgetHandler.onclick(nodeId);
+	            return;
+	        }
+
+	        if (holder.getNodeName().getElement().isOrHasChild(clickedElement))
+	        {
+	            treeWidgetHandler.onNodeSelected(nodeId);
+	            return;
+	        }
+	    }
 	}
-
+	
 }
