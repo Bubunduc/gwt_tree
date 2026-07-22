@@ -5,9 +5,9 @@ import java.util.List;
 import com.example.tree_rumyancev.shared.model.Node;
 public class TreeViewData {
 	
-	Long nodeId;
+	private Long nodeId;
 	
-	Long parentId;
+	private Long parentId;
 
 
 	public Long getNodeId() {

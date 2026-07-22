@@ -7,13 +7,13 @@ import com.example.tree_rumyancev.shared.model.Node;
 
 public class TableViewData {
 
-	Long nodeId;
+	private Long nodeId;
 
-	String name;
+	private String name;
 
-	String ip;
+	private String ip;
 
-	Short port;
+	private Short port;
 
 	public static TableViewData toViewData(Node node) {
 		TableViewData result = new TableViewData();

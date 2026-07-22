@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Node implements Serializable {
 
-	Long id;
+	private Long id;
 
-	Long parentId;
+	private Long parentId;
 
-	String name;
+	private String name;
 
-	String ip;
+	private String ip;
 
-	Short port;
+	private Short port;
 
 	public Node() {
 

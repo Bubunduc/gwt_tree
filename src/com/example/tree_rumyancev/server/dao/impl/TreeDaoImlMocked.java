@@ -7,7 +7,7 @@ import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.shared.model.Node;
 
 public class TreeDaoImlMocked implements TreeDao {
-	List<Node> nodes = new ArrayList<Node>();
+	private List<Node> nodes = new ArrayList<Node>();
 
 	public TreeDaoImlMocked() {
 		nodes.add(new Node(15L, null, "microservice-orders", "192.168.1.22", (short) 9003));

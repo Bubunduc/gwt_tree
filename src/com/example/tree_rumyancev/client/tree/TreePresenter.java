@@ -11,6 +11,7 @@ import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -22,7 +23,7 @@ public class TreePresenter {
 	private Set<Long> loadedIds;
 	private Set<Long> expandedIds;
 
-	NodeSelectionHandler nodeSelectionHandler;
+	private NodeSelectionHandler nodeSelectionHandler;
 
 	public TreePresenter(TreeDisplay treeView, NodeSelectionHandler nodeSelectionHandler) {
 
@@ -55,7 +56,7 @@ public class TreePresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Ошибка загрузки корней");
 
 			}
 		});
@@ -108,6 +109,7 @@ public class TreePresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				Window.alert("Ошибка загрузки дочерних узлов");
 			}
 		});
 	}

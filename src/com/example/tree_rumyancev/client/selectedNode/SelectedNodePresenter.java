@@ -4,6 +4,7 @@ import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class SelectedNodePresenter implements NodeSelectionHandler{
@@ -26,6 +27,7 @@ public class SelectedNodePresenter implements NodeSelectionHandler{
 				
 			@Override
 			public void onFailure(Throwable caught) {
+				Window.alert("Ошибка загрузки выбранного узла");
 			}
 		});
 	
