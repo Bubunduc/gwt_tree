@@ -9,6 +9,7 @@ import com.example.tree_rumyancev.client.selectedNode.NodeSelectionHandler;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
+import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +49,8 @@ public class TreePresenter {
 			@Override
 			public void onSuccess(List<Node> result) {
 				List<Node> rootNodes = result;
-				treeView.drawRoots(rootNodes);
+				List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
+				treeView.drawRoots(rootNodesViewDataList);
 				for (Node node : result) {
 					bindNodeHandlers(node);
 				}
@@ -118,12 +120,13 @@ public class TreePresenter {
 			public void onSuccess(List<Node> children) {
 				loadedIds.add(nodeId);
 				expandedIds.add(nodeId);
+				List<TreeViewData> childrenViewDataList = TreeViewData.toViewDataList(children);
 
 				if (children == null || children.isEmpty()) {
 					return;
 				}
 
-				treeView.showChildList(children);
+				treeView.showChildList(childrenViewDataList);
 
 				treeView.setNodeVisible(nodeId, true);
 

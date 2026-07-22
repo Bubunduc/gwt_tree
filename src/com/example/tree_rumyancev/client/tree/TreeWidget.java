@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
+import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.dom.client.Element;
 
 public class TreeWidget extends Composite {
 
@@ -22,29 +24,35 @@ public class TreeWidget extends Composite {
 
 	private Map<Long, NodeViewHolder> treeNodes;
 
-	TreeHandler treeWidgetHandler;
+	private TreeHandler treeWidgetHandler;
 	
 	public TreeWidget() {
 		
 		treeNodes = new HashMap<>();
 		init();
 		initWidget(rootPanel);
-		
-	}
-	private void init() {
-		rootPanel = new FlowPanel();
 		addDomHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-			Window.alert(event.getNativeEvent().getEventTarget().toString());
-				
+			//Window.alert(event.getRelativeElement().toString());
+			Element clickedElement =  event
+		                .getNativeEvent()
+		                .getEventTarget().cast();
+			Element target = Element.as(event.getNativeEvent().getEventTarget());
+			Label l = Label.wrap(target);
+			Window.alert(l.toString());
+			
 			}
 		}, ClickEvent.getType());
-	}
-	private NodeViewHolder showNode(Node node) {
 		
-		Long id = node.getId();
+	}
+	private void init() {
+		rootPanel = new FlowPanel();
+	}
+	private NodeViewHolder showNode(TreeViewData node) {
+		
+		Long id = node.getNodeId();
 
 		NodeViewHolder holder = new NodeViewHolder(id);
 
@@ -54,25 +62,25 @@ public class TreeWidget extends Composite {
 
 	}
 
-	public void showChildList(List<Node> child) {
+	public void showChildList(List<TreeViewData> child) {
 		Long parentId = child.get(0).getParentId();
 		NodeViewHolder parentpanel;
 
 		if (!treeNodes.get(parentId).equals(null)) {
 			parentpanel = treeNodes.get(parentId);
 		} else {
-			Long panelId = child.get(0).getId();
+			Long panelId = child.get(0).getNodeId();
 			parentpanel = treeNodes.get(panelId);
 		}
 		Set<Long> childIds = new HashSet<Long>();
 
-		for (Node children : child) {
+		for (TreeViewData children : child) {
 			NodeViewHolder childPanel = showNode(children);
 
 			childPanel.addStyleName("nodeChild");
 
-			treeNodes.put(children.getId(), childPanel);
-			childIds.add(children.getId());
+			treeNodes.put(children.getNodeId(), childPanel);
+			childIds.add(children.getNodeId());
 
 			parentpanel.add(childPanel);
 
@@ -82,12 +90,17 @@ public class TreeWidget extends Composite {
 
 	}
 
-	public void drawRoots(List<Node> roots) {
-		for (Node root : roots) {
+	public void drawRoots(List<TreeViewData> roots) {
+		for (TreeViewData root : roots) {
 
 			rootPanel.add(showNode(root));
 		}
 
+	}
+	
+	private NodeViewHolder getNodeViewHolder()
+	{
+		return null;
 	}
 
 	public void setNodeVisible(Long id, boolean stage) {
@@ -113,6 +126,11 @@ public class TreeWidget extends Composite {
 		ToggleButton button = treeNodes.get(id).getShowNode();
 		button.addClickHandler(handler);
 
+	}
+	
+	private void setTreeHandler(TreeHandler handler) {
+		
+		this.treeWidgetHandler = handler;
 	}
 
 	public void setLabelHandler(Long id, ClickHandler handler) {
