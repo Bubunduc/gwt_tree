@@ -31,8 +31,7 @@ public class NodeViewHolder extends FlowPanel {
 	public void createPanel(Long id) {
 
 		showNode = new ToggleButton("+");
-		nodeName = new Label("Panel" + id.toString());
-		
+		nodeName = new Label("Panel" + id.toString());	
 		showNode.getElement().setId("NodeButton " + id.toString());
 		nodeName.getElement().setId("Node Label " + id.toString());
 		getElement().setId("Panel " + id.toString());

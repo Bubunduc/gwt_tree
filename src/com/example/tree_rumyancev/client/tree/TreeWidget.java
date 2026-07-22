@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.shared.model.Node;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,16 +18,32 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 public class TreeWidget extends Composite {
 
-	private FlowPanel rootPanel = new FlowPanel();
+	private FlowPanel rootPanel ;
 
-	private Map<Long, NodeViewHolder> treeNodes = new HashMap<>();
+	private Map<Long, NodeViewHolder> treeNodes;
 
+	TreeHandler treeWidgetHandler;
+	
 	public TreeWidget() {
-
+		
+		treeNodes = new HashMap<>();
+		init();
 		initWidget(rootPanel);
+		
 	}
-
+	private void init() {
+		rootPanel = new FlowPanel();
+		addDomHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+			Window.alert(event.getNativeEvent().getEventTarget().toString());
+				
+			}
+		}, ClickEvent.getType());
+	}
 	private NodeViewHolder showNode(Node node) {
+		
 		Long id = node.getId();
 
 		NodeViewHolder holder = new NodeViewHolder(id);
