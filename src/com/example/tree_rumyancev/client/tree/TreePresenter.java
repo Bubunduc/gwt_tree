@@ -51,7 +51,7 @@ public class TreePresenter {
 				List<Node> rootNodes = result;
 				List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
 				treeView.drawRoots(rootNodesViewDataList);
-				for (Node node : result) {
+				for (TreeViewData node : rootNodesViewDataList) {
 					bindNodeHandlers(node);
 				}
 
@@ -65,15 +65,15 @@ public class TreePresenter {
 		});
 	}
 
-	private void bindNodeHandlers(final Node node) {
-		treeView.setButtonHandler(node.getId(), new ClickHandler() {
+	private void bindNodeHandlers(final TreeViewData node) {
+		treeView.setButtonHandler(node.getNodeId(), new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				onNodeButtonClicked(node);
 			}
 		});
 
-		treeView.setLabelHandler(node.getId(), new ClickHandler() {
+		treeView.setLabelHandler(node.getNodeId(), new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				onNodeLabelClicked(node);
@@ -99,8 +99,8 @@ public class TreePresenter {
 //			}
 //		} );
 	}
-	private void onNodeButtonClicked(final Node node) {
-		final Long nodeId = node.getId();
+	private void onNodeButtonClicked(final TreeViewData node) {
+		final Long nodeId = node.getNodeId();
 
 		if (expandedIds.contains(nodeId)) {
 			treeView.setNodeVisible(nodeId, false);
@@ -130,7 +130,7 @@ public class TreePresenter {
 
 				treeView.setNodeVisible(nodeId, true);
 
-				for (Node child : children) {
+				for (TreeViewData child : childrenViewDataList) {
 					bindNodeHandlers(child);
 				}
 			}
@@ -141,8 +141,21 @@ public class TreePresenter {
 		});
 	}
 
-	private void onNodeLabelClicked(Node node) {
-		nodeSelectionHandler.onNodeSelected(node);
+	private void onNodeLabelClicked(TreeViewData node) {
+		
+		treeService.findById(node.getNodeId(),new AsyncCallback<Node>(){
+			@Override
+			public void onSuccess(Node result) {
+				nodeSelectionHandler.onNodeSelected(result);
+			}
+				
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+		});
+	
+		
+		
 	}
 
 }

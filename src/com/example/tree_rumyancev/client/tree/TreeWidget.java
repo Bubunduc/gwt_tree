@@ -31,20 +31,20 @@ public class TreeWidget extends Composite {
 		treeNodes = new HashMap<>();
 		init();
 		initWidget(rootPanel);
-		addDomHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-			//Window.alert(event.getRelativeElement().toString());
-			Element clickedElement =  event
-		                .getNativeEvent()
-		                .getEventTarget().cast();
-			Element target = Element.as(event.getNativeEvent().getEventTarget());
-			Label l = Label.wrap(target);
-			Window.alert(l.toString());
-			
-			}
-		}, ClickEvent.getType());
+//		addDomHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//			//Window.alert(event.getRelativeElement().toString());
+//			Element clickedElement =  event
+//		                .getNativeEvent()
+//		                .getEventTarget().cast();
+//			Element target = Element.as(event.getNativeEvent().getEventTarget());
+//			Label l = Label.wrap(target);
+//			Window.alert(l.toString());
+//			
+//			}
+//		}, ClickEvent.getType());
 		
 	}
 	private void init() {
@@ -68,13 +68,17 @@ public class TreeWidget extends Composite {
 
 		if (!treeNodes.get(parentId).equals(null)) {
 			parentpanel = treeNodes.get(parentId);
-		} else {
+		} 
+		
+		else {
 			Long panelId = child.get(0).getNodeId();
 			parentpanel = treeNodes.get(panelId);
 		}
+		
 		Set<Long> childIds = new HashSet<Long>();
 
 		for (TreeViewData children : child) {
+			
 			NodeViewHolder childPanel = showNode(children);
 
 			childPanel.addStyleName("nodeChild");
@@ -104,13 +108,18 @@ public class TreeWidget extends Composite {
 	}
 
 	public void setNodeVisible(Long id, boolean stage) {
+		
 		Set<Long> childIds = treeNodes.get(id).getChildIds();
 		ToggleButton button = treeNodes.get(id).getShowNode();
+		
 		if (stage == true) {
 			button.setText("-");
-		} else {
+		} 
+		
+		else {
 			button.setText("+");
 		}
+		
 		if (childIds.isEmpty()) 
 		{
 			button.setEnabled(false);
@@ -123,6 +132,7 @@ public class TreeWidget extends Composite {
 	}
 
 	public void setButtonHandler(Long id, ClickHandler handler) {
+		
 		ToggleButton button = treeNodes.get(id).getShowNode();
 		button.addClickHandler(handler);
 
@@ -134,6 +144,7 @@ public class TreeWidget extends Composite {
 	}
 
 	public void setLabelHandler(Long id, ClickHandler handler) {
+		
 		Label label = treeNodes.get(id).getNodeName();
 		label.addClickHandler(handler);
 
