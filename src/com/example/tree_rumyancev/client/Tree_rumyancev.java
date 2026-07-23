@@ -10,6 +10,8 @@ import com.example.tree_rumyancev.client.tree.TreeDisplay;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.client.tree.TreeView;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -29,24 +31,21 @@ public class Tree_rumyancev implements EntryPoint {
 
 	public void onModuleLoad() {
 
-		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
-		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView);
+		EventBus eventBus = new SimpleEventBus();
 
+		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
+		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView, eventBus);
+		selectedNodePresenter.go(RootPanel.get("CurrentNodeContainer"));
+		
 		TreeDisplay treeView = new TreeView();
-		TreePresenter treePresenter = new TreePresenter(treeView, selectedNodePresenter);
+		TreePresenter treePresenter = new TreePresenter(treeView, eventBus);
 		treePresenter.loadData();
 		treePresenter.go(RootPanel.get("NodesContainer"));
-		
 
 		TableDisplay allNodesTable = new TableView();
 		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
 		tablePresenter.loadData();
 		tablePresenter.go(RootPanel.get("AllNodesTable"));
 
-		// RootPanel.get("CurrentNodeContainer").add(selectedNode);
-		// TreeWidget tree = new TreeWidget(selectedNode);
-		// RootPanel.get("NodesContainer").add(tree);
-
-		// RootPanel.get("AllNodesTable").add(allNodesTable);
 	}
 }

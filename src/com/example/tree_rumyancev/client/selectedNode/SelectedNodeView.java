@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SelectedNodeView implements SelectedNodeDisplay {
 	private FlexTable selectedNodeTable = new FlexTable();
@@ -43,7 +44,6 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setWidget(5, 1, editButton);
 		selectedNodeTable.setWidget(5, 2, deleteButton);
 
-		RootPanel.get("CurrentNodeContainer").add(selectedNodeTable);
 	}
 
 	@Override
@@ -70,5 +70,11 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setWidget(2, 1, name);
 		selectedNodeTable.setWidget(3, 1, ip);
 		selectedNodeTable.setWidget(4, 1, port);
+	}
+
+	@Override
+	public Widget asWidget() {
+		
+		return selectedNodeTable;
 	}
 }
