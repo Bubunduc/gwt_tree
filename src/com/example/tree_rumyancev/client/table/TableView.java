@@ -41,6 +41,7 @@ public class TableView implements TableDisplay {
 		panel = new FlowPanel();
 
 		allDatatable = new FlexTable();
+		
 		allDatatable.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -66,7 +67,7 @@ public class TableView implements TableDisplay {
 
 		refreshButton = new Button("обновить");
 		refreshButton.addClickHandler(new ClickHandler() {
-
+			
 			@Override
 			public void onClick(ClickEvent event) {
 				buttonClickHandler.onClick();

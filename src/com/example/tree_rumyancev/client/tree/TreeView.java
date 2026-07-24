@@ -44,4 +44,10 @@ public class TreeView implements TreeDisplay {
 
 	}
 
+	@Override
+	public void eraseNode(Long id) {
+		treeWidget.eraseNode(id);
+		
+	}
+
 }

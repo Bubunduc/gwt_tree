@@ -1,16 +1,29 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
+import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
 import com.example.tree_rumyancev.shared.model.Node;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SelectedNodeView implements SelectedNodeDisplay {
-	private FlexTable selectedNodeTable = new FlexTable();
-
+	
+	private FlexTable selectedNodeTable;
+	private HorizontalPanel buttonPanel;
+	FlowPanel selectedNodePanel;
+	
+	DeleteButtonClickHandler deleteHandler;
+	
 	public SelectedNodeView() {
+		
+		selectedNodeTable = new FlexTable();
+		buttonPanel = new HorizontalPanel();
+		selectedNodePanel = new FlowPanel();
 
 		initSelectedNodeTable();
 	}
@@ -36,13 +49,33 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setText(4, 0, "port");
 		selectedNodeTable.setWidget(4, 1, new TextBox());
 
-		Button addButton = new Button("Add");
+		Button addNodeButton = new Button("Add");
+		
+		
+		Button addRootButton = new Button("Add Root");
+		
+		
 		Button editButton = new Button("Edit");
+		
+		
 		Button deleteButton = new Button("Delete");
+		deleteButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				deleteHandler.onClick();
+				
+			}
+		});
+		
 
-		selectedNodeTable.setWidget(5, 0, addButton);
-		selectedNodeTable.setWidget(5, 1, editButton);
-		selectedNodeTable.setWidget(5, 2, deleteButton);
+		buttonPanel.add(addNodeButton);
+		buttonPanel.add(addRootButton);
+		buttonPanel.add(editButton);
+		buttonPanel.add(deleteButton);
+		
+		selectedNodePanel.add(selectedNodeTable);
+		selectedNodePanel.add(buttonPanel);
 
 	}
 
@@ -75,6 +108,12 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	@Override
 	public Widget asWidget() {
 		
-		return selectedNodeTable;
+		return selectedNodePanel;
+	}
+
+	@Override
+	public void setDeleteButtonHandler(DeleteButtonClickHandler handler) {
+		this.deleteHandler = handler;
+		
 	}
 }

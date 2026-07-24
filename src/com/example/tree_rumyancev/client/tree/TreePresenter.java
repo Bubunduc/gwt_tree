@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.tree_rumyancev.client.handlers.event.NodeDeleteEvent;
 import com.example.tree_rumyancev.client.handlers.event.NodeSelectionEvent;
+import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.NodeSelectionEventHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
@@ -26,11 +29,16 @@ public class TreePresenter {
 
 	private Map<Long,Node> loadedNodes;
 	
+	private Map<Long,Node> rootNodesMap;
+	
 	private final EventBus eventBus;
 
 	public TreePresenter(TreeDisplay treeView,EventBus eventBus ) {
 
 		loadedNodes = new HashMap<Long, Node>();
+		
+		rootNodesMap = new HashMap<Long, Node>();
+		
 		this.treeView = treeView;
 		this.eventBus = eventBus;
 
@@ -50,7 +58,14 @@ public class TreePresenter {
 			@Override
 			public void onSuccess(List<Node> result) {
 				List<Node> rootNodes = result;
+				
+				 for(Node node : rootNodes) {
+					 
+					 rootNodesMap.put(node.getId(),node);
+	             }
+				 
 				List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
+				
 				treeView.drawRoots(rootNodesViewDataList);
 
 			}
@@ -72,7 +87,35 @@ public class TreePresenter {
 
 			@Override
 			public void onNodeSelected(Long nodeId) {
-				onNodeLabelClicked(loadedNodes.get(nodeId));
+				if (rootNodesMap.containsKey(nodeId)) {
+					
+					onNodeLabelClicked(rootNodesMap.get(nodeId));
+				
+				}
+				else {
+					
+					onNodeLabelClicked(loadedNodes.get(nodeId));
+					
+				}
+				
+			}
+		});
+		
+		eventBus.addHandler(NodeDeleteEvent.TYPE, new NodeDeleteEventHandler() {
+			
+			@Override
+			public void onDelete(NodeDeleteEvent event) {
+				Long deletedNode = event.getId();
+				
+				if(rootNodesMap.containsKey(deletedNode)) {
+					Window.alert("корень удалить нельзя");
+					return;
+				}
+				loadedNodes.remove(deletedNode);
+				treeView.eraseNode(deletedNode);
+				Window.alert(String.valueOf(loadedNodes.containsKey(deletedNode)));
+				Window.alert("Удвление завершено");
+							
 			}
 		});
 	}
@@ -80,6 +123,10 @@ public class TreePresenter {
 	private void onNodeButtonClicked(final Long nodeId) {
 		
 		if (loadedNodes.containsKey(nodeId)) {
+			
+//			if (treeView.isNodeVisible(nodeId)) {
+//				
+//			}
 			
 			if (treeView.isNodeVisible(nodeId)) {
 				
@@ -91,13 +138,13 @@ public class TreePresenter {
 				treeView.setNodeVisible(nodeId, true);
 				return;
 			}
+		
 		}
 
 		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
 
 			@Override
 			public void onSuccess(List<Node> children) {
-				
 				for(Node node : children) {
 					loadedNodes.put(nodeId, node);
 				}

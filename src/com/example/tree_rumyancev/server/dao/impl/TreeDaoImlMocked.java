@@ -78,8 +78,9 @@ public class TreeDaoImlMocked implements TreeDao {
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
+		
+		nodes.remove(id);
+		
 	}
 
 	@Override

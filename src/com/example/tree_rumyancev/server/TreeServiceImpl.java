@@ -42,7 +42,7 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		dao.delete(id);
 
 	}
 
