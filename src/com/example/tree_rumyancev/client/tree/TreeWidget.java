@@ -86,7 +86,13 @@ public class TreeWidget extends Composite {
 		}
 
 	}
+	
+	public void drawRoot(TreeViewData root) {
+		
+		rootPanel.add(showNode(root.getNodeId()));		
 
+	}
+	
 	public void setNodeVisible(Long id, boolean stage) {
 
 		Set<Long> childIds = treeNodes.get(id).getChildIds();

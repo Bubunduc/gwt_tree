@@ -55,4 +55,10 @@ public class TreeView implements TreeDisplay {
 		treeWidget.setButtonEnabled(id, stage);
 	}
 
+	@Override
+	public void drawRoot(TreeViewData root) {
+		treeWidget.drawRoot(root);
+		
+	}
+
 }

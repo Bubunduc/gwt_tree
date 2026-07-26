@@ -1,6 +1,9 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
-import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,7 +20,10 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	private HorizontalPanel buttonPanel;
 	FlowPanel selectedNodePanel;
 	
-	DeleteButtonClickHandler deleteHandler;
+	private DeleteClickHandler deleteHandler;
+	private CreateRootClickHandler createRootHandler;
+	private CreateNodeClickHandler createNodeHandler;
+	private UpdateNodeClickHandler updateNodeHandler;
 	
 	public SelectedNodeView() {
 		
@@ -50,12 +56,36 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setWidget(4, 1, new TextBox());
 
 		Button addNodeButton = new Button("Add");
+		addNodeButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				createNodeHandler.onClick();
+				
+			}
+		});
 		
 		
 		Button addRootButton = new Button("Add Root");
+		addRootButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				createRootHandler.onClick();
+				
+			}
+		});
 		
 		
 		Button editButton = new Button("Edit");
+		editButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				updateNodeHandler.onClick();
+				
+			}
+		});
 		
 		
 		Button deleteButton = new Button("Delete");
@@ -104,7 +134,27 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setWidget(3, 1, ip);
 		selectedNodeTable.setWidget(4, 1, port);
 	}
-
+	
+	@Override
+	public Node getNewNode() {
+		
+		Long id = Long.valueOf(((TextBox)selectedNodeTable.getWidget(0, 1)).getText());
+		Long parentId;
+		try {
+			parentId = Long.valueOf(((TextBox)selectedNodeTable.getWidget(1, 1)).getText());
+		}
+		catch (Exception e){
+			parentId = null;
+		}
+		 
+		String name =  ((TextBox)selectedNodeTable.getWidget(2, 1)).getText();
+		String ip =  ((TextBox)selectedNodeTable.getWidget(3, 1)).getText();
+		short port =  Short.valueOf(((TextBox)selectedNodeTable.getWidget(4, 1)).getText());
+		Node node = new Node(id, parentId, name, ip, port);
+		return node;
+		
+		
+	}
 	@Override
 	public Widget asWidget() {
 		
@@ -112,8 +162,25 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	}
 
 	@Override
-	public void setDeleteButtonHandler(DeleteButtonClickHandler handler) {
+	public void setDeleteButtonHandler(DeleteClickHandler handler) {
 		this.deleteHandler = handler;
 		
 	}
+	
+	@Override
+	public void setCreateRootHandler(CreateRootClickHandler createRootHandler) {
+		this.createRootHandler = createRootHandler;
+	}
+	
+	@Override
+	public void setCreateNodeHandler(CreateNodeClickHandler createNodeHandler) {
+		this.createNodeHandler = createNodeHandler;
+	}
+	
+	@Override
+	public void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler) {
+		this.updateNodeHandler = updateNodeHandler;
+	}
+	
+	
 }

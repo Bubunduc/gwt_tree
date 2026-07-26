@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.tree_rumyancev.client.handlers.event.CreateRootEvent;
 import com.example.tree_rumyancev.client.handlers.event.NodeDeleteEvent;
 import com.example.tree_rumyancev.client.handlers.event.NodeSelectionEvent;
+import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
@@ -125,8 +127,21 @@ public class TreePresenter {
 				
 			}
 		});
+		
+		eventBus.addHandler(CreateRootEvent.TYPE, new CreateRootEventHandler() {
+			
+			@Override
+			public void onCreateRoot(CreateRootEvent event) {
+				
+				Node newRoot = event.getNode();
+				
+				treeView.drawRoot(TreeViewData.toViewData(newRoot));
+				loadedNodes.put(newRoot.getId(), new NodeData(newRoot));
+				
+			}
+		});
 	}
-
+	
 	private void removeChild(Long parentId)
 	{
 	    List<Long> childIds = new ArrayList<Long>();
