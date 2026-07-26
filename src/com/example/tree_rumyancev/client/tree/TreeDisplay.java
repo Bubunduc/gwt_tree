@@ -19,5 +19,7 @@ public interface TreeDisplay extends IsWidget {
 	void eraseNode(Long id);
 
 	boolean isNodeVisible(Long id);
+	
+	void setButtonEnabled(Long id,boolean stage);
 
 }

@@ -1,5 +1,6 @@
 package com.example.tree_rumyancev.client.tree;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -12,6 +13,7 @@ public class NodeViewHolder extends FlowPanel {
 	private Set<Long> childIds;
 
 	public NodeViewHolder(Long id) {
+		childIds = new HashSet<Long>();
 		createPanel(id);
 
 	}
@@ -34,7 +36,6 @@ public class NodeViewHolder extends FlowPanel {
 		setStyleName("nodePanel");
 		nodeName.setStyleName("nodeLabel");
 		showNode.setStyleName("nodeButton nodeButtonUp");
-		//showNode.setEnabled(false);
 	}
 
 	public ToggleButton getShowNode() {
@@ -59,6 +60,11 @@ public class NodeViewHolder extends FlowPanel {
 
 	public void setChildIds(Set<Long> childIds) {
 		this.childIds = childIds;
+	}
+	
+	public void setEnabled (boolean stage) {
+		showNode.setValue(false);
+		showNode.setEnabled(stage);
 	}
 
 }

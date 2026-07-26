@@ -11,7 +11,6 @@ import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -23,7 +22,7 @@ public class TreeWidget extends Composite {
 	private Map<Long, NodeViewHolder> treeNodes;
 
 	private TreeHandler treeWidgetHandler;
-	
+
 	public TreeWidget() {
 
 		treeNodes = new HashMap<>();
@@ -92,58 +91,74 @@ public class TreeWidget extends Composite {
 
 		Set<Long> childIds = treeNodes.get(id).getChildIds();
 		ToggleButton button = treeNodes.get(id).getShowNode();
-		
+
 		if (childIds.isEmpty() || childIds == null) {
-			button.setEnabled(false);
 			return;
 		}
 		if (stage == true) {
-			button.setEnabled(true);
-			button.setValue(true);
 			
+			button.setValue(true);
+
 		}
 
 		else {
-			button.setEnabled(true);
 			button.setValue(false);
-			
-		}
 
-		
+		}
 
 		for (Long i : childIds) {
 			treeNodes.get(i).setVisible(stage);
 		}
 	}
 
-	public boolean isNodeVisible(Long id) {
+	public boolean isNodeVisible(Long id)
+	{
+	    NodeViewHolder holder = treeNodes.get(id);
 
-		Long childId = treeNodes.get(id).getChildIds().iterator().next();
-		
-		return treeNodes.get(childId).isVisible();
+	    Set<Long> childIds = holder.getChildIds();
 
+	    if (childIds == null || childIds.isEmpty())
+	    {
+	        return false;
+	    }
+
+	    Long childId = childIds.iterator().next();
+
+	    NodeViewHolder childHolder = treeNodes.get(childId);
+
+	    if (childHolder == null)
+	    {
+	        return false;
+	    }
+
+	    return childHolder.isVisible();
 	}
 
 	public void setTreeHandler(TreeHandler handler) {
 
 		this.treeWidgetHandler = handler;
 	}
-	
+
 	public void eraseNode(Long id) {
-		
-	    NodeViewHolder nodeToRemove = treeNodes.get(id);
-	    
-	    Set<Long> childIds = nodeToRemove.getChildIds();
-	    if (childIds != null) {
-	        for (Long childId : childIds) {
-	            eraseNode(childId);
-	        }
-	    }
-	    
-	    nodeToRemove.removeFromParent();
-	    
-	    treeNodes.remove(id);
+
+		NodeViewHolder nodeToRemove = treeNodes.get(id);
+
+		Set<Long> childIds = nodeToRemove.getChildIds();
+		if (childIds != null) {
+			for (Long childId : childIds) {
+				eraseNode(childId);
+			}
+		}
+
+		nodeToRemove.removeFromParent();
+
+		treeNodes.remove(id);
 	}
+	
+	public void setButtonEnabled(Long id,boolean stage) {
+		treeNodes.get(id).setEnabled(stage);
+	}
+	
 	private void handleTreeClick(ClickEvent event) {
 
 		Element clickedElement = event.getNativeEvent().getEventTarget().cast();
@@ -163,6 +178,5 @@ public class TreeWidget extends Composite {
 			}
 		}
 	}
-	
 
 }

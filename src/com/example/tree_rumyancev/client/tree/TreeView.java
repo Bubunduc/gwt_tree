@@ -49,5 +49,10 @@ public class TreeView implements TreeDisplay {
 		treeWidget.eraseNode(id);
 		
 	}
+	
+	@Override
+	public void setButtonEnabled(Long id,boolean stage) {
+		treeWidget.setButtonEnabled(id, stage);
+	}
 
 }
