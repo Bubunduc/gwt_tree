@@ -152,6 +152,12 @@ public class TreeWidget extends Composite {
 
 	    return childHolder.isVisible();
 	}
+	
+	public boolean isNodeButtonEnabled (Long id) {
+		NodeViewHolder holder = treeNodes.get(id);
+		return holder.isButtonEnabled();	
+		
+	}
 
 	public void setTreeHandler(TreeHandler handler) {
 

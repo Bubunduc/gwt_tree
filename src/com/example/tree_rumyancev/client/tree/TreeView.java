@@ -67,4 +67,10 @@ public class TreeView implements TreeDisplay {
 		
 	}
 
+	@Override
+	public boolean isNodeButtonEnabled(Long id) {
+		
+		return treeWidget.isNodeButtonEnabled(id);
+	}
+
 }

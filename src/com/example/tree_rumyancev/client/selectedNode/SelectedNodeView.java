@@ -127,7 +127,13 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		}
 		name.setText(node.getName());
 		ip.setText(node.getIp());
-		port.setText(node.getPort().toString());
+		if (node.getPort().toString() == null) {
+			port.setText("");
+		}
+		else {
+			port.setText(node.getPort().toString());
+		}
+		
 		selectedNodeTable.setWidget(0, 1, id);
 		selectedNodeTable.setWidget(1, 1, parentId);
 		selectedNodeTable.setWidget(2, 1, name);
@@ -155,7 +161,14 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		 
 		String name =  ((TextBox)selectedNodeTable.getWidget(2, 1)).getText();
 		String ip =  ((TextBox)selectedNodeTable.getWidget(3, 1)).getText();
-		short port =  Short.valueOf(((TextBox)selectedNodeTable.getWidget(4, 1)).getText());
+		Short port;
+		try {
+			port =  Short.valueOf(((TextBox)selectedNodeTable.getWidget(4, 1)).getText());
+		}
+		catch (Exception e){
+			port = null;
+		}
+		
 		Node node = new Node(id, parentId, name, ip, port);
 		return node;
 		

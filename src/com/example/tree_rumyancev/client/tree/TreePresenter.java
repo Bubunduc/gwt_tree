@@ -91,7 +91,6 @@ public class TreePresenter {
 			@Override
 			public void onNodeSelected(Long nodeId) {
 				NodeData nodeData = loadedNodes.get(nodeId);
-
 				onNodeLabelClicked(nodeData.getNode());
 			}
 		});
@@ -166,7 +165,9 @@ public class TreePresenter {
 					
 					return;
 				}
-				
+				if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
+					treeView.setButtonEnabled(node.getParentId(), true);
+				}
 				treeView.insertNode(TreeViewData.toViewData(node));
 				
 				

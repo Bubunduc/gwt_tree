@@ -67,8 +67,13 @@ public class NodeViewHolder extends FlowPanel {
 	}
 	
 	public void setEnabled (boolean stage) {
-		showNode.setValue(false);
+		showNode.setValue(stage);
+		
 		showNode.setEnabled(stage);
+
+	}
+	public boolean isButtonEnabled() {
+		return showNode.isEnabled();
 	}
 
 }
