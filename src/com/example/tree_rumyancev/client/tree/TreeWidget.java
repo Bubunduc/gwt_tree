@@ -27,6 +27,7 @@ public class TreeWidget extends Composite {
 
 		treeNodes = new HashMap<>();
 		rootPanel = new FlowPanel();
+		rootPanel.setStyleName("tree");
 		initWidget(rootPanel);
 		addDomHandler(new ClickHandler() {
 			@Override

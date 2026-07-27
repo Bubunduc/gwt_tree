@@ -21,6 +21,7 @@ public class TableView implements TableDisplay {
 	private static final Integer HEADER_ROW = 0;
 
 	private FlowPanel panel;
+	private FlowPanel tablePanel;
 	private FlexTable allDatatable;
 	private Button refreshButton;
 	private Label selectedRowLabel;
@@ -39,9 +40,13 @@ public class TableView implements TableDisplay {
 	private void initWidget() {
 
 		panel = new FlowPanel();
-
+		panel.addStyleName("rootTablePanel");
+		
+		tablePanel = new FlowPanel();
+		tablePanel.setStyleName("tablePanel");
 		allDatatable = new FlexTable();
 		
+		tablePanel.add(allDatatable);
 		allDatatable.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -64,7 +69,9 @@ public class TableView implements TableDisplay {
 				selectedRowHandler.onSelected(nodeId);
 			}
 		});
-
+		
+		allDatatable.setStyleName("nodeTable");
+		
 		refreshButton = new Button("обновить");
 		refreshButton.addClickHandler(new ClickHandler() {
 			
@@ -74,12 +81,13 @@ public class TableView implements TableDisplay {
 
 			}
 		});
+		refreshButton.addStyleName("updateTableButton");
 
 		selectedRowLabel = new Label();
-
+		
 		panel.add(selectedRowLabel);
 		panel.add(refreshButton);
-		panel.add(allDatatable);
+		panel.add(tablePanel);
 
 	}
 
