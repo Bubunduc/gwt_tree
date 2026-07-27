@@ -7,6 +7,7 @@ import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeC
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -111,6 +112,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 
 	@Override
 	public void showNode(Node node) {
+		
 		TextBox id = new TextBox();
 		id.setReadOnly(true);
 		TextBox parentId = new TextBox();
@@ -121,13 +123,19 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		TextBox port = new TextBox();
 		id.setText(node.getId().toString());
 		if (node.getParentId() != null) {
+			
 			parentId.setText(node.getParentId().toString());
-		} else {
-			parentId.setText("Корень дерева");
+			
+		} 
+		else {
+			parentId.setText("Корень дерева");	
 		}
+		
 		name.setText(node.getName());
+
 		ip.setText(node.getIp());
-		if (node.getPort().toString() == null) {
+		
+		if (node.getPort() == null) {
 			port.setText("");
 		}
 		else {

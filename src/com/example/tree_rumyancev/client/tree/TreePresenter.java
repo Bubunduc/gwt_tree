@@ -152,25 +152,24 @@ public class TreePresenter {
 				Window.alert("Обновление прошло успешно");
 			}
 		});
-		
+
 		eventBus.addHandler(CreateNodeEvent.TYPE, new CreateNodeEventHandler() {
-			
+
 			@Override
 			public void onCreateNode(CreateNodeEvent event) {
 				Node node = event.getNode();
-				
+
 				loadedNodes.put(node.getId(), new NodeData(node));
-				
-				if(loadedNodes.get(node.getParentId()).isChildrenLoaded() == false) {
-					
+
+				if (loadedNodes.get(node.getParentId()).isChildrenLoaded() == false) {
+
 					return;
 				}
 				if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
 					treeView.setButtonEnabled(node.getParentId(), true);
 				}
 				treeView.insertNode(TreeViewData.toViewData(node));
-				
-				
+
 			}
 		});
 	}
