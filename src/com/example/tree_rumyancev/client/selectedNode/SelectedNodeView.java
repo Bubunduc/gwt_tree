@@ -138,7 +138,13 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	@Override
 	public Node getNewNode() {
 		
-		Long id = Long.valueOf(((TextBox)selectedNodeTable.getWidget(0, 1)).getText());
+		Long id;
+		try {
+			id = Long.valueOf(((TextBox)selectedNodeTable.getWidget(0, 1)).getText());
+		}
+		catch (Exception e){
+			id = null;
+		}
 		Long parentId;
 		try {
 			parentId = Long.valueOf(((TextBox)selectedNodeTable.getWidget(1, 1)).getText());

@@ -3,7 +3,7 @@ package com.example.tree_rumyancev.server.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.shared.dto.NodeData;
 import com.example.tree_rumyancev.shared.model.Node;
@@ -144,6 +144,22 @@ public class TreeDaoImlMocked implements TreeDao {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Node create(Node node) {
+		List<Long> ids = nodes.stream().map(x -> x.getId()).collect(Collectors.toList());
+		Long id = 0L;
+		
+		while (ids.contains(id)) 
+		{
+			id+=1;
+			
+		}
+		
+		node.setId(id);
+		nodes.add(node);
+		return node;
 	}
 
 }

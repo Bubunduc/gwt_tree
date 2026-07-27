@@ -45,4 +45,10 @@ public class TreeDaoImpl implements TreeDao {
 		return null;
 	}
 
+	@Override
+	public Node create(Node node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

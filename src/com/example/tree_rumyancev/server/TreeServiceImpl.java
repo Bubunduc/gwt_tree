@@ -18,8 +18,11 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	@Override
 	public Node create(Node node) {
-		Node newNode = new Node(node.getId(), node.getParentId(), node.getName(), node.getIp(), node.getPort());
-		return newNode;
+
+		Node createdNode = dao.create(node);
+
+		return createdNode;
+
 	}
 
 	@Override
@@ -32,10 +35,6 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	public void update(Node node) {
 		if (node.getPort().toString().length() != 4) {
 			throw new IllegalArgumentException("Port must be exactly 4 digits");
-		}
-		if (node.getIp().matches(
-				"\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b")) {
-			throw new IllegalArgumentException("incorrect ip address");
 		}
 		dao.update(node);
 	}

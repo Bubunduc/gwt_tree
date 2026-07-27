@@ -37,6 +37,10 @@ public class NodeViewHolder extends FlowPanel {
 		nodeName.setStyleName("nodeLabel");
 		showNode.setStyleName("nodeButton nodeButtonUp");
 	}
+	
+	public void addChildId(Long id) {
+		childIds.add(id);
+	}
 
 	public ToggleButton getShowNode() {
 		return showNode;

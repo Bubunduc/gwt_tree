@@ -5,11 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.example.tree_rumyancev.client.handlers.event.CreateNodeEvent;
 import com.example.tree_rumyancev.client.handlers.event.CreateRootEvent;
 import com.example.tree_rumyancev.client.handlers.event.NodeDeleteEvent;
 import com.example.tree_rumyancev.client.handlers.event.NodeSelectionEvent;
+import com.example.tree_rumyancev.client.handlers.event.UpdateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.selectedNode.CreateNodeEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.UpdateNodeEventHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
@@ -102,65 +106,89 @@ public class TreePresenter {
 					Window.alert("корень удалить нельзя");
 					return;
 				}
-				
+
 				treeService.delete(deletedNode, new AsyncCallback<Void>() {
-					
+
 					@Override
 					public void onSuccess(Void result) {
 						loadedNodes.remove(deletedNode);
-						treeView.eraseNode(deletedNode);	
+						treeView.eraseNode(deletedNode);
 						removeChild(deletedNode);
 						Window.alert("Удаление прошло успешно");
-						
+
 					}
-					
+
 					@Override
 					public void onFailure(Throwable caught) {
-						
+
 						Window.alert("Ошибка при удалении");
-						
+
 					}
 				});
-				
-				
-				
-				
+
+			}
+		});
+
+		eventBus.addHandler(CreateRootEvent.TYPE, new CreateRootEventHandler() {
+
+			@Override
+			public void onCreateRoot(CreateRootEvent event) {
+
+				Node newRoot = event.getNode();
+
+				treeView.drawRoot(TreeViewData.toViewData(newRoot));
+				loadedNodes.put(newRoot.getId(), new NodeData(newRoot));
+
+			}
+		});
+
+		eventBus.addHandler(UpdateNodeEvent.TYPE, new UpdateNodeEventHandler() {
+
+			@Override
+			public void onUpdate(UpdateNodeEvent event) {
+				Node updatedNode = event.getNode();
+
+				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
+
+				Window.alert("Обновление прошло успешно");
 			}
 		});
 		
-		eventBus.addHandler(CreateRootEvent.TYPE, new CreateRootEventHandler() {
+		eventBus.addHandler(CreateNodeEvent.TYPE, new CreateNodeEventHandler() {
 			
 			@Override
-			public void onCreateRoot(CreateRootEvent event) {
+			public void onCreateNode(CreateNodeEvent event) {
+				Node node = event.getNode();
 				
-				Node newRoot = event.getNode();
+				loadedNodes.put(node.getId(), new NodeData(node));
 				
-				treeView.drawRoot(TreeViewData.toViewData(newRoot));
-				loadedNodes.put(newRoot.getId(), new NodeData(newRoot));
+				if(loadedNodes.get(node.getParentId()).isChildrenLoaded() == false) {
+					
+					return;
+				}
+				
+				treeView.insertNode(TreeViewData.toViewData(node));
+				
 				
 			}
 		});
 	}
-	
-	private void removeChild(Long parentId)
-	{
-	    List<Long> childIds = new ArrayList<Long>();
 
-	    for (Map.Entry<Long, NodeData> entry : loadedNodes.entrySet())
-	    {
-	        Node node = entry.getValue().getNode();
+	private void removeChild(Long parentId) {
+		List<Long> childIds = new ArrayList<Long>();
 
-	        if (parentId.equals(node.getParentId()))
-	        {
-	            childIds.add(node.getId());
-	        }
-	    }
+		for (Map.Entry<Long, NodeData> entry : loadedNodes.entrySet()) {
+			Node node = entry.getValue().getNode();
 
-	    for (Long childId : childIds)
-	    {
-	        removeChild(childId);
-	        loadedNodes.remove(childId);
-	    }
+			if (parentId.equals(node.getParentId())) {
+				childIds.add(node.getId());
+			}
+		}
+
+		for (Long childId : childIds) {
+			removeChild(childId);
+			loadedNodes.remove(childId);
+		}
 	}
 
 	private void onNodeButtonClicked(final Long nodeId) {

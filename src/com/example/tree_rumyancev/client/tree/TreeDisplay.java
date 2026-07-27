@@ -19,6 +19,8 @@ public interface TreeDisplay extends IsWidget {
 	void drawRoot(TreeViewData root);
 	
 	void eraseNode(Long id);
+	
+	void insertNode (TreeViewData node);
 
 	boolean isNodeVisible(Long id);
 	

@@ -61,4 +61,10 @@ public class TreeView implements TreeDisplay {
 		
 	}
 
+	@Override
+	public void insertNode(TreeViewData node) {
+		treeWidget.insertNode(node);
+		
+	}
+
 }
