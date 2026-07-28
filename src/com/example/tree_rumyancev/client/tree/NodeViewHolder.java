@@ -12,9 +12,9 @@ public class NodeViewHolder extends FlowPanel {
 	private Label nodeName;
 	private Set<Long> childIds;
 
-	public NodeViewHolder(Long id) {
+	public NodeViewHolder(Long id, String name) {
 		childIds = new HashSet<Long>();
-		createPanel(id);
+		createPanel(id, name);
 
 	}
 
@@ -23,21 +23,21 @@ public class NodeViewHolder extends FlowPanel {
 		this.nodeName = nodeName;
 	}
 
-	public void createPanel(Long id) {
+	public void createPanel(Long id, String name) {
 
-		showNode = new ToggleButton("+","-");
-		nodeName = new Label("Panel" + id.toString());
+		showNode = new ToggleButton("+", "-");
+		nodeName = new Label(name);
 		showNode.getElement().setId("NodeButton " + id.toString());
 		nodeName.getElement().setId("Node Label " + id.toString());
 		getElement().setId("Panel " + id.toString());
 		add(showNode);
 		add(nodeName);
-		
+
 		setStyleName("nodePanel");
 		nodeName.setStyleName("nodeLabel");
 		showNode.setStyleName("nodeButton nodeButtonUp");
 	}
-	
+
 	public void addChildId(Long id) {
 		childIds.add(id);
 	}
@@ -65,15 +65,19 @@ public class NodeViewHolder extends FlowPanel {
 	public void setChildIds(Set<Long> childIds) {
 		this.childIds = childIds;
 	}
-	
-	public void setEnabled (boolean stage) {
+
+	public void setEnabled(boolean stage) {
 		showNode.setValue(stage);
-		
+
 		showNode.setEnabled(stage);
 
 	}
+
 	public boolean isButtonEnabled() {
 		return showNode.isEnabled();
 	}
 
+	public void removeFromChildList(Long id) {
+		childIds.remove(id);
+	}
 }

@@ -24,7 +24,6 @@ public class TableView implements TableDisplay {
 	private FlowPanel tablePanel;
 	private FlexTable allDatatable;
 	private Button refreshButton;
-	private Label selectedRowLabel;
 	private Map<Integer, Long> rowToNodeId;
 
 	private RefreshButtonClickHandler buttonClickHandler;
@@ -41,11 +40,11 @@ public class TableView implements TableDisplay {
 
 		panel = new FlowPanel();
 		panel.addStyleName("rootTablePanel");
-		
+
 		tablePanel = new FlowPanel();
 		tablePanel.setStyleName("tablePanel");
 		allDatatable = new FlexTable();
-		
+
 		tablePanel.add(allDatatable);
 		allDatatable.addClickHandler(new ClickHandler() {
 
@@ -67,15 +66,14 @@ public class TableView implements TableDisplay {
 				}
 
 				selectedRowHandler.onSelected(nodeId);
-				selectedRowLabel.setStyleName("selectedRow");
 			}
 		});
-		
+
 		allDatatable.setStyleName("nodeTable");
-		
+
 		refreshButton = new Button("обновить");
 		refreshButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				buttonClickHandler.onClick();
@@ -84,10 +82,6 @@ public class TableView implements TableDisplay {
 		});
 		refreshButton.addStyleName("updateTableButton");
 
-		selectedRowLabel = new Label();
-		
-		
-		panel.add(selectedRowLabel);
 		panel.add(refreshButton);
 		panel.add(tablePanel);
 
@@ -101,14 +95,12 @@ public class TableView implements TableDisplay {
 		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 1, "tableHeader");
 		allDatatable.setWidget(HEADER_ROW, 2, new Label("port"));
 		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 2, "tableHeader");
-		
-		
 
 	}
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
-		allDatatable.clear();
+		allDatatable.removeAllRows();
 		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {
@@ -132,16 +124,6 @@ public class TableView implements TableDisplay {
 	public void setSelectedRowHandler(final SelectedRowHandler handler) {
 
 		this.selectedRowHandler = handler;
-	}
-
-	@Override
-	public void showSelectedRow(TableViewData currentRow) {
-		selectedRowLabel.setText("Name : " + currentRow.getName()
-
-				+ " Ip : " + currentRow.getIp()
-
-				+ " Port: " + currentRow.getPort().toString());
-
 	}
 
 	@Override

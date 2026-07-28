@@ -100,9 +100,13 @@ public class TreePresenter {
 			@Override
 			public void onDelete(NodeDeleteEvent event) {
 				final Long deletedNode = event.getId();
+				Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
 				loadedNodes.remove(deletedNode);
-				treeView.eraseNode(deletedNode);
+				treeView.eraseNode(deletedNode,parentId);
 				removeChild(deletedNode);
+				if (treeView.hasNodechild(parentId) == false) {
+					treeView.setButtonEnabled(parentId, false);
+				}
 				Window.alert("Удаление прошло успешно");
 
 			}

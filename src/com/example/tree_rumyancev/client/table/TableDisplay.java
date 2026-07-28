@@ -16,8 +16,6 @@ public interface TableDisplay extends IsWidget {
 
 	void setSelectedRowHandler(final SelectedRowHandler handler);
 
-	void showSelectedRow(TableViewData currentRow);
-
 	Widget asWidget();
 
 }

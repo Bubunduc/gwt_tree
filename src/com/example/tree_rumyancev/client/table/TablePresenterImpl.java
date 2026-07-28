@@ -1,8 +1,10 @@
 package com.example.tree_rumyancev.client.table;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
@@ -10,6 +12,7 @@ import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.dto.TableViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -18,12 +21,17 @@ public class TablePresenterImpl implements TablePresenter {
 
 	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 	private TableDisplay view;
+	EventBus eventBus;
 
-	List<Node> data;
+	Map<Long, Node> data;
 
-	public TablePresenterImpl(TableDisplay view) {
-		data = new ArrayList<Node>();
+	public TablePresenterImpl(TableDisplay view, EventBus eventBus) {
+
+		data = new HashMap<Long, Node>();
+
 		this.view = view;
+		this.eventBus = eventBus;
+
 		bind();
 
 	}
@@ -39,9 +47,11 @@ public class TablePresenterImpl implements TablePresenter {
 
 			@Override
 			public void onSuccess(List<Node> result) {
-
-				data = result;
-				view.fillTable(TableViewData.toViewDataList(data));
+				data.clear();
+				for (Node node : result) {
+					data.put(node.getId(), node);
+				}
+				view.fillTable(TableViewData.toViewDataList(result));
 
 			}
 
@@ -69,14 +79,8 @@ public class TablePresenterImpl implements TablePresenter {
 
 			@Override
 			public void onSelected(final Long nodeId) {
-				for (Node node : data) {
-
-					if (node.getId().equals(nodeId)) {
-						TableViewData row = TableViewData.toViewData(node);
-						view.showSelectedRow(row);
-
-					}
-				}
+				Node selectedNode = data.get(nodeId);
+				eventBus.fireEvent(new NodeSelectionEvent(selectedNode));
 			}
 		});
 

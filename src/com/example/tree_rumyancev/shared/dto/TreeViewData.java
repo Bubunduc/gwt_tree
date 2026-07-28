@@ -8,7 +8,8 @@ public class TreeViewData {
 	private Long nodeId;
 	
 	private Long parentId;
-
+	
+	private String name;
 
 	public Long getNodeId() {
 		return nodeId;
@@ -26,11 +27,20 @@ public class TreeViewData {
 		this.parentId = parentId;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public static TreeViewData toViewData(Node node) 
 	{
 		TreeViewData result = new TreeViewData();
 		result.setNodeId(node.getId());
 		result.setParentId(node.getParentId());
+		result.setName(node.getName());
 		return result;
 		
 	}

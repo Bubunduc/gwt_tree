@@ -45,8 +45,8 @@ public class TreeView implements TreeDisplay {
 	}
 
 	@Override
-	public void eraseNode(Long id) {
-		treeWidget.eraseNode(id);
+	public void eraseNode(Long id, Long parentId) {
+		treeWidget.eraseNode(id,parentId);
 		
 	}
 	
@@ -65,6 +65,11 @@ public class TreeView implements TreeDisplay {
 	public void insertNode(TreeViewData node) {
 		treeWidget.insertNode(node);
 		
+	}
+	
+	@Override
+	public boolean hasNodechild(Long id) {
+		return treeWidget.hasNodechild(id);
 	}
 
 	@Override
