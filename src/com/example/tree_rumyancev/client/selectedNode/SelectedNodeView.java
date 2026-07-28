@@ -19,7 +19,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	
 	private FlexTable selectedNodeTable;
 	private FlowPanel buttonPanel;
-	FlowPanel selectedNodePanel;
+	private FlowPanel selectedNodePanel;
 	
 	private DeleteClickHandler deleteHandler;
 	private CreateRootClickHandler createRootHandler;

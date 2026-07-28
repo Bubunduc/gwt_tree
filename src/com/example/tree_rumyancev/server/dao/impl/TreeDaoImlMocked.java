@@ -2,12 +2,10 @@ package com.example.tree_rumyancev.server.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Collections;
 import com.example.tree_rumyancev.server.dao.TreeDao;
-import com.example.tree_rumyancev.shared.dto.NodeData;
 import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.core.shared.GWT;
 
 public class TreeDaoImlMocked implements TreeDao {
 	private List<Node> nodes = new ArrayList<Node>();
@@ -80,47 +78,32 @@ public class TreeDaoImlMocked implements TreeDao {
 	}
 
 	@Override
-	public void delete(Long id)
-	{
+	public void delete(Long id) {
 		try {
 			Node root = nodes.stream().filter(node -> node.getId().equals(id)).findFirst().get();
 			nodes.remove(root);
-			System.out.println(
-	                "Node: id=" + root.getId()
-	                + ", parentId=" + root.getParentId()
-	                + ", name=" + root.getName()
-	                + ", ip=" + root.getIp()
-	                + ", port=" + root.getPort()
-	            );
+			System.out.println("Node: id=" + root.getId() + ", parentId=" + root.getParentId() + ", name="
+					+ root.getName() + ", ip=" + root.getIp() + ", port=" + root.getPort());
+		} finally {
+
+			List<Node> children = new ArrayList<Node>();
+
+			for (Node node : nodes) {
+
+				if (id.equals(node.getParentId())) {
+					children.add(node);
+					System.out.println("Node: id=" + node.getId() + ", parentId=" + node.getParentId() + ", name="
+							+ node.getName() + ", ip=" + node.getIp() + ", port=" + node.getPort());
+				}
+			}
+
+			for (Node child : children) {
+				delete(child.getId());
+				nodes.remove(child);
+			}
+
 		}
-		finally{
-			
-			 List<Node> children = new ArrayList<Node>();
 
-			    for (Node node : nodes)
-			    {
-
-			        if (id.equals(node.getParentId()))
-			        {
-			        	children.add(node);
-			            System.out.println(
-				                "Node: id=" + node.getId()
-				                + ", parentId=" + node.getParentId()
-				                + ", name=" + node.getName()
-				                + ", ip=" + node.getIp()
-				                + ", port=" + node.getPort()
-				            );
-			        }
-			    }
-
-			    for (Node child : children)
-			    {
-			    	delete(child.getId());
-			        nodes.remove(child);
-			    }
-		
-		}
-	   
 	}
 
 	@Override
@@ -149,14 +132,7 @@ public class TreeDaoImlMocked implements TreeDao {
 	@Override
 	public Node create(Node node) {
 		List<Long> ids = nodes.stream().map(x -> x.getId()).collect(Collectors.toList());
-		Long id = 0L;
-		
-		while (ids.contains(id)) 
-		{
-			id+=1;
-			
-		}
-		
+		Long id = Collections.max(ids)+1;
 		node.setId(id);
 		nodes.add(node);
 		return node;
