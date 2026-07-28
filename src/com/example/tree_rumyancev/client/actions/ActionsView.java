@@ -26,7 +26,7 @@ public class ActionsView implements ActionsDisplay{
 	@Override
 	public void initButtonsPanel() {
 		buttonPanel = new FlowPanel();
-		Button addNodeButton = new Button("Add");
+		Button addNodeButton = new Button("Add Node");
 		addNodeButton.addClickHandler(new ClickHandler() {
 			
 			@Override

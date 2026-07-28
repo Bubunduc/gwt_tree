@@ -1,19 +1,19 @@
 package com.example.tree_rumyancev.client.actions;
 
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.CreateNodeRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.CreateRootRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.DeleteNodeRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.UpdateNodeRequestedEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
-import com.example.tree_rumyancev.client.service.TreeService;
-import com.example.tree_rumyancev.client.service.TreeServiceAsync;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class ActionsPresenter {
 
 	private ActionsDisplay view;
-
-	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 
 	private EventBus eventBus;
 
@@ -21,6 +21,13 @@ public class ActionsPresenter {
 
 		this.view = view;
 		this.eventBus = eventBus;
+		bind();
+
+	}
+
+	public void go(HasWidgets container) {
+
+		container.add(view.asWidget());
 
 	}
 
@@ -30,7 +37,7 @@ public class ActionsPresenter {
 
 			@Override
 			public void onClick() {
-
+				eventBus.fireEvent(new CreateNodeRequestedEvent());
 			}
 		});
 
@@ -38,13 +45,14 @@ public class ActionsPresenter {
 
 			@Override
 			public void onClick() {
-
+				eventBus.fireEvent(new CreateRootRequestedEvent());
 			}
 		});
 		view.setUpdateNodeHandler(new UpdateNodeClickHandler() {
 
 			@Override
 			public void onClick() {
+				eventBus.fireEvent(new UpdateNodeRequestedEvent());
 			}
 		});
 
@@ -52,7 +60,7 @@ public class ActionsPresenter {
 
 			@Override
 			public void onClick() {
-
+				eventBus.fireEvent(new DeleteNodeRequestedEvent());
 			}
 		});
 

@@ -1,15 +1,19 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
-import com.example.tree_rumyancev.client.handlers.event.CreateNodeEvent;
-import com.example.tree_rumyancev.client.handlers.event.CreateRootEvent;
-import com.example.tree_rumyancev.client.handlers.event.NodeDeleteEvent;
-import com.example.tree_rumyancev.client.handlers.event.NodeSelectionEvent;
-import com.example.tree_rumyancev.client.handlers.event.UpdateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.actions.CreateNodeRequestedHandler;
+import com.example.tree_rumyancev.client.handlers.actions.CreateRootRequestedHandler;
+import com.example.tree_rumyancev.client.handlers.actions.DeleteNodeRequestedHandler;
+import com.example.tree_rumyancev.client.handlers.actions.UpdateNodeRequestedHandler;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.CreateNodeRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.CreateRootRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.DeleteNodeRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.actionRequest.UpdateNodeRequestedEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeDeleteEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.UpdateNodeEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeSelectionEventHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.model.Node;
@@ -54,17 +58,14 @@ public class SelectedNodePresenter {
 			}
 		});
 
-		view.setCreateNodeHandler(new CreateNodeClickHandler() {
+		eventBus.addHandler(CreateNodeRequestedEvent.TYPE, new CreateNodeRequestedHandler() {
 
 			@Override
-			public void onClick() {
+			public void onCreateNodeRequested(CreateNodeRequestedEvent event) {
 				Node newNode = view.getNewNode();
 				newNode.setParentId(newNode.getId());
-				if (newNode.getId() == null || 
-						newNode.getParentId() == null || 
-						newNode.getName().isEmpty() || 
-						newNode.getIp().isEmpty() || 
-						newNode.getPort() == null) {
+				if (newNode.getId() == null || newNode.getParentId() == null || newNode.getName().isEmpty()
+						|| newNode.getIp().isEmpty() || newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
@@ -80,28 +81,25 @@ public class SelectedNodePresenter {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
+						Window.alert("Ошибка при создании ветки");
 
 					}
 				});
 			}
 		});
 
-		view.setCreateRootHandler(new CreateRootClickHandler() {
+		eventBus.addHandler(CreateRootRequestedEvent.TYPE, new CreateRootRequestedHandler() {
 
 			@Override
-			public void onClick() {
+			public void onCreateRootRequested(CreateRootRequestedEvent event) {
 
 				Node newNode = view.getNewNode();
-				
-				if ( 
-						newNode.getName().isEmpty() || 
-						newNode.getIp().isEmpty() || 
-						newNode.getPort() == null) {
+
+				if (newNode.getName().isEmpty() || newNode.getIp().isEmpty() || newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
-				
+
 				newNode.setParentId(null);
 
 				treeService.create(newNode, new AsyncCallback<Node>() {
@@ -121,21 +119,19 @@ public class SelectedNodePresenter {
 
 			}
 		});
-		view.setUpdateNodeHandler(new UpdateNodeClickHandler() {
+
+		eventBus.addHandler(UpdateNodeRequestedEvent.TYPE, new UpdateNodeRequestedHandler() {
 
 			@Override
-			public void onClick() {
+			public void onUpdateNodeRequested(UpdateNodeRequestedEvent event) {
 				final Node newNode = view.getNewNode();
-				
-				if (newNode.getId() == null || 
-						newNode.getParentId() == null || 
-						newNode.getName().isEmpty() || 
-						newNode.getIp().isEmpty() || 
-						newNode.getPort() == null) {
+
+				if (newNode.getId() == null || newNode.getParentId() == null || newNode.getName().isEmpty()
+						|| newNode.getIp().isEmpty() || newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
-				
+
 				treeService.update(newNode, new AsyncCallback<Void>() {
 
 					@Override
@@ -162,11 +158,33 @@ public class SelectedNodePresenter {
 			}
 		});
 
-		view.setDeleteButtonHandler(new DeleteClickHandler() {
+		eventBus.addHandler(DeleteNodeRequestedEvent.TYPE, new DeleteNodeRequestedHandler() {
 
 			@Override
-			public void onClick() {
-				eventBus.fireEvent(new NodeDeleteEvent(SelectedNode.getId()));
+			public void onDeleteNodeRequested(DeleteNodeRequestedEvent event) {
+
+				final Node deletedNode = view.getNewNode();
+
+				if (deletedNode.getParentId() == null) {
+					Window.alert("корень удалить нельзя");
+					return;
+				}
+
+				treeService.delete(deletedNode.getId(), new AsyncCallback<Void>() {
+
+					@Override
+					public void onSuccess(Void result) {
+						eventBus.fireEvent(new NodeDeleteEvent(deletedNode.getId()));
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+						Window.alert("Ошибка при удалении");
+
+					}
+				});
+
 			}
 		});
 

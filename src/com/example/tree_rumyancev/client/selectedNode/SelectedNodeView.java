@@ -18,18 +18,14 @@ import com.google.gwt.user.client.ui.Widget;
 public class SelectedNodeView implements SelectedNodeDisplay {
 	
 	private FlexTable selectedNodeTable;
-	private FlowPanel buttonPanel;
+
 	private FlowPanel selectedNodePanel;
 	
-	private DeleteClickHandler deleteHandler;
-	private CreateRootClickHandler createRootHandler;
-	private CreateNodeClickHandler createNodeHandler;
-	private UpdateNodeClickHandler updateNodeHandler;
+
 	
 	public SelectedNodeView() {
 		
 		selectedNodeTable = new FlexTable();
-		buttonPanel = new FlowPanel();
 		selectedNodePanel = new FlowPanel();
 
 		initSelectedNodeTable();
@@ -56,57 +52,8 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodeTable.setText(4, 0, "port");
 		selectedNodeTable.setWidget(4, 1, new TextBox());
 
-		Button addNodeButton = new Button("Add");
-		addNodeButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				createNodeHandler.onClick();
-				
-			}
-		});
-		
-		
-		Button addRootButton = new Button("Add Root");
-		addRootButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				createRootHandler.onClick();
-				
-			}
-		});
-		
-		
-		Button editButton = new Button("Edit");
-		editButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				updateNodeHandler.onClick();
-				
-			}
-		});
-		
-		
-		Button deleteButton = new Button("Delete");
-		deleteButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				deleteHandler.onClick();
-				
-			}
-		});
-		
-
-		buttonPanel.add(addNodeButton);
-		buttonPanel.add(addRootButton);
-		buttonPanel.add(editButton);
-		buttonPanel.add(deleteButton);
 		
 		selectedNodePanel.add(selectedNodeTable);
-		selectedNodePanel.add(buttonPanel);
 
 		selectedNodePanel.setStyleName("SelectedNodePanel");
 		
@@ -190,26 +137,4 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		return selectedNodePanel;
 	}
 
-	@Override
-	public void setDeleteButtonHandler(DeleteClickHandler handler) {
-		this.deleteHandler = handler;
-		
-	}
-	
-	@Override
-	public void setCreateRootHandler(CreateRootClickHandler createRootHandler) {
-		this.createRootHandler = createRootHandler;
-	}
-	
-	@Override
-	public void setCreateNodeHandler(CreateNodeClickHandler createNodeHandler) {
-		this.createNodeHandler = createNodeHandler;
-	}
-	
-	@Override
-	public void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler) {
-		this.updateNodeHandler = updateNodeHandler;
-	}
-	
-	
 }

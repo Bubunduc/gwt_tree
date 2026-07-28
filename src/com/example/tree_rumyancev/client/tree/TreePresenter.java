@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.tree_rumyancev.client.handlers.event.CreateNodeEvent;
-import com.example.tree_rumyancev.client.handlers.event.CreateRootEvent;
-import com.example.tree_rumyancev.client.handlers.event.NodeDeleteEvent;
-import com.example.tree_rumyancev.client.handlers.event.NodeSelectionEvent;
-import com.example.tree_rumyancev.client.handlers.event.UpdateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeDeleteEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.UpdateNodeEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateNodeEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
@@ -100,30 +100,10 @@ public class TreePresenter {
 			@Override
 			public void onDelete(NodeDeleteEvent event) {
 				final Long deletedNode = event.getId();
-
-				if (loadedNodes.get(deletedNode).getNode().getParentId() == null) {
-					Window.alert("корень удалить нельзя");
-					return;
-				}
-
-				treeService.delete(deletedNode, new AsyncCallback<Void>() {
-
-					@Override
-					public void onSuccess(Void result) {
-						loadedNodes.remove(deletedNode);
-						treeView.eraseNode(deletedNode);
-						removeChild(deletedNode);
-						Window.alert("Удаление прошло успешно");
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-						Window.alert("Ошибка при удалении");
-
-					}
-				});
+				loadedNodes.remove(deletedNode);
+				treeView.eraseNode(deletedNode);
+				removeChild(deletedNode);
+				Window.alert("Удаление прошло успешно");
 
 			}
 		});

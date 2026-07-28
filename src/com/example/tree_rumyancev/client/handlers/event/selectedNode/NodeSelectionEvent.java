@@ -1,4 +1,4 @@
-package com.example.tree_rumyancev.client.handlers.event;
+package com.example.tree_rumyancev.client.handlers.event.selectedNode;
 
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeSelectionEventHandler;
 import com.example.tree_rumyancev.shared.model.Node;
