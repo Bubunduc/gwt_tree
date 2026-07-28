@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SelectedNodeView implements SelectedNodeDisplay {
 	
 	private FlexTable selectedNodeTable;
-	private HorizontalPanel buttonPanel;
+	private FlowPanel buttonPanel;
 	FlowPanel selectedNodePanel;
 	
 	private DeleteClickHandler deleteHandler;
@@ -29,7 +29,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	public SelectedNodeView() {
 		
 		selectedNodeTable = new FlexTable();
-		buttonPanel = new HorizontalPanel();
+		buttonPanel = new FlowPanel();
 		selectedNodePanel = new FlowPanel();
 
 		initSelectedNodeTable();
@@ -108,6 +108,8 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		selectedNodePanel.add(selectedNodeTable);
 		selectedNodePanel.add(buttonPanel);
 
+		selectedNodePanel.setStyleName("SelectedNodePanel");
+		
 	}
 
 	@Override

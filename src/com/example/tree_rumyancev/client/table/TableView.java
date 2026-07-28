@@ -67,6 +67,7 @@ public class TableView implements TableDisplay {
 				}
 
 				selectedRowHandler.onSelected(nodeId);
+				selectedRowLabel.setStyleName("selectedRow");
 			}
 		});
 		
@@ -85,6 +86,7 @@ public class TableView implements TableDisplay {
 
 		selectedRowLabel = new Label();
 		
+		
 		panel.add(selectedRowLabel);
 		panel.add(refreshButton);
 		panel.add(tablePanel);
@@ -93,15 +95,21 @@ public class TableView implements TableDisplay {
 
 	private void initHeaders() {
 
-		allDatatable.setText(HEADER_ROW, 0, "name");
-		allDatatable.setText(HEADER_ROW, 1, "ip");
-		allDatatable.setText(HEADER_ROW, 2, "port");
+		allDatatable.setWidget(HEADER_ROW, 0, new Label("name"));
+		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 0, "tableHeader");
+		allDatatable.setWidget(HEADER_ROW, 1, new Label("ip"));
+		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 1, "tableHeader");
+		allDatatable.setWidget(HEADER_ROW, 2, new Label("port"));
+		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 2, "tableHeader");
+		
+		
 
 	}
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
 		allDatatable.clear();
+		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {
 

@@ -34,10 +34,18 @@ h1 {
 }
 
 
+.topPanel{
+	display: flex;
+	align-items: flex-start;
+	gap: 15px;
+}
+
 .tree{
-	 border: 3px solid black;
-	 max-height: 500px;
-	 overflow-y: auto; 
+	 border: 1px solid black;
+	 height: 184px;
+	 width: 300px;
+	 overflow-y: auto;
+	 background-color: #dbae84; 
 }
 /* Панель узла – располагаем детей в строку и разрешаем перенос */
 /* Панель одного узла: кнопка, название и дочерние элементы */
@@ -47,7 +55,7 @@ h1 {
     flex-wrap: wrap;
     align-items: center;
     margin: 2px 0;
-   padding-left: 15px;
+   	padding-left: 15px;
 }
 
 /* Кнопка "+" / "−" */
@@ -55,7 +63,7 @@ h1 {
     flex-shrink: 0;
     margin-right: 6px;
     cursor: pointer;
-    color: white;
+    
 }
 
 .nodeButton:hover {
@@ -64,7 +72,13 @@ h1 {
 
 .nodeButtonUp {
    
-	background-color: blue;
+	background-color: #dedede;
+}
+
+.SelectedNodePanel{
+	border: 1px solid black;
+	background-color: #dbae84;
+	width: 300px;
 }
 
 .nodeButtonDown {
@@ -74,6 +88,9 @@ h1 {
 .nodeLabel {
     padding: 4px 6px;
     cursor: pointer;
+}
+.selectedTreeNode{
+	background-color: #4a90e2;
 }
 
 .nodeLabel:hover {
@@ -88,22 +105,40 @@ h1 {
 
 
 .rootTablePanel{
-	margin: 0 auto;
+	width: 615px;
+	border: 1px solid black;
+	background-color: #dbae84;
 }
 .tablePanel{
-	max-height: 300px;
+	max-height: 400px;
 	overflow-y: auto; 
 }
 
 .nodeTable {
     border-collapse: collapse;
     margin-top: 10px;
+ 	width: 100%;
     
 }
 
 .updateTableButton{
 	
 }
+
+.selectedRow{
+	font-size: 24px;
+	background-color: #72d675;
+	width: 80%;
+	height: 40px;
+}
+
+.tableHeader{
+	position: sticky;
+	top: 0;
+	background-color: #3467cf;
+	z-index: 2;
+}
+
 .nodeTable td {
     border: 1px solid #999;
     padding: 6px 8px;
