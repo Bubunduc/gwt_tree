@@ -5,5 +5,5 @@ import com.google.gwt.event.shared.EventHandler;
 
 public interface CreateNodeRequestedHandler extends EventHandler {
 
-    void onCreateNodeRequested(CreateNodeRequestedEvent event);
+	void onCreateNodeRequested(CreateNodeRequestedEvent event);
 }

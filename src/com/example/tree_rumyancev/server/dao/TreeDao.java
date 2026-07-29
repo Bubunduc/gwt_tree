@@ -13,7 +13,7 @@ public interface TreeDao {
 	public List<Node> getChildrenList(Long parentId);
 
 	List<Node> getParentList();
-	
+
 	Node create(Node node);
 
 	public void update(Node node);

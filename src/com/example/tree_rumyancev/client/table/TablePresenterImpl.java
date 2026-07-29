@@ -68,17 +68,16 @@ public class TablePresenterImpl implements TablePresenter {
 
 	@Override
 	public void bind() {
-		
+
 		eventBus.addHandler(NodeSelectionEvent.TYPE, new NodeSelectionEventHandler() {
-			
+
 			@Override
 			public void onNodeSelected(NodeSelectionEvent event) {
 				view.colorSelectedRow(event.getNode().getId());
-				
+
 			}
 		});
-		
-		
+
 		view.setRefreshButtonHandler(new RefreshButtonClickHandler() {
 
 			@Override

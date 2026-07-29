@@ -1,9 +1,10 @@
 package com.example.tree_rumyancev.server.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Collections;
+
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.shared.model.Node;
 
@@ -132,7 +133,7 @@ public class TreeDaoImlMocked implements TreeDao {
 	@Override
 	public Node create(Node node) {
 		List<Long> ids = nodes.stream().map(x -> x.getId()).collect(Collectors.toList());
-		Long id = Collections.max(ids)+1;
+		Long id = Collections.max(ids) + 1;
 		node.setId(id);
 		nodes.add(node);
 		return node;

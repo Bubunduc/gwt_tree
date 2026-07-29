@@ -1,10 +1,8 @@
 package com.example.tree_rumyancev.client.handlers.event.selectedNode;
 
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateNodeEventHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 public class CreateNodeEvent extends GwtEvent<CreateNodeEventHandler> {
 

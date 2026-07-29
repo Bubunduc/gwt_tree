@@ -100,15 +100,14 @@ public class TreePresenter {
 		});
 
 		eventBus.addHandler(SelectedFromTableNodeEvent.TYPE, new SelectedFromTableNodeEventHandler() {
-			
+
 			@Override
 			public void onSelected(SelectedFromTableNodeEvent event) {
 				onNodeLabelClicked(event.getNode());
-				
+
 			}
 		});
-		
-		
+
 		eventBus.addHandler(NodeDeleteEvent.TYPE, new NodeDeleteEventHandler() {
 
 			@Override
@@ -244,8 +243,8 @@ public class TreePresenter {
 	private void onNodeLabelClicked(final Node node) {
 
 		eventBus.fireEvent(new NodeSelectionEvent(node));
-		
-		if(!loadedNodes.containsKey(node.getId())) {
+
+		if (!loadedNodes.containsKey(node.getId())) {
 			treeView.colorSelectedNode(selectedNodeId, false);
 			return;
 		}

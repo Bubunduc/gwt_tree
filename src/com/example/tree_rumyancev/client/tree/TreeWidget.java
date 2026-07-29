@@ -213,8 +213,7 @@ public class TreeWidget extends Composite {
 		NodeViewHolder selectedHolder = treeNodes.get(id);
 		if (stage == true) {
 			selectedHolder.getNodeName().addStyleName("selectedLabel");
-		}
-		else {
+		} else {
 			selectedHolder.getNodeName().removeStyleName("selectedLabel");
 		}
 

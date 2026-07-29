@@ -48,9 +48,9 @@ public class Tree_rumyancev implements EntryPoint {
 		ActionsDisplay actionsView = new ActionsView();
 		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView, eventBus);
 		actionsPresenter.go(RootPanel.get("ActionButtonsContainer"));
-		
+
 		TableDisplay allNodesTable = new TableView();
-		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable,eventBus);
+		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable, eventBus);
 		tablePresenter.loadData();
 		tablePresenter.go(RootPanel.get("AllNodesTable"));
 

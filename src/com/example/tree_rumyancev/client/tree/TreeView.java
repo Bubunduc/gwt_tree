@@ -46,27 +46,27 @@ public class TreeView implements TreeDisplay {
 
 	@Override
 	public void eraseNode(Long id, Long parentId) {
-		treeWidget.eraseNode(id,parentId);
-		
+		treeWidget.eraseNode(id, parentId);
+
 	}
-	
+
 	@Override
-	public void setButtonEnabled(Long id,boolean stage) {
+	public void setButtonEnabled(Long id, boolean stage) {
 		treeWidget.setButtonEnabled(id, stage);
 	}
 
 	@Override
 	public void drawRoot(TreeViewData root) {
 		treeWidget.drawRoot(root);
-		
+
 	}
 
 	@Override
 	public void insertNode(TreeViewData node) {
 		treeWidget.insertNode(node);
-		
+
 	}
-	
+
 	@Override
 	public boolean hasNodechild(Long id) {
 		return treeWidget.hasNodechild(id);
@@ -74,14 +74,14 @@ public class TreeView implements TreeDisplay {
 
 	@Override
 	public boolean isNodeButtonEnabled(Long id) {
-		
+
 		return treeWidget.isNodeButtonEnabled(id);
 	}
 
 	@Override
 	public void colorSelectedNode(Long id, boolean stage) {
 		treeWidget.colorSelectedNode(id, stage);
-		
+
 	}
 
 }

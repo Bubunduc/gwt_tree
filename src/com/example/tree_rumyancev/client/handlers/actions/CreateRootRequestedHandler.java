@@ -5,6 +5,6 @@ import com.google.gwt.event.shared.EventHandler;
 
 public interface CreateRootRequestedHandler extends EventHandler {
 
-    void onCreateRootRequested(CreateRootRequestedEvent event);
+	void onCreateRootRequested(CreateRootRequestedEvent event);
 
 }

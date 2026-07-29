@@ -15,11 +15,11 @@ public interface TableDisplay extends IsWidget {
 	void setRefreshButtonHandler(final RefreshButtonClickHandler handler);
 
 	void setSelectedRowHandler(final SelectedRowHandler handler);
-	
+
 	void colorSelectedRow(Long id);
 
 	void colorSelectedRow(int rowIndex);
-	
+
 	Widget asWidget();
 
 }

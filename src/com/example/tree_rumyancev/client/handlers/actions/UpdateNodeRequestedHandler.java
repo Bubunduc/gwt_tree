@@ -5,6 +5,6 @@ import com.google.gwt.event.shared.EventHandler;
 
 public interface UpdateNodeRequestedHandler extends EventHandler {
 
-    void onUpdateNodeRequested(UpdateNodeRequestedEvent event);
+	void onUpdateNodeRequested(UpdateNodeRequestedEvent event);
 
 }

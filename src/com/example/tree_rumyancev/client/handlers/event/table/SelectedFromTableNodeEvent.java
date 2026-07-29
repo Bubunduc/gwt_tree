@@ -1,6 +1,5 @@
 package com.example.tree_rumyancev.client.handlers.event.table;
 
-
 import com.example.tree_rumyancev.client.handlers.table.SelectedFromTableNodeEventHandler;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.event.shared.GwtEvent;
