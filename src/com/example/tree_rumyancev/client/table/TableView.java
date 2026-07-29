@@ -24,8 +24,9 @@ public class TableView implements TableDisplay {
 	private FlowPanel tablePanel;
 	private FlexTable allDatatable;
 	private Button refreshButton;
-	private Map<Integer, Long> rowToNodeId;
 
+	private int selectedRowId;
+	private Map<Integer, Long> rowToNodeId;
 	private RefreshButtonClickHandler buttonClickHandler;
 	private SelectedRowHandler selectedRowHandler;
 
@@ -66,6 +67,8 @@ public class TableView implements TableDisplay {
 				}
 
 				selectedRowHandler.onSelected(nodeId);
+				colorSelectedRow(rowIndex);
+
 			}
 		});
 
@@ -96,6 +99,54 @@ public class TableView implements TableDisplay {
 		allDatatable.setWidget(HEADER_ROW, 2, new Label("port"));
 		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 2, "tableHeader");
 
+	}
+
+	@Override
+	public void colorSelectedRow(int rowIndex) {
+		int rows = allDatatable.getCellCount(rowIndex);
+		if (Integer.valueOf(rowIndex) == null) {
+			selectedRowId = rowIndex;
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			}
+			return;
+		} else {
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
+			}
+			selectedRowId = rowIndex;
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			}
+		}
+	}
+
+	@Override
+	public void colorSelectedRow(Long id) {
+		int rowIndex = -1;
+		for (Map.Entry<Integer, Long> entry : rowToNodeId.entrySet()) {
+			if (id.equals(entry.getValue())) {
+				rowIndex = entry.getKey();
+				break;
+			}
+		}
+
+		int rows = allDatatable.getCellCount(rowIndex);
+		if (Integer.valueOf(rowIndex) == null) {
+			selectedRowId = rowIndex;
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			}
+			return;
+		} else {
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
+			}
+			selectedRowId = rowIndex;
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			}
+		}
 	}
 
 	@Override

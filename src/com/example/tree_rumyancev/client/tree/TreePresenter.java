@@ -246,6 +246,7 @@ public class TreePresenter {
 		eventBus.fireEvent(new NodeSelectionEvent(node));
 		
 		if(!loadedNodes.containsKey(node.getId())) {
+			treeView.colorSelectedNode(selectedNodeId, false);
 			return;
 		}
 		if (selectedNodeId == null) {

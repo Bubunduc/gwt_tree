@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
 import com.example.tree_rumyancev.client.handlers.event.table.SelectedFromTableNodeEvent;
+import com.example.tree_rumyancev.client.handlers.selectedNode.NodeSelectionEventHandler;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
@@ -67,6 +68,17 @@ public class TablePresenterImpl implements TablePresenter {
 
 	@Override
 	public void bind() {
+		
+		eventBus.addHandler(NodeSelectionEvent.TYPE, new NodeSelectionEventHandler() {
+			
+			@Override
+			public void onNodeSelected(NodeSelectionEvent event) {
+				view.colorSelectedRow(event.getNode().getId());
+				
+			}
+		});
+		
+		
 		view.setRefreshButtonHandler(new RefreshButtonClickHandler() {
 
 			@Override

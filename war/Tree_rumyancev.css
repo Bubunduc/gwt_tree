@@ -123,43 +123,37 @@ h1 {
 }
 
 .tablePanel {
-	max-height: 400px;
-	padding-top: 10px;
-	overflow-y: auto;
-}
+    width: 617px;
+    height: 390px;
 
-.updateTableButton {
-	
-}
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-.selectedRow {
-	font-size: 24px;
-	background-color: #72d675;
-	width: 80%;
-	height: 40px;
+    position: relative;
 }
 
 .nodeTable {
-    border-collapse: separate;
-    border-spacing: 0;
     width: 100%;
-    margin-top: 0;
-}
+    table-layout: fixed;
 
-.tableHeader {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-
-    background-color: #3467cf;
-    border: none;
+    border-collapse: collapse;
+    margin: 0;
 }
 
 .nodeTable td {
-	border: 1px solid #999;
-	padding: 6px 8px;
+    border: 1px solid #999;
+    padding: 6px 8px;
+    box-sizing: border-box;
 }
 
-.nodeTable input {
-	padding: 4px;
+.nodeTable tr:first-child td {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border: none;
+    background-color: #dbae84;
+}
+
+.selectedRow{
+	background-color: #17a9bd !important;
 }
