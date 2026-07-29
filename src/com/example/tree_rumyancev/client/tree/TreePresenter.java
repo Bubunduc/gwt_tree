@@ -10,10 +10,12 @@ import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootE
 import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeDeleteEvent;
 import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
 import com.example.tree_rumyancev.client.handlers.event.selectedNode.UpdateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.event.table.SelectedFromTableNodeEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateNodeEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.UpdateNodeEventHandler;
+import com.example.tree_rumyancev.client.handlers.table.SelectedFromTableNodeEventHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
@@ -35,6 +37,8 @@ public class TreePresenter {
 	private Map<Long, NodeData> loadedNodes;
 
 	private final EventBus eventBus;
+
+	private Long selectedNodeId;
 
 	public TreePresenter(TreeDisplay treeView, EventBus eventBus) {
 
@@ -95,6 +99,16 @@ public class TreePresenter {
 			}
 		});
 
+		eventBus.addHandler(SelectedFromTableNodeEvent.TYPE, new SelectedFromTableNodeEventHandler() {
+			
+			@Override
+			public void onSelected(SelectedFromTableNodeEvent event) {
+				onNodeLabelClicked(event.getNode());
+				
+			}
+		});
+		
+		
 		eventBus.addHandler(NodeDeleteEvent.TYPE, new NodeDeleteEventHandler() {
 
 			@Override
@@ -102,7 +116,7 @@ public class TreePresenter {
 				final Long deletedNode = event.getId();
 				Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
 				loadedNodes.remove(deletedNode);
-				treeView.eraseNode(deletedNode,parentId);
+				treeView.eraseNode(deletedNode, parentId);
 				removeChild(deletedNode);
 				if (treeView.hasNodechild(parentId) == false) {
 					treeView.setButtonEnabled(parentId, false);
@@ -230,6 +244,21 @@ public class TreePresenter {
 	private void onNodeLabelClicked(final Node node) {
 
 		eventBus.fireEvent(new NodeSelectionEvent(node));
+		
+		if(!loadedNodes.containsKey(node.getId())) {
+			return;
+		}
+		if (selectedNodeId == null) {
+			selectedNodeId = node.getId();
+			treeView.colorSelectedNode(selectedNodeId, true);
+			return;
+		}
+
+		treeView.colorSelectedNode(selectedNodeId, false);
+
+		selectedNodeId = node.getId();
+
+		treeView.colorSelectedNode(selectedNodeId, true);
 
 	}
 

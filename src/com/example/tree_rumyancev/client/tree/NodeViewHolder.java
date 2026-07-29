@@ -80,4 +80,5 @@ public class NodeViewHolder extends FlowPanel {
 	public void removeFromChildList(Long id) {
 		childIds.remove(id);
 	}
+	
 }

@@ -15,21 +15,21 @@ public interface TreeDisplay extends IsWidget {
 	void setNodeVisible(Long id, boolean stage);
 
 	void drawRoots(List<TreeViewData> roots);
-	
+
 	void drawRoot(TreeViewData root);
-	
+
 	void eraseNode(Long id, Long parentId);
-	
-	void insertNode (TreeViewData node);
+
+	void insertNode(TreeViewData node);
 
 	boolean isNodeVisible(Long id);
-	
-	boolean isNodeButtonEnabled (Long id);
-	
+
+	boolean isNodeButtonEnabled(Long id);
+
 	boolean hasNodechild(Long id);
-	
-	void setButtonEnabled(Long id,boolean stage);
-	
-	
+
+	void setButtonEnabled(Long id, boolean stage);
+
+	void colorSelectedNode(Long id, boolean stage);
 
 }

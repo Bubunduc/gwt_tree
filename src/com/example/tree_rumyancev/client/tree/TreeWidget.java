@@ -175,7 +175,8 @@ public class TreeWidget extends Composite {
 		}
 
 		nodeToRemove.removeFromParent();
-		treeNodes.get(parentId).removeFromChildList(id);;
+		treeNodes.get(parentId).removeFromChildList(id);
+		;
 		treeNodes.remove(id);
 		// Window.alert(nodeToRemove.getChildIds().toString());
 	}
@@ -208,4 +209,14 @@ public class TreeWidget extends Composite {
 		}
 	}
 
+	public void colorSelectedNode(Long id, boolean stage) {
+		NodeViewHolder selectedHolder = treeNodes.get(id);
+		if (stage == true) {
+			selectedHolder.getNodeName().addStyleName("selectedLabel");
+		}
+		else {
+			selectedHolder.getNodeName().removeStyleName("selectedLabel");
+		}
+
+	}
 }

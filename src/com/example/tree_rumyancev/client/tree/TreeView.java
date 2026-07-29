@@ -78,4 +78,10 @@ public class TreeView implements TreeDisplay {
 		return treeWidget.isNodeButtonEnabled(id);
 	}
 
+	@Override
+	public void colorSelectedNode(Long id, boolean stage) {
+		treeWidget.colorSelectedNode(id, stage);
+		
+	}
+
 }
