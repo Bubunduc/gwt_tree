@@ -13,7 +13,7 @@ public class TreeDaoImplMocked implements TreeDao {
 
 	public TreeDaoImplMocked() {
 		nodes.add(new Node(15L, null, "microservice-orders", "192.168.1.22", (short) 9003));
-		nodes.add(new Node(16L, null, "requests", "192.168.2.33", (short) 9003));
+		nodes.add(new Node(16L, null, "requests", "192.168.2.33", (short) 9001));
 		nodes.add(new Node(17L, 16L, "microservice-orders", "192.168.1.22", (short) 9003));
 		nodes.add(new Node(0L,null,"rootNode","127.0.0.1",(short) 1111));
 		nodes.add(new Node(1L, 0L, "database-server", "192.168.1.10", (short) 3306));
@@ -123,6 +123,9 @@ public class TreeDaoImplMocked implements TreeDao {
 	@Override
 	public Node create(Node node) {
 		List<Long> ids = nodes.stream().map(x -> x.getId()).collect(Collectors.toList());
+		if(ids.isEmpty()) {
+			throw new NullPointerException("Список не может быть пустым");
+		}
 		Long id = Collections.max(ids) + 1;
 		node.setId(id);
 		nodes.add(node);

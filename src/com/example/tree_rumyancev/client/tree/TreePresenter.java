@@ -116,6 +116,7 @@ public class TreePresenter {
 				
 				
 				if (!loadedNodes.containsKey(deletedNode)) {
+					Window.alert("Удаление прошло успешно");
 					return;
 				}
 				Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
@@ -148,7 +149,12 @@ public class TreePresenter {
 			@Override
 			public void onUpdate(UpdateNodeEvent event) {
 				Node updatedNode = event.getNode();
-
+				
+				if (!loadedNodes.containsKey(updatedNode.getId())) {
+					Window.alert("Обновление прошло успешно");
+					return;
+				}
+				
 				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
 
 				Window.alert("Обновление прошло успешно");
@@ -253,12 +259,12 @@ public class TreePresenter {
 			treeView.colorSelectedNode(selectedNodeId, false);
 			return;
 		}
-		if ((selectedNodeId == null) && (loadedNodes.containsKey(selectedNodeId))) {
+		if ((selectedNodeId == null)) {
 			selectedNodeId = node.getId();
 			treeView.colorSelectedNode(selectedNodeId, true);
 			return;
 		}
-		
+
 		treeView.colorSelectedNode(selectedNodeId, false);
 
 		selectedNodeId = node.getId();

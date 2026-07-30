@@ -29,8 +29,6 @@ public class SelectedNodePresenter {
 
 	private EventBus eventBus;
 
-	private Node SelectedNode;
-
 	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 
 	public SelectedNodePresenter(SelectedNodeDisplay view, EventBus eventBus) {
@@ -52,8 +50,8 @@ public class SelectedNodePresenter {
 			@Override
 			public void onNodeSelected(NodeSelectionEvent event) {
 
-				SelectedNode = event.getNode();
-				loadNode(SelectedNode);
+				Node selectedNode = event.getNode();
+				loadNode(selectedNode);
 
 			}
 		});

@@ -111,7 +111,7 @@ public class TreeWidget extends Composite {
 		Set<Long> childIds = treeNodes.get(id).getChildIds();
 		ToggleButton button = treeNodes.get(id).getShowNode();
 
-		if (childIds.isEmpty() || childIds == null) {
+		if (childIds == null || childIds.isEmpty()) {
 			return;
 		}
 		if (stage == true) {
@@ -175,7 +175,6 @@ public class TreeWidget extends Composite {
 
 		nodeToRemove.removeFromParent();
 		treeNodes.get(parentId).removeFromChildList(id);
-		;
 		treeNodes.remove(id);
 		
 	}

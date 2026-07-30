@@ -18,8 +18,6 @@ public interface TableDisplay extends IsWidget {
 
 	void colorSelectedRow(Long id);
 
-	void colorSelectedRow(int rowIndex);
-
 	Widget asWidget();
 
 }
