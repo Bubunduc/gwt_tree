@@ -7,9 +7,9 @@ import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeC
 import com.google.gwt.user.client.ui.IsWidget;
 
 public interface ActionsDisplay extends IsWidget {
-	
+
 	void initButtonsPanel();
-	
+
 	void setDeleteButtonHandler(DeleteClickHandler handler);
 
 	void setCreateRootHandler(CreateRootClickHandler createRootHandler);
@@ -17,5 +17,5 @@ public interface ActionsDisplay extends IsWidget {
 	void setCreateNodeHandler(CreateNodeClickHandler createNodeHandler);
 
 	void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler);
-	
+
 }
