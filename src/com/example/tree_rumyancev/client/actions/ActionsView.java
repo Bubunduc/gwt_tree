@@ -36,7 +36,7 @@ public class ActionsView implements ActionsDisplay{
 				
 			}
 		});
-		
+		addNodeButton.addStyleName("addNodeButton");
 		
 		Button addRootButton = new Button("Add Root");
 		addRootButton.addClickHandler(new ClickHandler() {
@@ -47,7 +47,7 @@ public class ActionsView implements ActionsDisplay{
 				
 			}
 		});
-		
+		addRootButton.addStyleName("addRootButton");
 		
 		Button editButton = new Button("Edit");
 		editButton.addClickHandler(new ClickHandler() {
@@ -58,7 +58,7 @@ public class ActionsView implements ActionsDisplay{
 				
 			}
 		});
-		
+		editButton.addStyleName("editButton");
 		
 		Button deleteButton = new Button("Delete");
 		deleteButton.addClickHandler(new ClickHandler() {
@@ -69,7 +69,7 @@ public class ActionsView implements ActionsDisplay{
 				
 			}
 		});
-		
+		deleteButton.addStyleName("deleteButton");
 
 		buttonPanel.add(addNodeButton);
 		buttonPanel.add(addRootButton);

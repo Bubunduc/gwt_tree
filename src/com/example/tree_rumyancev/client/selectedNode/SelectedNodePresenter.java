@@ -125,9 +125,8 @@ public class SelectedNodePresenter {
 			@Override
 			public void onUpdateNodeRequested(UpdateNodeRequestedEvent event) {
 				final Node newNode = view.getNewNode();
-
-				if (newNode.getId() == null || newNode.getParentId() == null || newNode.getName().isEmpty()
-						|| newNode.getIp().isEmpty() || newNode.getPort() == null) {
+				if (newNode.getId() == null || newNode.getName().isEmpty() || newNode.getIp().isEmpty()
+						|| newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}

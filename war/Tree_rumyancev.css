@@ -85,12 +85,46 @@ h1 {
 	align-items: center;
 	gap: 10px;
 }
+.buttonPanel .addNodeButton {
+    background: #9bd18b;
+}
 
+.buttonPanel .addRootButton {
+    background: #8db7e8;
+}
+
+.buttonPanel .editButton {
+    background: #f1c27d;
+}
+
+.buttonPanel .deleteButton {
+    background: #e98b8b;
+}
+
+.buttonPanel .addNodeButton:hover {
+    background: #7fc66c;
+}
+
+.buttonPanel .addRootButton:hover {
+    background: #70a5df;
+}
+
+.buttonPanel .editButton:hover {
+    background: #e8ad57;
+}
+
+.buttonPanel .deleteButton:hover {
+    background: #df6868;
+}
 .SelectedNodePanel {
 	border: 1px solid black;
 	background-color: #dbae84;
 	width: 300px;
 	height: 184px;
+	
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nodeButtonDown {
@@ -130,6 +164,16 @@ h1 {
     overflow-x: hidden;
 
     position: relative;
+}
+
+.updateTableButton {
+    margin-left: 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.rootTablePanel .gwt-Button.updateTableButton {
+    margin: 6px 0 6px 6px;
 }
 
 .nodeTable {
