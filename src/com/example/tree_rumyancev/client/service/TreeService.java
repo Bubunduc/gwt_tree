@@ -10,19 +10,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface TreeService extends RemoteService {
 	Node create(Node node);
 
-	Node read(Long id);
-
 	void update(Node node);
 
 	void delete(Long id);
 
-	boolean isparent(Long childId, Long parentId);
+	List<Node> getChildrenList(Long parentId);
 
-	public List<Node> getChildrenList(Long parentId);
-
-	public Node getRootNode();
-
-	public List<Node> getAllData();
+	List<Node> getAllData();
 
 	List<Node> getParentList();
 

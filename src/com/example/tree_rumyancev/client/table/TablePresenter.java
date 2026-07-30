@@ -8,6 +8,4 @@ public interface TablePresenter {
 
 	void go(HasWidgets container);
 
-	void bind();
-
 }

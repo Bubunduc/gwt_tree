@@ -6,20 +6,18 @@ import com.example.tree_rumyancev.shared.model.Node;
 
 public interface TreeDao {
 
-	public Node getRootNode();
+	List<Node> getAllData();
 
-	public List<Node> getAllData();
-
-	public List<Node> getChildrenList(Long parentId);
+	List<Node> getChildrenList(Long parentId);
 
 	List<Node> getParentList();
 
 	Node create(Node node);
 
-	public void update(Node node);
+	void update(Node node);
 
-	public void delete(Long id);
+	void delete(Long id);
 
-	public Node findById(Long id);
+	Node findById(Long id);
 
 }

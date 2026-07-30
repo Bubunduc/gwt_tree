@@ -10,17 +10,11 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface TreeServiceAsync {
 	void create(Node node, AsyncCallback<Node> callback);
 
-	void read(Long id, AsyncCallback<Node> callback);
-
 	void update(Node node, AsyncCallback<Void> callback);
 
 	void delete(Long id, AsyncCallback<Void> callback);
 
-	void isparent(Long childId, Long parentId, AsyncCallback<Boolean> callback);
-
 	void getChildrenList(Long parentId, AsyncCallback<List<Node>> callback);
-
-	void getRootNode(AsyncCallback<Node> callback);
 
 	void getAllData(AsyncCallback<List<Node>> callback);
 

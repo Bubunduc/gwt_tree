@@ -5,9 +5,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface SelectedNodeDisplay extends IsWidget {
-	public void initSelectedNodeTable();
+	void initSelectedNodeTable();
 
-	public void showNode(Node node);
+	void showNode(Node node);
 
 	Node getNewNode();
 

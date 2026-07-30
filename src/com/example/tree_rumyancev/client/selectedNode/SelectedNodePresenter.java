@@ -25,9 +25,9 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class SelectedNodePresenter {
 
-	private final SelectedNodeDisplay view;
+	private SelectedNodeDisplay view;
 
-	private final EventBus eventBus;
+	private EventBus eventBus;
 
 	private Node SelectedNode;
 

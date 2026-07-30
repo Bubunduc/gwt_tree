@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TreeView implements TreeDisplay {
 
-	private final TreeWidget treeWidget = new TreeWidget();
+	private TreeWidget treeWidget = new TreeWidget();
 
 	@Override
 	public void showChildList(List<TreeViewData> child) {

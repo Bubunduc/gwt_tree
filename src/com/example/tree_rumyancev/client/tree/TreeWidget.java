@@ -82,7 +82,6 @@ public class TreeWidget extends Composite {
 
 			childPanel.addStyleName("nodeChild");
 
-			// treeNodes.put(children.getNodeId(), childPanel);
 			childIds.add(children.getNodeId());
 
 			parentpanel.add(childPanel);
@@ -178,7 +177,7 @@ public class TreeWidget extends Composite {
 		treeNodes.get(parentId).removeFromChildList(id);
 		;
 		treeNodes.remove(id);
-		// Window.alert(nodeToRemove.getChildIds().toString());
+		
 	}
 
 	public boolean hasNodechild(Long id) {
@@ -198,7 +197,7 @@ public class TreeWidget extends Composite {
 			NodeViewHolder holder = entry.getValue();
 
 			if (holder.getShowNode().getElement().isOrHasChild(clickedElement)) {
-				treeWidgetHandler.onclick(nodeId);
+				treeWidgetHandler.onClick(nodeId);
 				return;
 			}
 
@@ -211,6 +210,9 @@ public class TreeWidget extends Composite {
 
 	public void colorSelectedNode(Long id, boolean stage) {
 		NodeViewHolder selectedHolder = treeNodes.get(id);
+		if (selectedHolder == null) {
+	        return;
+	    }
 		if (stage == true) {
 			selectedHolder.getNodeName().addStyleName("selectedLabel");
 		} else {

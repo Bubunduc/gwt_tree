@@ -132,26 +132,21 @@ public class TableView implements TableDisplay {
 		}
 
 		int rows = allDatatable.getCellCount(rowIndex);
-		if (Integer.valueOf(rowIndex) == null) {
-			selectedRowId = rowIndex;
-			for (int i = 0; i < rows; i++) {
-				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
-			}
-			return;
-		} else {
-			for (int i = 0; i < rows; i++) {
-				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
-			}
-			selectedRowId = rowIndex;
-			for (int i = 0; i < rows; i++) {
-				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
-			}
+
+		for (int i = 0; i < rows; i++) {
+			allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
+		}
+		selectedRowId = rowIndex;
+		for (int i = 0; i < rows; i++) {
+			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			
 		}
 	}
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
 		allDatatable.removeAllRows();
+		rowToNodeId.clear();
 		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {

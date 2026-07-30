@@ -18,11 +18,6 @@ public class NodeViewHolder extends FlowPanel {
 
 	}
 
-	public NodeViewHolder(ToggleButton showNode, Label nodeName) {
-		this.showNode = showNode;
-		this.nodeName = nodeName;
-	}
-
 	public void createPanel(Long id, String name) {
 
 		showNode = new ToggleButton("+", "-");

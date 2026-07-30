@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.shared.model.Node;
 
-public class TreeDaoImlMocked implements TreeDao {
+public class TreeDaoImplMocked implements TreeDao {
 	private List<Node> nodes = new ArrayList<Node>();
 
-	public TreeDaoImlMocked() {
+	public TreeDaoImplMocked() {
 		nodes.add(new Node(15L, null, "microservice-orders", "192.168.1.22", (short) 9003));
-		nodes.add(new Node(16L, null, "microservice-orders", "192.168.1.22", (short) 9003));
+		nodes.add(new Node(16L, null, "requests", "192.168.2.33", (short) 9003));
 		nodes.add(new Node(17L, 16L, "microservice-orders", "192.168.1.22", (short) 9003));
-		nodes.add(getRootNode());
+		nodes.add(new Node(0L,null,"rootNode","127.0.0.1",(short) 1111));
 		nodes.add(new Node(1L, 0L, "database-server", "192.168.1.10", (short) 3306));
 		nodes.add(new Node(2L, 0L, "web-server", "192.168.1.20", (short) 8080));
 		nodes.add(new Node(3L, 0L, "cache-server", "192.168.1.30", (short) 6379));
@@ -39,16 +39,6 @@ public class TreeDaoImlMocked implements TreeDao {
 		nodes.add(new Node(13L, 8L, "microservice-users", "192.168.1.22", (short) 9002));
 		nodes.add(new Node(14L, 8L, "microservice-orders", "192.168.1.22", (short) 9003));
 
-	}
-
-	@Override
-	public Node getRootNode() {
-		return new Node(0L, // id
-				null, // parentId (корневой узел не имеет родителя)
-				"rootNode", // name
-				"127.0.0.1", // ip
-				(short) 1111 // port
-		);
 	}
 
 	@Override

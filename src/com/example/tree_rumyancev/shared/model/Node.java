@@ -16,7 +16,7 @@ public class Node implements Serializable {
 
 	public Node() {
 
-	};
+	}
 
 	public Node(Long id, Long parentId, String name, String ip, Short port) {
 		super();

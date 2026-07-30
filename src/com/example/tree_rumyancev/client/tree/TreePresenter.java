@@ -36,7 +36,7 @@ public class TreePresenter {
 
 	private Map<Long, NodeData> loadedNodes;
 
-	private final EventBus eventBus;
+	private EventBus eventBus;
 
 	private Long selectedNodeId;
 
@@ -88,7 +88,7 @@ public class TreePresenter {
 	private void bind() {
 		treeView.setTreeHandler(new TreeHandler() {
 			@Override
-			public void onclick(Long nodeId) {
+			public void onClick(Long nodeId) {
 				onNodeButtonClicked(nodeId);
 			}
 
@@ -113,6 +113,11 @@ public class TreePresenter {
 			@Override
 			public void onDelete(NodeDeleteEvent event) {
 				final Long deletedNode = event.getId();
+				
+				
+				if (!loadedNodes.containsKey(deletedNode)) {
+					return;
+				}
 				Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
 				loadedNodes.remove(deletedNode);
 				treeView.eraseNode(deletedNode, parentId);
@@ -248,12 +253,12 @@ public class TreePresenter {
 			treeView.colorSelectedNode(selectedNodeId, false);
 			return;
 		}
-		if (selectedNodeId == null) {
+		if ((selectedNodeId == null) && (loadedNodes.containsKey(selectedNodeId))) {
 			selectedNodeId = node.getId();
 			treeView.colorSelectedNode(selectedNodeId, true);
 			return;
 		}
-
+		
 		treeView.colorSelectedNode(selectedNodeId, false);
 
 		selectedNodeId = node.getId();

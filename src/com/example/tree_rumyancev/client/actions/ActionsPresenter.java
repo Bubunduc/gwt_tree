@@ -31,7 +31,7 @@ public class ActionsPresenter {
 
 	}
 
-	void bind() {
+	private void bind() {
 
 		view.setCreateNodeHandler(new CreateNodeClickHandler() {
 

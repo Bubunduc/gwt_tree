@@ -23,9 +23,9 @@ public class TablePresenterImpl implements TablePresenter {
 
 	private final TreeServiceAsync treeService = GWT.create(TreeService.class);
 	private TableDisplay view;
-	EventBus eventBus;
+	private EventBus eventBus;
 
-	Map<Long, Node> data;
+	private Map<Long, Node> data;
 
 	public TablePresenterImpl(TableDisplay view, EventBus eventBus) {
 
@@ -66,8 +66,8 @@ public class TablePresenterImpl implements TablePresenter {
 
 	}
 
-	@Override
-	public void bind() {
+
+	private void bind() {
 
 		eventBus.addHandler(NodeSelectionEvent.TYPE, new NodeSelectionEventHandler() {
 
