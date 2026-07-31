@@ -9,9 +9,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("tree")
 public interface TreeService extends RemoteService {
-	Node create(Node node) throws NodeValidationException; ;
+	Node create(Node node) throws NodeValidationException;
 
-	void update(Node node) throws NodeValidationException; ;
+	void update(Node node) throws NodeValidationException;
 
 	void delete(Long id);
 

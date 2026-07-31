@@ -83,5 +83,10 @@ public class TreeView implements TreeDisplay {
 		treeWidget.colorSelectedNode(id, stage);
 
 	}
+	
+	@Override
+	public void updateNodeName(Long id,String name) {
+		treeWidget.updateNodeName(id, name);
+	}
 
 }

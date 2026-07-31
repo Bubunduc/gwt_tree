@@ -51,8 +51,8 @@ public class NodeViewHolder extends FlowPanel {
 		return nodeName;
 	}
 
-	public void setNodeName(Label nodeName) {
-		this.nodeName = nodeName;
+	public void setNodeName(String name) {
+		this.nodeName.setText(name);
 	}
 
 	public Set<Long> getChildIds() {

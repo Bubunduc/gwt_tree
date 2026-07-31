@@ -206,7 +206,10 @@ public class TreeWidget extends Composite {
 		}
 		
 	}
-
+	public void updateNodeName(Long id,String name) {
+		NodeViewHolder updatedHolder = treeNodes.get(id);
+		updatedHolder.setNodeName(name);
+	}
 	public void colorSelectedNode(Long id, boolean stage) {
 		NodeViewHolder selectedHolder = treeNodes.get(id);
 		if (selectedHolder == null) {

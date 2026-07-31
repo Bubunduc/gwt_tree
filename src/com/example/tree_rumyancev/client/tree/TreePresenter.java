@@ -113,8 +113,7 @@ public class TreePresenter {
 			@Override
 			public void onDelete(NodeDeleteEvent event) {
 				final Long deletedNode = event.getId();
-				
-				
+
 				if (!loadedNodes.containsKey(deletedNode)) {
 					Window.alert("Удаление прошло успешно");
 					return;
@@ -149,14 +148,14 @@ public class TreePresenter {
 			@Override
 			public void onUpdate(UpdateNodeEvent event) {
 				Node updatedNode = event.getNode();
-				
+
 				if (!loadedNodes.containsKey(updatedNode.getId())) {
 					Window.alert("Обновление прошло успешно");
 					return;
 				}
-				
-				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
 
+				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
+				treeView.updateNodeName(updatedNode.getId(),updatedNode.getName() );
 				Window.alert("Обновление прошло успешно");
 			}
 		});

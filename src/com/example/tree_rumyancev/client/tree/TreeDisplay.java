@@ -31,5 +31,7 @@ public interface TreeDisplay extends IsWidget {
 	void setButtonEnabled(Long id, boolean stage);
 
 	void colorSelectedNode(Long id, boolean stage);
+	
+	void updateNodeName(Long id,String name);
 
 }
