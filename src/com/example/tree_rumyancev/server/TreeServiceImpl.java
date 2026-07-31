@@ -5,6 +5,9 @@ import java.util.List;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.server.dao.impl.TreeDaoImplMocked;
+import com.example.tree_rumyancev.shared.FieldVerifier;
+import com.example.tree_rumyancev.shared.exception.NodeValidationException;
+import com.example.tree_rumyancev.shared.exception.NodeValidationException;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -17,9 +20,10 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	}
 
 	@Override
-	public Node create(Node node) {
-		if (node.getPort().toString().length() != 4) {
-			throw new IllegalArgumentException("Port must be exactly 4 digits");
+	public Node create(Node node) throws NodeValidationException {
+		String error = FieldVerifier.validateNode(node);
+		if (error != null) {
+			throw new NodeValidationException(error);
 		}
 		Node createdNode = dao.create(node);
 
@@ -28,9 +32,10 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 	}
 
 	@Override
-	public void update(Node node) {
-		if (node.getPort().toString().length() != 4) {
-			throw new IllegalArgumentException("Port must be exactly 4 digits");
+	public void update(Node node) throws NodeValidationException {
+		String error = FieldVerifier.validateNode(node);
+		if (error != null) {
+			throw new NodeValidationException(error);
 		}
 		dao.update(node);
 	}

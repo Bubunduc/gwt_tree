@@ -84,7 +84,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	}
 
 	@Override
-	public Node getNewNode() {
+	public Node getCurrentNode() {
 
 		Long id;
 		try {

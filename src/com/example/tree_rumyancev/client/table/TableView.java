@@ -68,7 +68,6 @@ public class TableView implements TableDisplay {
 				}
 
 				selectedRowHandler.onSelected(nodeId);
-				addStyleSelectedRow(rowIndex);
 
 			}
 		});
@@ -110,7 +109,16 @@ public class TableView implements TableDisplay {
 		}
 		selectedRowId = rowIndex;
 		for (int i = 0; i < rows; i++) {
-			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");	
+			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+		}
+	}
+
+	private void colorOnFillTable() {
+		int rows = allDatatable.getCellCount(selectedRowId);
+		if (selectedRowId != 0) {
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
+			}
 		}
 	}
 
@@ -124,9 +132,9 @@ public class TableView implements TableDisplay {
 			}
 		}
 		if (rowIndex == -1) {
-		        return;
+			return;
 		}
-		 
+
 		addStyleSelectedRow(rowIndex);
 	}
 
@@ -146,6 +154,9 @@ public class TableView implements TableDisplay {
 
 			counter++;
 		}
+
+		colorOnFillTable();
+
 	}
 
 	@Override

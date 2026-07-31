@@ -167,8 +167,9 @@ public class TreePresenter {
 			public void onCreateNode(CreateNodeEvent event) {
 				Node node = event.getNode();
 
-				loadedNodes.put(node.getId(), new NodeData(node));
-
+				if (loadedNodes.containsKey(node.getParentId()) == false) {
+					return;
+				}
 				if (loadedNodes.get(node.getParentId()).isChildrenLoaded() == false) {
 
 					return;
@@ -176,6 +177,7 @@ public class TreePresenter {
 				if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
 					treeView.setButtonEnabled(node.getParentId(), true);
 				}
+				loadedNodes.put(node.getId(), new NodeData(node));
 				treeView.insertNode(TreeViewData.toViewData(node));
 
 			}

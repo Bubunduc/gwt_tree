@@ -60,13 +60,19 @@ public class SelectedNodePresenter {
 
 			@Override
 			public void onCreateNodeRequested(CreateNodeRequestedEvent event) {
-				Node newNode = view.getNewNode();
-				newNode.setParentId(newNode.getId());
-				if (newNode.getId() == null || newNode.getParentId() == null || newNode.getName().isEmpty()
-						|| newNode.getIp().isEmpty() || newNode.getPort() == null) {
+				Node selectedNode = view.getCurrentNode();
+				
+				if ((selectedNode.getId() == null && selectedNode.getParentId() == null) || selectedNode.getName().isEmpty()
+						|| selectedNode.getIp().isEmpty() || selectedNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
+				
+				Node newNode = new Node();
+				newNode.setParentId(selectedNode.getId());
+				newNode.setName(selectedNode.getName());
+				newNode.setIp(selectedNode.getIp());
+				newNode.setPort(selectedNode.getPort());
 
 				treeService.create(newNode, new AsyncCallback<Node>() {
 
@@ -74,12 +80,12 @@ public class SelectedNodePresenter {
 					public void onSuccess(Node result) {
 
 						eventBus.fireEvent(new CreateNodeEvent(result));
-
+						Window.alert("Дочерняя ветвь создана успешно");
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка при создании ветки");
+						Window.alert(caught.getMessage());
 
 					}
 				});
@@ -91,9 +97,9 @@ public class SelectedNodePresenter {
 			@Override
 			public void onCreateRootRequested(CreateRootRequestedEvent event) {
 
-				Node newNode = view.getNewNode();
+				Node newNode = view.getCurrentNode();
 
-				if (newNode.getName().isEmpty() || newNode.getIp().isEmpty() || newNode.getPort() == null) {
+				if ((newNode.getId() == null && newNode.getParentId() == null) || newNode.getName().isEmpty() || newNode.getIp().isEmpty() || newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
@@ -104,15 +110,15 @@ public class SelectedNodePresenter {
 
 					@Override
 					public void onSuccess(Node result) {
-						// TODO Auto-generated method stub
 						eventBus.fireEvent(new CreateRootEvent(result));
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка присоздании корня");
+						Window.alert(caught.getMessage());
 
 					}
+
 				});
 
 			}
@@ -122,7 +128,7 @@ public class SelectedNodePresenter {
 
 			@Override
 			public void onUpdateNodeRequested(UpdateNodeRequestedEvent event) {
-				final Node newNode = view.getNewNode();
+				final Node newNode = view.getCurrentNode();
 				if (newNode.getId() == null || newNode.getName().isEmpty() || newNode.getIp().isEmpty()
 						|| newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
@@ -134,20 +140,13 @@ public class SelectedNodePresenter {
 					@Override
 					public void onSuccess(Void result) {
 
-						if (newNode.getId() == null) {
-
-							Window.alert("Id ветви может быть null");
-							return;
-
-						}
-
 						eventBus.fireEvent(new UpdateNodeEvent(newNode));
 
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка при обновлении ветви");
+						Window.alert(caught.getMessage());
 
 					}
 				});
@@ -160,7 +159,7 @@ public class SelectedNodePresenter {
 			@Override
 			public void onDeleteNodeRequested(DeleteNodeRequestedEvent event) {
 
-				final Node deletedNode = view.getNewNode();
+				final Node deletedNode = view.getCurrentNode();
 
 				if (deletedNode.getParentId() == null) {
 					Window.alert("корень удалить нельзя");

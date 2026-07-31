@@ -11,6 +11,7 @@ import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -190,21 +191,20 @@ public class TreeWidget extends Composite {
 	private void handleTreeClick(ClickEvent event) {
 
 		Element clickedElement = event.getNativeEvent().getEventTarget().cast();
+		Long holderId = Long.valueOf(clickedElement.getAttribute("data-tree-id"));
+		
+		NodeViewHolder holder = treeNodes.get(holderId);
 
-		for (Map.Entry<Long, NodeViewHolder> entry : treeNodes.entrySet()) {
-			Long nodeId = entry.getKey();
-			NodeViewHolder holder = entry.getValue();
-
-			if (holder.getShowNode().getElement().isOrHasChild(clickedElement)) {
-				treeWidgetHandler.onClick(nodeId);
-				return;
-			}
-
-			if (holder.getNodeName().getElement().isOrHasChild(clickedElement)) {
-				treeWidgetHandler.onNodeSelected(nodeId);
-				return;
-			}
+		if (holder.getShowNode().getElement().isOrHasChild(clickedElement)) {
+			treeWidgetHandler.onClick(holderId);
+			return;
 		}
+
+		if (holder.getNodeName().getElement().isOrHasChild(clickedElement)) {
+			treeWidgetHandler.onNodeSelected(holderId);
+				return;
+		}
+		
 	}
 
 	public void colorSelectedNode(Long id, boolean stage) {

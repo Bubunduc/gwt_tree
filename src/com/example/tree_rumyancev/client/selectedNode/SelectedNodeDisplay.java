@@ -9,7 +9,7 @@ public interface SelectedNodeDisplay extends IsWidget {
 
 	void showNode(Node node);
 
-	Node getNewNode();
+	Node getCurrentNode();
 
 	Widget asWidget();
 }
