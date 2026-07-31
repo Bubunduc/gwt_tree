@@ -66,7 +66,6 @@ public class TablePresenterImpl implements TablePresenter {
 
 	}
 
-
 	private void bind() {
 
 		eventBus.addHandler(NodeSelectionEvent.TYPE, new NodeSelectionEventHandler() {

@@ -155,7 +155,7 @@ public class TreePresenter {
 				}
 
 				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
-				treeView.updateNodeName(updatedNode.getId(),updatedNode.getName() );
+				treeView.updateNodeName(updatedNode.getId(), updatedNode.getName());
 				Window.alert("Обновление прошло успешно");
 			}
 		});

@@ -11,7 +11,6 @@ import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -206,7 +205,8 @@ public class TreeWidget extends Composite {
 		}
 		
 	}
-	public void updateNodeName(Long id,String name) {
+
+	public void updateNodeName(Long id, String name) {
 		NodeViewHolder updatedHolder = treeNodes.get(id);
 		updatedHolder.setNodeName(name);
 	}

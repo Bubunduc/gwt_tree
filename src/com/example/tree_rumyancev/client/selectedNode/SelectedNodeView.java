@@ -61,8 +61,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		id.setText(node.getId().toString());
 		if (node.getParentId() != null) {
 			parentId.setText(node.getParentId().toString());
-		} 
-		else {
+		} else {
 			parentId.setText("Корень дерева");
 		}
 

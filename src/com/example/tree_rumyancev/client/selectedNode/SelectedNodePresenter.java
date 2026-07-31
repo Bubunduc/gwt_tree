@@ -61,13 +61,14 @@ public class SelectedNodePresenter {
 			@Override
 			public void onCreateNodeRequested(CreateNodeRequestedEvent event) {
 				Node selectedNode = view.getCurrentNode();
-				
-				if ((selectedNode.getId() == null && selectedNode.getParentId() == null) || selectedNode.getName().isEmpty()
-						|| selectedNode.getIp().isEmpty() || selectedNode.getPort() == null) {
+
+				if ((selectedNode.getId() == null && selectedNode.getParentId() == null)
+						|| selectedNode.getName().isEmpty() || selectedNode.getIp().isEmpty()
+						|| selectedNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
-				
+
 				Node newNode = new Node();
 				newNode.setParentId(selectedNode.getId());
 				newNode.setName(selectedNode.getName());
@@ -99,7 +100,8 @@ public class SelectedNodePresenter {
 
 				Node newNode = view.getCurrentNode();
 
-				if ((newNode.getId() == null && newNode.getParentId() == null) || newNode.getName().isEmpty() || newNode.getIp().isEmpty() || newNode.getPort() == null) {
+				if (newNode.getId() == null || newNode.getName().isEmpty() || newNode.getIp().isEmpty()
+						|| newNode.getPort() == null) {
 					Window.alert("Использование пустых полей не допускается");
 					return;
 				}
@@ -111,6 +113,7 @@ public class SelectedNodePresenter {
 					@Override
 					public void onSuccess(Node result) {
 						eventBus.fireEvent(new CreateRootEvent(result));
+						Window.alert("Корень создан успешно");
 					}
 
 					@Override
