@@ -3,6 +3,9 @@ package com.example.tree_rumyancev.client;
 import com.example.tree_rumyancev.client.actions.ActionsDisplay;
 import com.example.tree_rumyancev.client.actions.ActionsPresenter;
 import com.example.tree_rumyancev.client.actions.ActionsView;
+import com.example.tree_rumyancev.client.mainPanel.MainPanelDisplay;
+import com.example.tree_rumyancev.client.mainPanel.MainPanelPresenter;
+import com.example.tree_rumyancev.client.mainPanel.MainPanelView;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeView;
@@ -38,21 +41,27 @@ public class Tree_rumyancev implements EntryPoint {
 
 		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
 		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView, eventBus);
-		selectedNodePresenter.go(RootPanel.get("CurrentNodeContainer"));
+		// selectedNodePresenter.go(RootPanel.get("CurrentNodeContainer"));
 
 		TreeDisplay treeView = new TreeView();
 		TreePresenter treePresenter = new TreePresenter(treeView, eventBus);
-		treePresenter.loadData();
-		treePresenter.go(RootPanel.get("NodesContainer"));
+		// treePresenter.loadData();
+		// treePresenter.go(RootPanel.get("NodesContainer"));
 
 		ActionsDisplay actionsView = new ActionsView();
 		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView, eventBus);
-		actionsPresenter.go(RootPanel.get("ActionButtonsContainer"));
+		// actionsPresenter.go(RootPanel.get("ActionButtonsContainer"));
 
 		TableDisplay allNodesTable = new TableView();
 		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable, eventBus);
-		tablePresenter.loadData();
-		tablePresenter.go(RootPanel.get("AllNodesTable"));
+		// tablePresenter.loadData();
+		// tablePresenter.go(RootPanel.get("AllNodesTable"));
+
+		MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView);
+		MainPanelPresenter mainPanelPresenter = new MainPanelPresenter(mainPanelView, eventBus, treePresenter,
+				actionsPresenter, tablePresenter, selectedNodePresenter);
+
+		mainPanelPresenter.go(RootPanel.get("mainContainer"));
 
 	}
 }
