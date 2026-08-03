@@ -65,7 +65,7 @@ public class TreeWidget extends Composite {
 		Long parentId = child.get(0).getParentId();
 		NodeViewHolder parentpanel;
 
-		if (!treeNodes.get(parentId).equals(null)) {
+		if (treeNodes.get(parentId) != null) {
 			parentpanel = treeNodes.get(parentId);
 		}
 
