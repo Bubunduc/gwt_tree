@@ -164,7 +164,9 @@ public class TreeWidget extends Composite {
 	public void eraseNode(Long id, Long parentId) {
 
 		NodeViewHolder nodeToRemove = treeNodes.get(id);
-
+		if (nodeToRemove == null) {
+			return;
+		}
 		Set<Long> childIds = nodeToRemove.getChildIds();
 		if (childIds != null) {
 			for (Long childId : childIds) {
