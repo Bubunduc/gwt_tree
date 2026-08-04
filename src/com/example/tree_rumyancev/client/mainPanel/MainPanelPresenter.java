@@ -1,9 +1,13 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.tree_rumyancev.client.actions.ActionsPresenter;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateNodeEvent;
+import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
@@ -31,7 +35,9 @@ public class MainPanelPresenter {
 	private ActionsPresenter actionsPresenter;
 	private TablePresenterImpl tablePresenter;
 	private SelectedNodePresenter selectedNodePresenter;
+
 	private Map<Long, Node> nodes;
+	private Long selectedNode;
 
 	public MainPanelPresenter(MainPanelDisplay view, EventBus eventBus, TreePresenter treePresenter,
 			ActionsPresenter actionsPresenter, TablePresenterImpl tablePresenter,
@@ -42,10 +48,8 @@ public class MainPanelPresenter {
 		this.actionsPresenter = actionsPresenter;
 		this.tablePresenter = tablePresenter;
 		this.selectedNodePresenter = selectedNodePresenter;
-	}
 
-	public MainPanelPresenter(MainPanelDisplay mainView) {
-		this.view = mainView;
+		nodes = new HashMap<>();
 		loadData();
 		bind();
 	}
@@ -62,7 +66,22 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
+				Node newNode = selectedNodePresenter.getNodeToCreate();
+				treeService.create(newNode, new AsyncCallback<Node>() {
+
+					@Override
+					public void onSuccess(Node result) {
+						nodes.put(result.getId(), result);
+						treePresenter.createNode(result);
+						Window.alert("Дочерняя ветвь создана успешно");
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+
+					}
+				});
 
 			}
 		});
@@ -70,7 +89,23 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
+				final Node newRoot = selectedNodePresenter.getRootToCreate();
+				treeService.create(newRoot, new AsyncCallback<Node>() {
+
+					@Override
+					public void onSuccess(Node result) {
+						nodes.put(result.getId(), result);
+						treePresenter.createRoot(result);
+						Window.alert("Корень создан успешно");
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+
+					}
+
+				});
 
 			}
 		});
@@ -78,7 +113,24 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
+
+				final Node updatedNode = selectedNodePresenter.getNodeToUpdate();
+
+				treeService.update(updatedNode, new AsyncCallback<Void>() {
+
+					@Override
+					public void onSuccess(Void result) {
+						nodes.put(updatedNode.getId(),updatedNode);
+						treePresenter.updateNode(updatedNode);
+						Window.alert("Обновление прошло успешно");
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+
+					}
+				});
 
 			}
 		});
@@ -86,7 +138,26 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
+				treeService.delete(selectedNode, new AsyncCallback<Void>() {
+
+					@Override
+					public void onSuccess(Void result) {
+						Long parentId = nodes.get(selectedNode).getParentId();
+						List<Long> removedIds = removeChild(selectedNode);
+						nodes.remove(selectedNode);
+						treePresenter.deleteNode(selectedNode, parentId, removedIds);
+						selectedNodePresenter.clean();
+						
+						
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+						Window.alert("Ошибка при удалении");
+
+					}
+				});
 
 			}
 		});
@@ -95,7 +166,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				// TODO Auto-generated method stub
+				tablePresenter.loadData(new ArrayList(nodes.values()));
 
 			}
 		});
@@ -103,7 +174,10 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onSelected(Long nodeId) {
-				// TODO Auto-generated method stub
+				selectedNode = nodeId;
+				selectedNodePresenter.loadNode(nodes.get(nodeId));
+				tablePresenter.colorRow(nodeId);
+				treePresenter.onNodeLabelClicked(nodeId);
 
 			}
 		});
@@ -113,13 +187,29 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onNodeSelected(Long nodeId) {
-				// TODO Auto-generated method stub
+				selectedNode = nodeId;
+				selectedNodePresenter.loadNode(nodes.get(nodeId));
+				tablePresenter.colorRow(nodeId);
+				treePresenter.onNodeLabelClicked(nodeId);
 
 			}
 
 			@Override
-			public void onClick(Long nodeId) {
-				// TODO Auto-generated method stub
+			public void onClick(final Long nodeId) {
+				treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
+					@Override
+					public void onSuccess(List<Node> children) {
+
+						treePresenter.onNodeButtonClicked(nodes.get(nodeId), children);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+						Window.alert("Ошибка загрузки дочерних узлов");
+
+					}
+				});
 
 			}
 		});
@@ -134,6 +224,9 @@ public class MainPanelPresenter {
 				for (Node node : result) {
 					nodes.put(node.getId(), node);
 				}
+
+				tablePresenter.loadData(result);
+
 			}
 
 			@Override
@@ -142,6 +235,43 @@ public class MainPanelPresenter {
 
 			}
 		});
+		treeService.getParentList(new AsyncCallback<List<Node>>() {
+
+			@Override
+			public void onSuccess(List<Node> result) {
+				treePresenter.loadData(result);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Ошибка загрузки корней");
+
+			}
+		});
+	}
+
+	private List<Long> removeChild(Long parentId) {
+		List<Long> removedIds = new ArrayList<>();
+		List<Long> directChildIds = new ArrayList<>();
+
+		for (Map.Entry<Long, Node> entry : nodes.entrySet()) {
+			Node node = entry.getValue();
+
+			if (parentId.equals(node.getParentId())) {
+				directChildIds.add(node.getId());
+			}
+		}
+
+		for (Long childId : directChildIds) {
+			removedIds.addAll(removeChild(childId));
+			
+			nodes.remove(childId);
+			
+			
+			removedIds.add(childId);
+		}
+
+		return removedIds;
 	}
 
 }

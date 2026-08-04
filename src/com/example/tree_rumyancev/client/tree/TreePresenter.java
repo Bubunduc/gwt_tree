@@ -5,18 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateNodeEvent;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootEvent;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeDeleteEvent;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.NodeSelectionEvent;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.UpdateNodeEvent;
-import com.example.tree_rumyancev.client.handlers.event.table.SelectedFromTableNodeEvent;
-import com.example.tree_rumyancev.client.handlers.selectedNode.CreateNodeEventHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.CreateRootEventHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.NodeDeleteEventHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.UpdateNodeEventHandler;
-import com.example.tree_rumyancev.client.handlers.table.SelectedFromTableNodeEventHandler;
-import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.dto.NodeData;
@@ -25,7 +13,6 @@ import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class TreePresenter {
@@ -34,7 +21,7 @@ public class TreePresenter {
 
 	private TreeDisplay treeView;
 
-	private Map<Long, NodeData> loadedNodes;
+	private Map<Long, Boolean> loadedNodes;
 
 	private EventBus eventBus;
 
@@ -42,12 +29,12 @@ public class TreePresenter {
 
 	public TreePresenter(TreeDisplay treeView, EventBus eventBus) {
 
-		loadedNodes = new HashMap<Long, NodeData>();
+		loadedNodes = new HashMap<Long, Boolean>();
 
 		this.treeView = treeView;
 		this.eventBus = eventBus;
 
-		bind();
+		// bind();
 
 	}
 
@@ -57,220 +44,113 @@ public class TreePresenter {
 
 	}
 
-	public void loadData() {
+	public void loadData(List<Node> rootNodes) {
+		List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
+		for (TreeViewData i : rootNodesViewDataList) {
+			loadedNodes.put(i.getNodeId(), false);
+		}
+		treeView.drawRoots(rootNodesViewDataList);
+	}
 
-		treeService.getParentList(new AsyncCallback<List<Node>>() {
+	public void deleteNode(Long deletedNode, Long parentId,List<Long> deletedChildIds) {
+		if (!loadedNodes.containsKey(deletedNode)) {
+			Window.alert("Удаление прошло успешно");
+			return;
+		}
+		// Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
+		loadedNodes.remove(deletedNode);
+		loadedNodes.keySet().removeAll(deletedChildIds);
+		treeView.eraseNode(deletedNode, parentId,deletedChildIds);
+		//removeChild(deletedNode);
+		if (treeView.hasNodechild(parentId) == false) {
+			treeView.setButtonEnabled(parentId, false);
+		}
+		Window.alert("Удаление прошло успешно");
+	}
 
-			@Override
-			public void onSuccess(List<Node> result) {
-				List<Node> rootNodes = result;
+	public void createRoot(Node newRoot) {
+		treeView.drawRoot(TreeViewData.toViewData(newRoot));
+		loadedNodes.put(newRoot.getId(), false);
+	}
 
-				for (Node node : rootNodes) {
+	public void createNode(Node node) {
 
-					loadedNodes.put(node.getId(), new NodeData(node));
+		if (loadedNodes.containsKey(node.getParentId()) == false) {
+			return;
+		}
+		if (loadedNodes.get(node.getParentId()) == false) {
 
-				}
+			return;
+		}
+		if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
+			treeView.setButtonEnabled(node.getParentId(), true);
+		}
+		loadedNodes.put(node.getId(), false);
+		treeView.insertNode(TreeViewData.toViewData(node));
+	}
 
-				List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
+	public void updateNode(Node updatedNode) {
+		if (!loadedNodes.containsKey(updatedNode.getId())) {
+			Window.alert("Обновление прошло успешно");
+			return;
+		}
 
-				treeView.drawRoots(rootNodesViewDataList);
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Ошибка загрузки корней");
-
-			}
-		});
+		treeView.updateNodeName(updatedNode.getId(), updatedNode.getName());
 	}
 
 	private void bind() {
-		treeView.setTreeHandler(new TreeHandler() {
-			@Override
-			public void onClick(Long nodeId) {
-				onNodeButtonClicked(nodeId);
-			}
 
-			@Override
-			public void onNodeSelected(Long nodeId) {
-				NodeData nodeData = loadedNodes.get(nodeId);
-				onNodeLabelClicked(nodeData.getNode());
-			}
-		});
-
-		eventBus.addHandler(SelectedFromTableNodeEvent.TYPE, new SelectedFromTableNodeEventHandler() {
-
-			@Override
-			public void onSelected(SelectedFromTableNodeEvent event) {
-				onNodeLabelClicked(event.getNode());
-
-			}
-		});
-
-		eventBus.addHandler(NodeDeleteEvent.TYPE, new NodeDeleteEventHandler() {
-
-			@Override
-			public void onDelete(NodeDeleteEvent event) {
-				final Long deletedNode = event.getId();
-
-				if (!loadedNodes.containsKey(deletedNode)) {
-					Window.alert("Удаление прошло успешно");
-					return;
-				}
-				Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
-				loadedNodes.remove(deletedNode);
-				treeView.eraseNode(deletedNode, parentId);
-				removeChild(deletedNode);
-				if (treeView.hasNodechild(parentId) == false) {
-					treeView.setButtonEnabled(parentId, false);
-				}
-				Window.alert("Удаление прошло успешно");
-
-			}
-		});
-
-		eventBus.addHandler(CreateRootEvent.TYPE, new CreateRootEventHandler() {
-
-			@Override
-			public void onCreateRoot(CreateRootEvent event) {
-
-				Node newRoot = event.getNode();
-
-				treeView.drawRoot(TreeViewData.toViewData(newRoot));
-				loadedNodes.put(newRoot.getId(), new NodeData(newRoot));
-
-			}
-		});
-
-		eventBus.addHandler(UpdateNodeEvent.TYPE, new UpdateNodeEventHandler() {
-
-			@Override
-			public void onUpdate(UpdateNodeEvent event) {
-				Node updatedNode = event.getNode();
-
-				if (!loadedNodes.containsKey(updatedNode.getId())) {
-					Window.alert("Обновление прошло успешно");
-					return;
-				}
-
-				loadedNodes.get(updatedNode.getId()).setNode(updatedNode);
-				treeView.updateNodeName(updatedNode.getId(), updatedNode.getName());
-				Window.alert("Обновление прошло успешно");
-			}
-		});
-
-		eventBus.addHandler(CreateNodeEvent.TYPE, new CreateNodeEventHandler() {
-
-			@Override
-			public void onCreateNode(CreateNodeEvent event) {
-				Node node = event.getNode();
-
-				if (loadedNodes.containsKey(node.getParentId()) == false) {
-					return;
-				}
-				if (loadedNodes.get(node.getParentId()).isChildrenLoaded() == false) {
-
-					return;
-				}
-				if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
-					treeView.setButtonEnabled(node.getParentId(), true);
-				}
-				loadedNodes.put(node.getId(), new NodeData(node));
-				treeView.insertNode(TreeViewData.toViewData(node));
-
-			}
-		});
 	}
 
-	private void removeChild(Long parentId) {
-		List<Long> childIds = new ArrayList<Long>();
+	public void onNodeButtonClicked(Node parentNode,List<Node> childNodes) {
 
-		for (Map.Entry<Long, NodeData> entry : loadedNodes.entrySet()) {
-			Node node = entry.getValue().getNode();
+		if (loadedNodes.get(parentNode.getId())) {
 
-			if (parentId.equals(node.getParentId())) {
-				childIds.add(node.getId());
-			}
-		}
+			boolean visible = treeView.isNodeVisible(parentNode.getId());
 
-		for (Long childId : childIds) {
-			removeChild(childId);
-			loadedNodes.remove(childId);
-		}
-	}
-
-	private void onNodeButtonClicked(final Long nodeId) {
-
-		NodeData nodeData = loadedNodes.get(nodeId);
-
-		if (nodeData.isChildrenLoaded()) {
-
-			boolean visible = treeView.isNodeVisible(nodeId);
-
-			treeView.setNodeVisible(nodeId, !visible);
+			treeView.setNodeVisible(parentNode.getId(), !visible);
 			return;
 
 		}
+		loadedNodes.put(parentNode.getId(), true);
 
-		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
-			@Override
-			public void onSuccess(List<Node> children) {
+		if (childNodes == null || childNodes.isEmpty()) {
+			treeView.setButtonEnabled(parentNode.getId(), false);
+			treeView.setNodeVisible(parentNode.getId(), false);
 
-				NodeData parentData = loadedNodes.get(nodeId);
+			return;
+		}
 
-				if (parentData == null) {
-					return;
-				}
+		for (Node child : childNodes) {
+			loadedNodes.put(child.getId(), false);
+		}
 
-				parentData.setChildrenLoaded(true);
+		List<TreeViewData> childrenViewDataList = TreeViewData.toViewDataList(childNodes);
 
-				if (children == null || children.isEmpty()) {
-					treeView.setButtonEnabled(nodeId, false);
-					treeView.setNodeVisible(nodeId, false);
+		treeView.showChildList(childrenViewDataList);
+		treeView.setNodeVisible(parentNode.getId(), true);
 
-					return;
-				}
-
-				for (Node child : children) {
-					loadedNodes.put(child.getId(), new NodeData(child));
-				}
-
-				List<TreeViewData> childrenViewDataList = TreeViewData.toViewDataList(children);
-
-				treeView.showChildList(childrenViewDataList);
-				treeView.setNodeVisible(nodeId, true);
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("Ошибка загрузки дочерних узлов");
-
-			}
-		});
 	}
 
-	private void onNodeLabelClicked(final Node node) {
+	public void onNodeLabelClicked(final Long id) {
 
-		eventBus.fireEvent(new NodeSelectionEvent(node));
+		// eventBus.fireEvent(new NodeSelectionEvent(node));
 
-		if (!loadedNodes.containsKey(node.getId())) {
-			treeView.colorSelectedNode(selectedNodeId, false);
+		if (!loadedNodes.containsKey(id)) {
+			treeView.colorSelectedNode(this.selectedNodeId, false);
 			return;
 		}
-		if ((selectedNodeId == null)) {
-			selectedNodeId = node.getId();
-			treeView.colorSelectedNode(selectedNodeId, true);
+		if ((this.selectedNodeId == null)) {
+			this.selectedNodeId = id;
+			treeView.colorSelectedNode(this.selectedNodeId, true);
 			return;
 		}
 
-		treeView.colorSelectedNode(selectedNodeId, false);
+		treeView.colorSelectedNode(this.selectedNodeId, false);
 
-		selectedNodeId = node.getId();
+		this.selectedNodeId = id;
 
-		treeView.colorSelectedNode(selectedNodeId, true);
+		treeView.colorSelectedNode(this.selectedNodeId, true);
 
 	}
 

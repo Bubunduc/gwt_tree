@@ -111,6 +111,11 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		return node;
 
 	}
+	@Override
+	public void cleanSelected() {
+		selectedNodeTable.removeAllRows();
+		initSelectedNodeTable();
+	}
 
 	@Override
 	public Widget asWidget() {

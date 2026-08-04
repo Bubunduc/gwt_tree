@@ -161,24 +161,26 @@ public class TreeWidget extends Composite {
 		this.treeWidgetHandler = handler;
 	}
 
-	public void eraseNode(Long id, Long parentId) {
+	public void eraseNode(Long id, Long parentId, List<Long> deletedChildIds) {
+	    NodeViewHolder nodeToRemove = treeNodes.remove(id);
+	    if (nodeToRemove != null) {
+	        nodeToRemove.removeFromParent();
+	    }
 
-		NodeViewHolder nodeToRemove = treeNodes.get(id);
-		if (nodeToRemove == null) {
-			return;
-		}
-		Set<Long> childIds = nodeToRemove.getChildIds();
-		if (childIds != null) {
-			for (Long childId : childIds) {
-				treeNodes.remove(childId);
-				eraseNode(childId, id);
-			}
-		}
-
-		nodeToRemove.removeFromParent();
-		treeNodes.get(parentId).removeFromChildList(id);
-		treeNodes.remove(id);
-		
+	    if (parentId != null) {
+	        NodeViewHolder parentNode = treeNodes.get(parentId);
+	        if (parentNode != null) {
+	            parentNode.removeFromChildList(id);
+	        }
+	    }
+	    if (deletedChildIds != null && !deletedChildIds.isEmpty()) {
+	        for (Long childId : deletedChildIds) {
+	            NodeViewHolder childNode = treeNodes.remove(childId);
+	            if (childNode != null) {
+	                childNode.removeFromParent();
+	            }
+	        }
+	    }
 	}
 
 	public boolean hasNodechild(Long id) {
