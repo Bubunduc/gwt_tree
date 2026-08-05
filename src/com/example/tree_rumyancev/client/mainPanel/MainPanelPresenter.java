@@ -138,14 +138,18 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				treeService.delete(selectedNode, new AsyncCallback<Void>() {
+				final Long deletedId = selectedNodePresenter.getIdToDelete();
+				if (deletedId == null) {
+					return;
+				}
+				treeService.delete(deletedId, new AsyncCallback<Void>() {
 
 					@Override
 					public void onSuccess(Void result) {
-						Long parentId = nodes.get(selectedNode).getParentId();
-						List<Long> removedIds = removeChild(selectedNode);
-						nodes.remove(selectedNode);
-						treePresenter.deleteNode(selectedNode, parentId, removedIds);
+						Long parentId = nodes.get(deletedId).getParentId();
+						List<Long> removedIds = removeChild(deletedId);
+						nodes.remove(deletedId);
+						treePresenter.deleteNode(deletedId, parentId, removedIds);
 						selectedNodePresenter.clean();
 						
 						
@@ -167,6 +171,7 @@ public class MainPanelPresenter {
 			@Override
 			public void onClick() {
 				tablePresenter.loadData(new ArrayList(nodes.values()));
+				tablePresenter.colorRow(selectedNode);
 
 			}
 		});

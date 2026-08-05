@@ -63,7 +63,15 @@ public class SelectedNodePresenter {
 		}
 		return newNode;
 	}
-
+	
+	public Long getIdToDelete() {
+		Node deletedNode = view.getCurrentNode();
+		if (deletedNode.getParentId() == null) {
+			Window.alert("корень удалить нельзя");
+			return null;
+		}
+		return deletedNode.getId();
+	}
 	public void clean() {
 		view.cleanSelected();
 	}
