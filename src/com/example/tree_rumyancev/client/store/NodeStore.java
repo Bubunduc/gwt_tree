@@ -39,6 +39,7 @@ public class NodeStore {
 
 	public void clear() {
 		nodes.clear();
+		selectedNodeId = null;
 	}
 
 	public List<Long> getDirectChildIds(Long parentId) {

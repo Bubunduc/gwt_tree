@@ -1,9 +1,6 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
@@ -103,21 +100,8 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick(final Long nodeId) {
-				treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
-					@Override
-					public void onSuccess(List<Node> children) {
-
-						treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
-						treePresenter.colorLabel(nodeStore.getSelectedNodeId());
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-						Window.alert("Ошибка загрузки дочерних узлов");
-
-					}
-				});
+				
+				handleTreeButtonClicked(nodeId);
 
 			}
 		});
@@ -128,9 +112,8 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				tablePresenter.loadData(nodeStore.getValuesList());
-				tablePresenter.colorRow(nodeStore.getSelectedNodeId());
-
+				refreshData();
+				
 			}
 		});
 		view.setSelectedRowHandler(new SelectedRowHandler() {
@@ -148,47 +131,14 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick() {
-				Node newNode = selectedNodePresenter.getNodeToCreate();
-				treeService.create(newNode, new AsyncCallback<Node>() {
-
-					@Override
-					public void onSuccess(Node result) {
-						nodeStore.save(result);
-						treePresenter.createNode(result);
-						Window.alert("Дочерняя ветвь создана успешно");
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
-
-					}
-				});
-
+				createNode();
 			}
 		});
 		view.setCreateRootHandler(new CreateRootClickHandler() {
 
 			@Override
 			public void onClick() {
-				final Node newRoot = selectedNodePresenter.getRootToCreate();
-				treeService.create(newRoot, new AsyncCallback<Node>() {
-
-					@Override
-					public void onSuccess(Node result) {
-						nodeStore.save(result);
-						treePresenter.createRoot(result);
-						Window.alert("Корень создан успешно");
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
-
-					}
-
-				});
-
+				createRoot();
 			}
 		});
 		view.setUpdateNodeHandler(new UpdateNodeClickHandler() {
@@ -196,62 +146,139 @@ public class MainPanelPresenter {
 			@Override
 			public void onClick() {
 
-				final Node updatedNode = selectedNodePresenter.getNodeToUpdate();
-
-				treeService.update(updatedNode, new AsyncCallback<Void>() {
-
-					@Override
-					public void onSuccess(Void result) {
-						nodeStore.save(updatedNode);
-						treePresenter.updateNode(updatedNode);
-						Window.alert("Обновление прошло успешно");
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
-
-					}
-				});
-
+				updateNode();
+				
 			}
 		});
 		view.setDeleteButtonHandler(new DeleteClickHandler() {
 
 			@Override
 			public void onClick() {
-				final Long deletedId = selectedNodePresenter.getIdToDelete();
-				if (deletedId == null) {
-					return;
-				}
-				treeService.delete(deletedId, new AsyncCallback<Void>() {
-
-					@Override
-					public void onSuccess(Void result) {
-						Long parentId = nodeStore.get(deletedId).getParentId();
-						List<Long> removedIds = nodeStore.removeSubTrees(deletedId);
-						nodeStore.remove(deletedId);
-						treePresenter.deleteNode(deletedId, parentId, removedIds);
-						selectedNodePresenter.clean();
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-						Window.alert("Ошибка при удалении");
-
-					}
-				});
-
+				
+				deleteNode();
 			}
 		});
 	}
 
 	private void selectNode(Long id) {
-		nodeStore.setSelectedNodeId(id);;
-		selectedNodePresenter.loadNode(nodeStore.get(id));
-		tablePresenter.colorRow(id);
-		treePresenter.colorLabel(id);
+		Node node = nodeStore.get(id);
+
+	    if (node == null) {
+	        return;
+	    }
+
+	    nodeStore.setSelectedNodeId(id);
+	    selectedNodePresenter.loadNode(node);
+	    tablePresenter.colorRow(id);
+	    treePresenter.colorLabel(id);
+	}
+	
+	private void refreshData() {
+		tablePresenter.loadData(nodeStore.getValuesList());
+		tablePresenter.colorRow(nodeStore.getSelectedNodeId());
+	}
+	
+	private void createNode() {
+		Node newNode = selectedNodePresenter.getNodeToCreate();
+		treeService.create(newNode, new AsyncCallback<Node>() {
+
+			@Override
+			public void onSuccess(Node result) {
+				nodeStore.save(result);
+				treePresenter.createNode(result);
+				Window.alert("Дочерняя ветвь создана успешно");
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+
+			}
+		});
+	}
+	
+	private void createRoot() {
+		final Node newRoot = selectedNodePresenter.getRootToCreate();
+		treeService.create(newRoot, new AsyncCallback<Node>() {
+
+			@Override
+			public void onSuccess(Node result) {
+				nodeStore.save(result);
+				treePresenter.createRoot(result);
+				Window.alert("Корень создан успешно");
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+
+			}
+
+		});
+	}
+	
+	private void updateNode() {
+		final Node updatedNode = selectedNodePresenter.getNodeToUpdate();
+
+		treeService.update(updatedNode, new AsyncCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				nodeStore.save(updatedNode);
+				treePresenter.updateNode(updatedNode);
+				Window.alert("Обновление прошло успешно");
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+
+			}
+		});
+	}
+	
+	private void deleteNode() {
+		final Long deletedId = selectedNodePresenter.getIdToDelete();
+		if (deletedId == null) {
+			return;
+		}
+		treeService.delete(deletedId, new AsyncCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				Long parentId = nodeStore.get(deletedId).getParentId();
+				List<Long> removedIds = nodeStore.removeSubTrees(deletedId);
+				nodeStore.remove(deletedId);
+				treePresenter.deleteNode(deletedId, parentId, removedIds);
+				selectedNodePresenter.clean();
+				nodeStore.clearSelection();
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				Window.alert("Ошибка при удалении");
+
+			}
+		});
+	}
+	
+	private void handleTreeButtonClicked(Long nodeId) {
+		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
+			@Override
+			public void onSuccess(List<Node> children) {
+
+				treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
+				treePresenter.colorLabel(nodeStore.getSelectedNodeId());
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				Window.alert("Ошибка загрузки дочерних узлов");
+
+			}
+		});
 	}
 }
