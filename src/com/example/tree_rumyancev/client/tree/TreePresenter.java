@@ -132,7 +132,7 @@ public class TreePresenter {
 
 	}
 
-	public void onNodeLabelClicked(final Long id) {
+	public void colorLabel(final Long id) {
 
 		// eventBus.fireEvent(new NodeSelectionEvent(node));
 
@@ -153,5 +153,7 @@ public class TreePresenter {
 		treeView.colorSelectedNode(this.selectedNodeId, true);
 
 	}
-
+	public void setSelectedNodeId(Long id) {
+		this.selectedNodeId = id;
+	}
 }

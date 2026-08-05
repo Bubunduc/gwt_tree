@@ -182,7 +182,7 @@ public class MainPanelPresenter {
 				selectedNode = nodeId;
 				selectedNodePresenter.loadNode(nodes.get(nodeId));
 				tablePresenter.colorRow(nodeId);
-				treePresenter.onNodeLabelClicked(nodeId);
+				treePresenter.colorLabel(nodeId);
 
 			}
 		});
@@ -195,7 +195,7 @@ public class MainPanelPresenter {
 				selectedNode = nodeId;
 				selectedNodePresenter.loadNode(nodes.get(nodeId));
 				tablePresenter.colorRow(nodeId);
-				treePresenter.onNodeLabelClicked(nodeId);
+				treePresenter.colorLabel(nodeId);
 
 			}
 
@@ -206,6 +206,7 @@ public class MainPanelPresenter {
 					public void onSuccess(List<Node> children) {
 
 						treePresenter.onNodeButtonClicked(nodes.get(nodeId), children);
+						treePresenter.colorLabel(selectedNode);
 					}
 
 					@Override
