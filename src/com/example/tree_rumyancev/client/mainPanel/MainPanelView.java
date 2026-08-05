@@ -20,7 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MainPanelView implements MainPanelDisplay{
 	
-	FlowPanel mainPanel = new FlowPanel();
+	private FlowPanel mainPanel = new FlowPanel();
+	private FlowPanel topPanel = new FlowPanel();
 	private TreeDisplay treeView;
 	private SelectedNodeDisplay selectedNodeView;
 	private TableDisplay tableView;
@@ -31,10 +32,13 @@ public class MainPanelView implements MainPanelDisplay{
 		this.treeView = treeView;
 		this.actionsView = actionsView;
 		this.selectedNodeView = selectedNodeView;
-		mainPanel.add(treeView.asWidget());
-		mainPanel.add(selectedNodeView.asWidget());
+		topPanel.add(treeView.asWidget());
+		topPanel.add(selectedNodeView.asWidget());
+		mainPanel.add(topPanel);
 		mainPanel.add(actionsView.asWidget());
 		mainPanel.add(tableView.asWidget());
+		
+		topPanel.setStyleName("topPanel");
 	}
 	
 	//Дерево

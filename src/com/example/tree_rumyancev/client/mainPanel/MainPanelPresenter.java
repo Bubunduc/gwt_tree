@@ -57,6 +57,7 @@ public class MainPanelPresenter {
 	public void go(HasWidgets container) {
 
 		container.add(view.asWidget());
+		
 	}
 
 	private void bind() {
