@@ -9,6 +9,9 @@ import com.example.tree_rumyancev.client.mainPanel.MainPanelView;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeView;
+import com.example.tree_rumyancev.client.service.TreeService;
+import com.example.tree_rumyancev.client.service.TreeServiceAsync;
+import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TableDisplay;
 import com.example.tree_rumyancev.client.table.TablePresenterImpl;
 import com.example.tree_rumyancev.client.table.TableView;
@@ -16,6 +19,7 @@ import com.example.tree_rumyancev.client.tree.TreeDisplay;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.client.tree.TreeView;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -38,6 +42,9 @@ public class Tree_rumyancev implements EntryPoint {
 	public void onModuleLoad() {
 
 		EventBus eventBus = new SimpleEventBus();
+		
+		final TreeServiceAsync treeService = GWT.create(TreeService.class);
+		final NodeStore nodeStore = new NodeStore();
 
 		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
 		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView, eventBus);
@@ -58,8 +65,7 @@ public class Tree_rumyancev implements EntryPoint {
 		// tablePresenter.go(RootPanel.get("AllNodesTable"));
 
 		MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView);
-		MainPanelPresenter mainPanelPresenter = new MainPanelPresenter(mainPanelView, eventBus, treePresenter,
-				actionsPresenter, tablePresenter, selectedNodePresenter);
+		MainPanelPresenter mainPanelPresenter = new MainPanelPresenter(mainPanelView, treePresenter, tablePresenter, selectedNodePresenter, nodeStore, treeService);
 
 		mainPanelPresenter.go(RootPanel.get("mainContainer"));
 
