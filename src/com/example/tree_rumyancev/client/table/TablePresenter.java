@@ -9,8 +9,6 @@ public interface TablePresenter {
 
 	void loadData(List<Node> data);
 
-	void loadData();
-
 	void colorRow(Long id);
 
 	void go(HasWidgets container);

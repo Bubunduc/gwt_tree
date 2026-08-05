@@ -40,27 +40,25 @@ public class Tree_rumyancev implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-
-		EventBus eventBus = new SimpleEventBus();
-		
+	
 		final TreeServiceAsync treeService = GWT.create(TreeService.class);
 		final NodeStore nodeStore = new NodeStore();
 
 		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
-		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView, eventBus);
+		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView);
 		// selectedNodePresenter.go(RootPanel.get("CurrentNodeContainer"));
 
 		TreeDisplay treeView = new TreeView();
-		TreePresenter treePresenter = new TreePresenter(treeView, eventBus);
+		TreePresenter treePresenter = new TreePresenter(treeView);
 		// treePresenter.loadData();
 		// treePresenter.go(RootPanel.get("NodesContainer"));
 
 		ActionsDisplay actionsView = new ActionsView();
-		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView, eventBus);
+		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView);
 		// actionsPresenter.go(RootPanel.get("ActionButtonsContainer"));
 
 		TableDisplay allNodesTable = new TableView();
-		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable, eventBus);
+		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
 		// tablePresenter.loadData();
 		// tablePresenter.go(RootPanel.get("AllNodesTable"));
 

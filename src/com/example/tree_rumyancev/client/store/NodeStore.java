@@ -45,8 +45,7 @@ public class NodeStore {
 	public List<Long> getDirectChildIds(Long parentId) {
 		List<Long> directChildIds = new ArrayList<Long>();
 
-		for (Map.Entry<Long, Node> entry : nodes.entrySet()) {
-			Node node = entry.getValue();
+		for (Node node : nodes.values()) {
 
 			if (parentId == null) {
 				if (node.getParentId() == null) {

@@ -45,12 +45,6 @@ public class MainPanelView implements MainPanelDisplay {
 	// Дерево
 
 	@Override
-	public void showChildList(List<TreeViewData> child) {
-		treeView.showChildList(child);
-
-	}
-
-	@Override
 	public void setTreeHandler(TreeHandler handler) {
 		treeView.setTreeHandler(handler);
 
@@ -94,18 +88,6 @@ public class MainPanelView implements MainPanelDisplay {
 	public void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler) {
 		actionsView.setUpdateNodeHandler(updateNodeHandler);
 
-	}
-
-	// Выбранная нода
-	@Override
-	public void showNode(Node node) {
-		selectedNodeView.showNode(node);
-
-	}
-
-	@Override
-	public Node getCurrentNode() {
-		return selectedNodeView.getCurrentNode();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.client.store.NodeStore;
-import com.example.tree_rumyancev.client.table.TablePresenterImpl;
+import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.Window;
@@ -24,12 +24,12 @@ public class MainPanelPresenter {
 	private final TreeServiceAsync treeService;
 	private MainPanelDisplay view;
 	private TreePresenter treePresenter;
-	private TablePresenterImpl tablePresenter;
+	private TablePresenter tablePresenter;
 	private SelectedNodePresenter selectedNodePresenter;
 
 	private NodeStore nodeStore;
 
-	public MainPanelPresenter(MainPanelDisplay view, TreePresenter treePresenter, TablePresenterImpl tablePresenter,
+	public MainPanelPresenter(MainPanelDisplay view, TreePresenter treePresenter, TablePresenter tablePresenter,
 			SelectedNodePresenter selectedNodePresenter, NodeStore nodeStore, TreeServiceAsync treeService) {
 		this.view = view;
 		this.treePresenter = treePresenter;
@@ -264,7 +264,7 @@ public class MainPanelPresenter {
 		});
 	}
 	
-	private void handleTreeButtonClicked(Long nodeId) {
+	private void handleTreeButtonClicked(final Long nodeId) {
 		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
 			@Override
 			public void onSuccess(List<Node> children) {

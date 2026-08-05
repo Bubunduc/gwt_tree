@@ -1,7 +1,6 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
 import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 
@@ -9,7 +8,7 @@ public class SelectedNodePresenter {
 
 	private SelectedNodeDisplay view;
 
-	public SelectedNodePresenter(SelectedNodeDisplay view, EventBus eventBus) {
+	public SelectedNodePresenter(SelectedNodeDisplay view) {
 
 		this.view = view;
 	}
