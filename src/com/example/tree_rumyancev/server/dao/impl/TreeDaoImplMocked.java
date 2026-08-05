@@ -63,38 +63,26 @@ public class TreeDaoImplMocked implements TreeDao {
 		for (Node i : nodes) {
 			if (i.getId().equals(node.getId())) {
 				nodes.set(nodes.indexOf(i), node);
-				break;
+				return;
 			}
 		}
 	}
-
 	@Override
 	public void delete(Long id) {
-		try {
-			Node root = nodes.stream().filter(node -> node.getId().equals(id)).findFirst().get();
-			nodes.remove(root);
-			System.out.println("Node: id=" + root.getId() + ", parentId=" + root.getParentId() + ", name="
-					+ root.getName() + ", ip=" + root.getIp() + ", port=" + root.getPort());
-		} finally {
+	    Node nodeToDelete = findById(id);
 
-			List<Node> children = new ArrayList<Node>();
+	    if (nodeToDelete == null) {
+	        return;
+	    }
 
-			for (Node node : nodes) {
+	    List<Node> children =
+	            new ArrayList<Node>(getChildrenList(id));
 
-				if (id.equals(node.getParentId())) {
-					children.add(node);
-					System.out.println("Node: id=" + node.getId() + ", parentId=" + node.getParentId() + ", name="
-							+ node.getName() + ", ip=" + node.getIp() + ", port=" + node.getPort());
-				}
-			}
+	    for (Node child : children) {
+	        delete(child.getId());
+	    }
 
-			for (Node child : children) {
-				delete(child.getId());
-				nodes.remove(child);
-			}
-
-		}
-
+	    nodes.remove(nodeToDelete);
 	}
 
 	@Override

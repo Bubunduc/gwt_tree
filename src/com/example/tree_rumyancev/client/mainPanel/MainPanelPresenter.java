@@ -219,7 +219,11 @@ public class MainPanelPresenter {
 	
 	private void updateNode() {
 		final Node updatedNode = selectedNodePresenter.getNodeToUpdate();
-
+		
+		if(updatedNode == null) {
+			return;
+		}
+		
 		treeService.update(updatedNode, new AsyncCallback<Void>() {
 
 			@Override
