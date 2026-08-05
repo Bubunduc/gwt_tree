@@ -14,20 +14,18 @@ import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface MainPanelDisplay {
-	
+
 	void showChildList(List<TreeViewData> child);
-	
-	
-	
+
 	// Хендлеры таблицы
 	void setRefreshButtonHandler(final RefreshButtonClickHandler handler);
-	
+
 	void setSelectedRowHandler(final SelectedRowHandler handler);
-	
-	//Хендлеры дерева
+
+	// Хендлеры дерева
 	void setTreeHandler(TreeHandler handler);
-	
-	//Хендлеры панели действий
+
+	// Хендлеры панели действий
 	void setDeleteButtonHandler(DeleteClickHandler handler);
 
 	void setCreateRootHandler(CreateRootClickHandler createRootHandler);
@@ -35,11 +33,11 @@ public interface MainPanelDisplay {
 	void setCreateNodeHandler(CreateNodeClickHandler createNodeHandler);
 
 	void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler);
-	
-	//Выбранная нода
+
+	// Выбранная нода
 	void showNode(Node node);
 
 	Node getCurrentNode();
-	
+
 	Widget asWidget();
 }

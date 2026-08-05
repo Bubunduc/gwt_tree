@@ -107,7 +107,7 @@ public class TableView implements TableDisplay {
 				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
 			}
 		}
-		
+
 		selectedRowId = rowIndex;
 		for (int i = 0; i < rows; i++) {
 			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
@@ -147,7 +147,7 @@ public class TableView implements TableDisplay {
 			counter++;
 		}
 
-		//colorOnFillTable();
+		// colorOnFillTable();
 
 	}
 

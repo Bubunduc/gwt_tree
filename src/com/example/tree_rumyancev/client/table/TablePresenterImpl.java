@@ -34,7 +34,7 @@ public class TablePresenterImpl implements TablePresenter {
 		this.view = view;
 		this.eventBus = eventBus;
 
-		//bind();
+		// bind();
 
 	}
 
@@ -42,8 +42,8 @@ public class TablePresenterImpl implements TablePresenter {
 
 		container.add(view.asWidget());
 	}
-	
-	//Используется, если нет данных извне
+
+	// Используется, если нет данных извне
 	@Override
 	public void loadData() {
 		treeService.getAllData(new AsyncCallback<List<Node>>() {
@@ -66,41 +66,10 @@ public class TablePresenterImpl implements TablePresenter {
 		});
 
 	}
-	
+
 	@Override
 	public void loadData(List<Node> data) {
 		view.fillTable(TableViewData.toViewDataList(data));
-		
-	}
-
-	private void bind() {
-
-		eventBus.addHandler(NodeSelectionEvent.TYPE, new NodeSelectionEventHandler() {
-
-			@Override
-			public void onNodeSelected(NodeSelectionEvent event) {
-				view.colorSelectedRow(event.getNode().getId());
-
-			}
-		});
-
-		view.setRefreshButtonHandler(new RefreshButtonClickHandler() {
-
-			@Override
-			public void onClick() {
-
-				loadData();
-			}
-		});
-
-		view.setSelectedRowHandler(new SelectedRowHandler() {
-
-			@Override
-			public void onSelected(final Long nodeId) {
-				Node selectedNode = data.get(nodeId);
-				eventBus.fireEvent(new SelectedFromTableNodeEvent(selectedNode));
-			}
-		});
 
 	}
 	
@@ -108,6 +77,5 @@ public class TablePresenterImpl implements TablePresenter {
 	public void colorRow(Long id) {
 		view.colorSelectedRow(id);
 	}
-	
 
 }

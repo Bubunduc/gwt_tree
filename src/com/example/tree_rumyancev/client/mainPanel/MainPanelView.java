@@ -18,16 +18,17 @@ import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MainPanelView implements MainPanelDisplay{
-	
+public class MainPanelView implements MainPanelDisplay {
+
 	private FlowPanel mainPanel = new FlowPanel();
 	private FlowPanel topPanel = new FlowPanel();
 	private TreeDisplay treeView;
 	private SelectedNodeDisplay selectedNodeView;
 	private TableDisplay tableView;
 	private ActionsDisplay actionsView;
-	
-	public MainPanelView(TableDisplay tableView, TreeDisplay treeView, ActionsDisplay actionsView,SelectedNodeDisplay selectedNodeView) {
+
+	public MainPanelView(TableDisplay tableView, TreeDisplay treeView, ActionsDisplay actionsView,
+			SelectedNodeDisplay selectedNodeView) {
 		this.tableView = tableView;
 		this.treeView = treeView;
 		this.actionsView = actionsView;
@@ -37,86 +38,79 @@ public class MainPanelView implements MainPanelDisplay{
 		mainPanel.add(topPanel);
 		mainPanel.add(actionsView.asWidget());
 		mainPanel.add(tableView.asWidget());
-		
+
 		topPanel.setStyleName("topPanel");
 	}
-	
-	//Дерево
-	
+
+	// Дерево
+
 	@Override
 	public void showChildList(List<TreeViewData> child) {
 		treeView.showChildList(child);
-		
+
 	}
 
 	@Override
 	public void setTreeHandler(TreeHandler handler) {
 		treeView.setTreeHandler(handler);
-		
+
 	}
 
-	
-	//Таблица
+	// Таблица
 
 	@Override
 	public void setRefreshButtonHandler(RefreshButtonClickHandler handler) {
 		tableView.setRefreshButtonHandler(handler);
-		
-	}
 
+	}
 
 	@Override
 	public void setSelectedRowHandler(SelectedRowHandler handler) {
 		tableView.setSelectedRowHandler(handler);
-		
+
 	}
 
-	//Панель действий
+	// Панель действий
 
 	@Override
 	public void setDeleteButtonHandler(DeleteClickHandler handler) {
-	
+
 		actionsView.setDeleteButtonHandler(handler);
 	}
-
 
 	@Override
 	public void setCreateRootHandler(CreateRootClickHandler createRootHandler) {
 		actionsView.setCreateRootHandler(createRootHandler);
-		
-	}
 
+	}
 
 	@Override
 	public void setCreateNodeHandler(CreateNodeClickHandler createNodeHandler) {
 		actionsView.setCreateNodeHandler(createNodeHandler);
-		
-	}
 
+	}
 
 	@Override
 	public void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler) {
 		actionsView.setUpdateNodeHandler(updateNodeHandler);
-		
+
 	}
-	
+
 	// Выбранная нода
 	@Override
 	public void showNode(Node node) {
 		selectedNodeView.showNode(node);
-		
+
 	}
 
 	@Override
 	public Node getCurrentNode() {
 		return selectedNodeView.getCurrentNode();
 	}
-	
+
 	@Override
 	public Widget asWidget() {
 		return mainPanel;
 	}
 
-	
-	
 }

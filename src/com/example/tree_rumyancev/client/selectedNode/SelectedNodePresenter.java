@@ -20,9 +20,6 @@ public class SelectedNodePresenter {
 
 	}
 
-	private void bind() {
-	}
-
 	public Node getRootToCreate() {
 		Node newNode = view.getCurrentNode();
 
@@ -63,7 +60,7 @@ public class SelectedNodePresenter {
 		}
 		return newNode;
 	}
-	
+
 	public Long getIdToDelete() {
 		Node deletedNode = view.getCurrentNode();
 		if (deletedNode.getParentId() == null) {
@@ -72,10 +69,11 @@ public class SelectedNodePresenter {
 		}
 		return deletedNode.getId();
 	}
+
 	public void clean() {
 		view.cleanSelected();
 	}
-	
+
 	public void loadNode(Node node) {
 		view.showNode(node);
 

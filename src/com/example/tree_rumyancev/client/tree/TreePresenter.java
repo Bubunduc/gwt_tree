@@ -1,13 +1,11 @@
 package com.example.tree_rumyancev.client.tree;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
-import com.example.tree_rumyancev.shared.dto.NodeData;
 import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.core.client.GWT;
@@ -52,7 +50,7 @@ public class TreePresenter {
 		treeView.drawRoots(rootNodesViewDataList);
 	}
 
-	public void deleteNode(Long deletedNode, Long parentId,List<Long> deletedChildIds) {
+	public void deleteNode(Long deletedNode, Long parentId, List<Long> deletedChildIds) {
 		if (!loadedNodes.containsKey(deletedNode)) {
 			Window.alert("Удаление прошло успешно");
 			return;
@@ -60,8 +58,8 @@ public class TreePresenter {
 		// Long parentId = loadedNodes.get(deletedNode).getNode().getParentId();
 		loadedNodes.remove(deletedNode);
 		loadedNodes.keySet().removeAll(deletedChildIds);
-		treeView.eraseNode(deletedNode, parentId,deletedChildIds);
-		//removeChild(deletedNode);
+		treeView.eraseNode(deletedNode, parentId, deletedChildIds);
+		// removeChild(deletedNode);
 		if (treeView.hasNodechild(parentId) == false) {
 			treeView.setButtonEnabled(parentId, false);
 		}
@@ -98,11 +96,8 @@ public class TreePresenter {
 		treeView.updateNodeName(updatedNode.getId(), updatedNode.getName());
 	}
 
-	private void bind() {
 
-	}
-
-	public void onNodeButtonClicked(Node parentNode,List<Node> childNodes) {
+	public void onNodeButtonClicked(Node parentNode, List<Node> childNodes) {
 
 		if (loadedNodes.get(parentNode.getId())) {
 
@@ -153,6 +148,7 @@ public class TreePresenter {
 		treeView.colorSelectedNode(this.selectedNodeId, true);
 
 	}
+
 	public void setSelectedNodeId(Long id) {
 		this.selectedNodeId = id;
 	}

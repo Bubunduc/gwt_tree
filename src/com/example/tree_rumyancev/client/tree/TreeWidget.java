@@ -162,25 +162,25 @@ public class TreeWidget extends Composite {
 	}
 
 	public void eraseNode(Long id, Long parentId, List<Long> deletedChildIds) {
-	    NodeViewHolder nodeToRemove = treeNodes.remove(id);
-	    if (nodeToRemove != null) {
-	        nodeToRemove.removeFromParent();
-	    }
+		NodeViewHolder nodeToRemove = treeNodes.remove(id);
+		if (nodeToRemove != null) {
+			nodeToRemove.removeFromParent();
+		}
 
-	    if (parentId != null) {
-	        NodeViewHolder parentNode = treeNodes.get(parentId);
-	        if (parentNode != null) {
-	            parentNode.removeFromChildList(id);
-	        }
-	    }
-	    if (deletedChildIds != null && !deletedChildIds.isEmpty()) {
-	        for (Long childId : deletedChildIds) {
-	            NodeViewHolder childNode = treeNodes.remove(childId);
-	            if (childNode != null) {
-	                childNode.removeFromParent();
-	            }
-	        }
-	    }
+		if (parentId != null) {
+			NodeViewHolder parentNode = treeNodes.get(parentId);
+			if (parentNode != null) {
+				parentNode.removeFromChildList(id);
+			}
+		}
+		if (deletedChildIds != null && !deletedChildIds.isEmpty()) {
+			for (Long childId : deletedChildIds) {
+				NodeViewHolder childNode = treeNodes.remove(childId);
+				if (childNode != null) {
+					childNode.removeFromParent();
+				}
+			}
+		}
 	}
 
 	public boolean hasNodechild(Long id) {
@@ -195,7 +195,7 @@ public class TreeWidget extends Composite {
 
 		Element clickedElement = event.getNativeEvent().getEventTarget().cast();
 		Long holderId = Long.valueOf(clickedElement.getAttribute("data-tree-id"));
-		
+
 		NodeViewHolder holder = treeNodes.get(holderId);
 
 		if (holder.getShowNode().getElement().isOrHasChild(clickedElement)) {
@@ -205,20 +205,21 @@ public class TreeWidget extends Composite {
 
 		if (holder.getNodeName().getElement().isOrHasChild(clickedElement)) {
 			treeWidgetHandler.onNodeSelected(holderId);
-				return;
+			return;
 		}
-		
+
 	}
 
 	public void updateNodeName(Long id, String name) {
 		NodeViewHolder updatedHolder = treeNodes.get(id);
 		updatedHolder.setNodeName(name);
 	}
+
 	public void colorSelectedNode(Long id, boolean stage) {
 		NodeViewHolder selectedHolder = treeNodes.get(id);
 		if (selectedHolder == null) {
-	        return;
-	    }
+			return;
+		}
 		if (stage == true) {
 			selectedHolder.getNodeName().addStyleName("selectedLabel");
 		} else {

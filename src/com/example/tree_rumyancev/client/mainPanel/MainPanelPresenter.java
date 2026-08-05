@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.tree_rumyancev.client.actions.ActionsPresenter;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateNodeEvent;
-import com.example.tree_rumyancev.client.handlers.event.selectedNode.CreateRootEvent;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
@@ -57,7 +55,7 @@ public class MainPanelPresenter {
 	public void go(HasWidgets container) {
 
 		container.add(view.asWidget());
-		
+
 	}
 
 	private void bind() {
@@ -121,7 +119,7 @@ public class MainPanelPresenter {
 
 					@Override
 					public void onSuccess(Void result) {
-						nodes.put(updatedNode.getId(),updatedNode);
+						nodes.put(updatedNode.getId(), updatedNode);
 						treePresenter.updateNode(updatedNode);
 						Window.alert("Обновление прошло успешно");
 					}
@@ -152,8 +150,7 @@ public class MainPanelPresenter {
 						nodes.remove(deletedId);
 						treePresenter.deleteNode(deletedId, parentId, removedIds);
 						selectedNodePresenter.clean();
-						
-						
+
 					}
 
 					@Override
@@ -271,10 +268,9 @@ public class MainPanelPresenter {
 
 		for (Long childId : directChildIds) {
 			removedIds.addAll(removeChild(childId));
-			
+
 			nodes.remove(childId);
-			
-			
+
 			removedIds.add(childId);
 		}
 
