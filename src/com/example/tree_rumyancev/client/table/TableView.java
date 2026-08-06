@@ -116,11 +116,11 @@ public class TableView implements TableDisplay {
 
 	@Override
 	public void colorSelectedRow(Long id) {
-		
+
 		if (id == null) {
 			return;
 		}
-		
+
 		int rowIndex = -1;
 		for (Map.Entry<Integer, Long> entry : rowToNodeId.entrySet()) {
 			if (id.equals(entry.getValue())) {
@@ -139,6 +139,8 @@ public class TableView implements TableDisplay {
 	public void fillTable(List<TableViewData> nodes) {
 		allDatatable.removeAllRows();
 		rowToNodeId.clear();
+		selectedRowId = null;
+
 		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {
@@ -151,8 +153,6 @@ public class TableView implements TableDisplay {
 
 			counter++;
 		}
-
-		// colorOnFillTable();
 
 	}
 

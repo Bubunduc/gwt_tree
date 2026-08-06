@@ -20,7 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MainPanelPresenter {
-	
+
 	private final TreeServiceAsync treeService;
 	private MainPanelDisplay view;
 	private TreePresenter treePresenter;
@@ -88,7 +88,6 @@ public class MainPanelPresenter {
 		});
 	}
 
-
 	private void bindTreeHandlers() {
 		view.setTreeHandler(new TreeHandler() {
 
@@ -100,7 +99,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onClick(final Long nodeId) {
-				
+
 				handleTreeButtonClicked(nodeId);
 
 			}
@@ -113,7 +112,7 @@ public class MainPanelPresenter {
 			@Override
 			public void onClick() {
 				refreshData();
-				
+
 			}
 		});
 		view.setSelectedRowHandler(new SelectedRowHandler() {
@@ -147,14 +146,14 @@ public class MainPanelPresenter {
 			public void onClick() {
 
 				updateNode();
-				
+
 			}
 		});
 		view.setDeleteButtonHandler(new DeleteClickHandler() {
 
 			@Override
 			public void onClick() {
-				
+
 				deleteNode();
 			}
 		});
@@ -163,29 +162,29 @@ public class MainPanelPresenter {
 	private void selectNode(Long id) {
 		Node node = nodeStore.get(id);
 
-	    if (node == null) {
-	        return;
-	    }
+		if (node == null) {
+			return;
+		}
 
-	    nodeStore.setSelectedNodeId(id);
-	    selectedNodePresenter.loadNode(node);
-	    tablePresenter.colorRow(id);
-	    treePresenter.colorLabel(id);
+		nodeStore.setSelectedNodeId(id);
+		selectedNodePresenter.loadNode(node);
+		tablePresenter.colorRow(id);
+		treePresenter.colorLabel(id);
 	}
-	
+
 	private void refreshData() {
 		tablePresenter.loadData(nodeStore.getValuesList());
 		tablePresenter.colorRow(nodeStore.getSelectedNodeId());
 	}
-	
+
 	private void createNode() {
-		
+
 		Node newNode = selectedNodePresenter.getNodeToCreate();
-		
-		if(newNode == null) {
+
+		if (newNode == null) {
 			return;
 		}
-		
+
 		treeService.create(newNode, new AsyncCallback<Node>() {
 
 			@Override
@@ -202,14 +201,14 @@ public class MainPanelPresenter {
 			}
 		});
 	}
-	
+
 	private void createRoot() {
 		final Node newRoot = selectedNodePresenter.getRootToCreate();
-		
+
 		if (newRoot == null) {
 			return;
 		}
-		
+
 		treeService.create(newRoot, new AsyncCallback<Node>() {
 
 			@Override
@@ -227,14 +226,14 @@ public class MainPanelPresenter {
 
 		});
 	}
-	
+
 	private void updateNode() {
 		final Node updatedNode = selectedNodePresenter.getNodeToUpdate();
-		
-		if(updatedNode == null) {
+
+		if (updatedNode == null) {
 			return;
 		}
-		
+
 		treeService.update(updatedNode, new AsyncCallback<Void>() {
 
 			@Override
@@ -251,10 +250,10 @@ public class MainPanelPresenter {
 			}
 		});
 	}
-	
+
 	private void deleteNode() {
 		final Long deletedId = selectedNodePresenter.getIdToDelete();
-		
+
 		if (deletedId == null) {
 			return;
 		}
@@ -279,7 +278,7 @@ public class MainPanelPresenter {
 			}
 		});
 	}
-	
+
 	private void handleTreeButtonClicked(final Long nodeId) {
 		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
 			@Override

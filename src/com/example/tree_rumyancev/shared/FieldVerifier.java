@@ -11,7 +11,7 @@ public class FieldVerifier {
 			return "Некорректный IP-адрес";
 		}
 
-		if (node.getPort() < 0) {
+		if ((node.getPort() < 0)) {
 			return "Некорректный порт";
 		}
 

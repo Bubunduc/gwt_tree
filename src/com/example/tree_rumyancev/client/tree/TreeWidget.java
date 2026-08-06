@@ -194,7 +194,11 @@ public class TreeWidget extends Composite {
 	private void handleTreeClick(ClickEvent event) {
 
 		Element clickedElement = event.getNativeEvent().getEventTarget().cast();
-		Long holderId = Long.valueOf(clickedElement.getAttribute("data-tree-id"));
+		String idValue = clickedElement.getAttribute("data-tree-id");
+		if ((idValue == null) || (idValue.isEmpty())) {
+			return;
+		}
+		Long holderId = Long.valueOf(idValue);
 
 		NodeViewHolder holder = treeNodes.get(holderId);
 

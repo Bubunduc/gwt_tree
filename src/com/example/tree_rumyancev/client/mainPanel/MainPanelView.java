@@ -1,7 +1,5 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
-import java.util.List;
-
 import com.example.tree_rumyancev.client.actions.ActionsDisplay;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
@@ -13,8 +11,6 @@ import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeDisplay;
 import com.example.tree_rumyancev.client.table.TableDisplay;
 import com.example.tree_rumyancev.client.tree.TreeDisplay;
-import com.example.tree_rumyancev.shared.dto.TreeViewData;
-import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 

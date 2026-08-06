@@ -22,7 +22,7 @@ public class SelectedNodePresenter {
 	public Node getRootToCreate() {
 		Node newNode = view.getCurrentNode();
 
-		if (hasEmptyRequeresFields(newNode)) {
+		if (hasEmptyRequeredFields(newNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -39,7 +39,7 @@ public class SelectedNodePresenter {
 			Window.alert("Сначала выберите родительский узел");
 			return null;
 		}
-		if (hasEmptyRequeresFields(selectedNode)) {
+		if (hasEmptyRequeredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -54,7 +54,7 @@ public class SelectedNodePresenter {
 
 	public Node getNodeToUpdate() {
 		Node newNode = view.getCurrentNode();
-		if (hasEmptyRequeresFields(newNode)) {
+		if (hasEmptyRequeredFields(newNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -67,6 +67,12 @@ public class SelectedNodePresenter {
 
 	public Long getIdToDelete() {
 		Node deletedNode = view.getCurrentNode();
+
+		if (deletedNode.getId() == null) {
+			Window.alert("Сначала выберите узел");
+			return null;
+		}
+
 		if (deletedNode.getParentId() == null) {
 			Window.alert("корень удалить нельзя");
 			return null;
@@ -83,7 +89,7 @@ public class SelectedNodePresenter {
 
 	}
 
-	private boolean hasEmptyRequeresFields(Node node) {
+	private boolean hasEmptyRequeredFields(Node node) {
 		return (node.getName().isEmpty() || node.getIp().isEmpty() || node.getPort() == null);
 
 	}

@@ -67,22 +67,22 @@ public class TreeDaoImplMocked implements TreeDao {
 			}
 		}
 	}
+
 	@Override
 	public void delete(Long id) {
-	    Node nodeToDelete = findById(id);
+		Node nodeToDelete = findById(id);
 
-	    if (nodeToDelete == null) {
-	        return;
-	    }
+		if (nodeToDelete == null) {
+			return;
+		}
 
-	    List<Node> children =
-	            new ArrayList<Node>(getChildrenList(id));
+		List<Node> children = new ArrayList<Node>(getChildrenList(id));
 
-	    for (Node child : children) {
-	        delete(child.getId());
-	    }
+		for (Node child : children) {
+			delete(child.getId());
+		}
 
-	    nodes.remove(nodeToDelete);
+		nodes.remove(nodeToDelete);
 	}
 
 	@Override
