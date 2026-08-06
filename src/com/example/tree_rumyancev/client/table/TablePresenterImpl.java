@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class TablePresenterImpl implements TablePresenter {
 
-	private TableDisplay view;
+	private final TableDisplay view;
 
 	public TablePresenterImpl(TableDisplay view) {
 

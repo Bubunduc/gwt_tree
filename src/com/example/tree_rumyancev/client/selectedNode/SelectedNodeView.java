@@ -20,8 +20,8 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		initSelectedNodeTable();
 	}
 
-	@Override
-	public void initSelectedNodeTable() {
+	
+	private void initSelectedNodeTable() {
 		TextBox id = new TextBox();
 		id.setReadOnly(true);
 		TextBox parentId = new TextBox();

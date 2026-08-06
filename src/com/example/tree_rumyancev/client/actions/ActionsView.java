@@ -23,8 +23,8 @@ public class ActionsView implements ActionsDisplay {
 		initButtonsPanel();
 	}
 
-	@Override
-	public void initButtonsPanel() {
+	
+	private void initButtonsPanel() {
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		Button addNodeButton = new Button("Add Node");

@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class ActionsPresenter {
 
-	private ActionsDisplay view;
+	private final ActionsDisplay view;
 
 
 	public ActionsPresenter(ActionsDisplay view) {

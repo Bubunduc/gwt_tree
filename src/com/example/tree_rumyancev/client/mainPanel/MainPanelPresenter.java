@@ -22,12 +22,12 @@ import com.google.gwt.user.client.ui.HasWidgets;
 public class MainPanelPresenter {
 
 	private final TreeServiceAsync treeService;
-	private MainPanelDisplay view;
-	private TreePresenter treePresenter;
-	private TablePresenter tablePresenter;
-	private SelectedNodePresenter selectedNodePresenter;
+	private final MainPanelDisplay view;
+	private final TreePresenter treePresenter;
+	private final TablePresenter tablePresenter;
+	private final SelectedNodePresenter selectedNodePresenter;
 
-	private NodeStore nodeStore;
+	private final NodeStore nodeStore;
 
 	public MainPanelPresenter(MainPanelDisplay view, TreePresenter treePresenter, TablePresenter tablePresenter,
 			SelectedNodePresenter selectedNodePresenter, NodeStore nodeStore, TreeServiceAsync treeService) {

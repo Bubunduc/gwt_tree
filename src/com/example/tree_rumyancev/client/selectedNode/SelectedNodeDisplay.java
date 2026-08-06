@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface SelectedNodeDisplay extends IsWidget {
-	void initSelectedNodeTable();
 
 	void cleanSelected();
 

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class SelectedNodePresenter {
 
-	private SelectedNodeDisplay view;
+	private final SelectedNodeDisplay view;
 
 	public SelectedNodePresenter(SelectedNodeDisplay view) {
 

@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class TreePresenter {
 
-	private TreeDisplay treeView;
+	private final TreeDisplay treeView;
 
 	private Map<Long, Boolean> loadedNodes;
 

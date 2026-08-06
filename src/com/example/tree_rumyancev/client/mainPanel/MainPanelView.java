@@ -18,17 +18,15 @@ public class MainPanelView implements MainPanelDisplay {
 
 	private FlowPanel mainPanel = new FlowPanel();
 	private FlowPanel topPanel = new FlowPanel();
-	private TreeDisplay treeView;
-	private SelectedNodeDisplay selectedNodeView;
-	private TableDisplay tableView;
-	private ActionsDisplay actionsView;
+	private final TreeDisplay treeView;
+	private final TableDisplay tableView;
+	private final ActionsDisplay actionsView;
 
 	public MainPanelView(TableDisplay tableView, TreeDisplay treeView, ActionsDisplay actionsView,
 			SelectedNodeDisplay selectedNodeView) {
 		this.tableView = tableView;
 		this.treeView = treeView;
 		this.actionsView = actionsView;
-		this.selectedNodeView = selectedNodeView;
 		topPanel.add(treeView.asWidget());
 		topPanel.add(selectedNodeView.asWidget());
 		mainPanel.add(topPanel);
