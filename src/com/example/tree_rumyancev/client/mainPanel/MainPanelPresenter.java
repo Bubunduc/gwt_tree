@@ -179,7 +179,13 @@ public class MainPanelPresenter {
 	}
 	
 	private void createNode() {
+		
 		Node newNode = selectedNodePresenter.getNodeToCreate();
+		
+		if(newNode == null) {
+			return;
+		}
+		
 		treeService.create(newNode, new AsyncCallback<Node>() {
 
 			@Override
@@ -199,6 +205,11 @@ public class MainPanelPresenter {
 	
 	private void createRoot() {
 		final Node newRoot = selectedNodePresenter.getRootToCreate();
+		
+		if (newRoot == null) {
+			return;
+		}
+		
 		treeService.create(newRoot, new AsyncCallback<Node>() {
 
 			@Override
@@ -243,6 +254,7 @@ public class MainPanelPresenter {
 	
 	private void deleteNode() {
 		final Long deletedId = selectedNodePresenter.getIdToDelete();
+		
 		if (deletedId == null) {
 			return;
 		}

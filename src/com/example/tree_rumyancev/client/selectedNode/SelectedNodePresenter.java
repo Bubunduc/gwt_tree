@@ -22,9 +22,8 @@ public class SelectedNodePresenter {
 	public Node getRootToCreate() {
 		Node newNode = view.getCurrentNode();
 
-		if (newNode.getId() == null || newNode.getName().isEmpty() || newNode.getIp().isEmpty()
-				|| newNode.getPort() == null) {
-			Window.alert("Использование пустых полей не допускается");
+		if (hasEmptyRequeresFields(newNode)) {
+			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
 
@@ -36,9 +35,12 @@ public class SelectedNodePresenter {
 	public Node getNodeToCreate() {
 		Node selectedNode = view.getCurrentNode();
 
-		if ((selectedNode.getId() == null && selectedNode.getParentId() == null) || selectedNode.getName().isEmpty()
-				|| selectedNode.getIp().isEmpty() || selectedNode.getPort() == null) {
-			Window.alert("Использование пустых полей не допускается");
+		if (selectedNode.getId() == null) {
+			Window.alert("Сначала выберите родительский узел");
+			return null;
+		}
+		if (hasEmptyRequeresFields(selectedNode)) {
+			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
 
@@ -52,9 +54,12 @@ public class SelectedNodePresenter {
 
 	public Node getNodeToUpdate() {
 		Node newNode = view.getCurrentNode();
-		if (newNode.getId() == null || newNode.getName().isEmpty() || newNode.getIp().isEmpty()
-				|| newNode.getPort() == null) {
-			Window.alert("Использование пустых полей не допускается");
+		if (hasEmptyRequeresFields(newNode)) {
+			Window.alert("Текстовые поля являются обязательными для заполнения");
+			return null;
+		}
+		if (newNode.getId() == null) {
+			Window.alert("Id является обязательным полем");
 			return null;
 		}
 		return newNode;
@@ -75,6 +80,11 @@ public class SelectedNodePresenter {
 
 	public void loadNode(Node node) {
 		view.showNode(node);
+
+	}
+
+	private boolean hasEmptyRequeresFields(Node node) {
+		return (node.getName().isEmpty() || node.getIp().isEmpty() || node.getPort() == null);
 
 	}
 
