@@ -45,8 +45,8 @@ public class TreeView implements TreeDisplay {
 	}
 
 	@Override
-	public void eraseNode(Long id, Long parentId) {
-		treeWidget.eraseNode(id, parentId);
+	public void eraseNode(Long id, Long parentId, List<Long> deletedChildIds) {
+		treeWidget.eraseNode(id, parentId, deletedChildIds);
 
 	}
 
@@ -83,9 +83,9 @@ public class TreeView implements TreeDisplay {
 		treeWidget.colorSelectedNode(id, stage);
 
 	}
-	
+
 	@Override
-	public void updateNodeName(Long id,String name) {
+	public void updateNodeName(Long id, String name) {
 		treeWidget.updateNodeName(id, name);
 	}
 

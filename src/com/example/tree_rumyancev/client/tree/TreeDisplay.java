@@ -18,7 +18,7 @@ public interface TreeDisplay extends IsWidget {
 
 	void drawRoot(TreeViewData root);
 
-	void eraseNode(Long id, Long parentId);
+	void eraseNode(Long id, Long parentId, List<Long> deletedChildIds);
 
 	void insertNode(TreeViewData node);
 
@@ -31,7 +31,7 @@ public interface TreeDisplay extends IsWidget {
 	void setButtonEnabled(Long id, boolean stage);
 
 	void colorSelectedNode(Long id, boolean stage);
-	
+
 	void updateNodeName(Long id, String name);
 
 }

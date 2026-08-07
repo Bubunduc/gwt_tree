@@ -7,7 +7,6 @@ import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.server.dao.impl.TreeDaoImplMocked;
 import com.example.tree_rumyancev.shared.FieldVerifier;
 import com.example.tree_rumyancev.shared.exception.NodeValidationException;
-import com.example.tree_rumyancev.shared.exception.NodeValidationException;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

@@ -20,8 +20,8 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		initSelectedNodeTable();
 	}
 
-	@Override
-	public void initSelectedNodeTable() {
+	
+	private void initSelectedNodeTable() {
 		TextBox id = new TextBox();
 		id.setReadOnly(true);
 		TextBox parentId = new TextBox();
@@ -110,6 +110,12 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		Node node = new Node(id, parentId, name, ip, port);
 		return node;
 
+	}
+
+	@Override
+	public void cleanSelected() {
+		selectedNodeTable.removeAllRows();
+		initSelectedNodeTable();
 	}
 
 	@Override

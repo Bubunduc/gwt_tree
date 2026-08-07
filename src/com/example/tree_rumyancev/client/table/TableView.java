@@ -25,7 +25,7 @@ public class TableView implements TableDisplay {
 	private FlexTable allDatatable;
 	private Button refreshButton;
 
-	private int selectedRowId;
+	private Integer selectedRowId;
 	private Map<Integer, Long> rowToNodeId;
 	private RefreshButtonClickHandler buttonClickHandler;
 	private SelectedRowHandler selectedRowHandler;
@@ -102,27 +102,25 @@ public class TableView implements TableDisplay {
 
 	private void addStyleSelectedRow(int rowIndex) {
 		int rows = allDatatable.getCellCount(rowIndex);
-
-		for (int i = 0; i < rows; i++) {
-			allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
+		if (selectedRowId != null) {
+			for (int i = 0; i < rows; i++) {
+				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
+			}
 		}
+
 		selectedRowId = rowIndex;
 		for (int i = 0; i < rows; i++) {
 			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
 		}
 	}
 
-	private void colorOnFillTable() {
-		int rows = allDatatable.getCellCount(selectedRowId);
-		if (selectedRowId != 0) {
-			for (int i = 0; i < rows; i++) {
-				allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
-			}
-		}
-	}
-
 	@Override
 	public void colorSelectedRow(Long id) {
+
+		if (id == null) {
+			return;
+		}
+
 		int rowIndex = -1;
 		for (Map.Entry<Integer, Long> entry : rowToNodeId.entrySet()) {
 			if (id.equals(entry.getValue())) {
@@ -141,6 +139,8 @@ public class TableView implements TableDisplay {
 	public void fillTable(List<TableViewData> nodes) {
 		allDatatable.removeAllRows();
 		rowToNodeId.clear();
+		selectedRowId = null;
+
 		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {
@@ -153,8 +153,6 @@ public class TableView implements TableDisplay {
 
 			counter++;
 		}
-
-		colorOnFillTable();
 
 	}
 

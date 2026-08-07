@@ -8,8 +8,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 
 public interface ActionsDisplay extends IsWidget {
 
-	void initButtonsPanel();
-
 	void setDeleteButtonHandler(DeleteClickHandler handler);
 
 	void setCreateRootHandler(CreateRootClickHandler createRootHandler);
