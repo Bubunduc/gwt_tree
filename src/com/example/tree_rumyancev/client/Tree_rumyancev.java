@@ -20,21 +20,19 @@ import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.client.tree.TreeView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Tree_rumyancev implements EntryPoint {
-	
+
 	/**
 	 * This is the entry point method.
 	 */
 
 	public void onModuleLoad() {
-	
+
 		final TreeServiceAsync treeService = GWT.create(TreeService.class);
 		final NodeStore nodeStore = new NodeStore();
 
@@ -47,13 +45,18 @@ public class Tree_rumyancev implements EntryPoint {
 		ActionsDisplay actionsView = new ActionsView();
 		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView);
 
-
 		TableDisplay allNodesTable = new TableView();
 		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
 
-
 		MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView);
-		MainPanelPresenter mainPanelPresenter = new MainPanelPresenter(mainPanelView, treePresenter, tablePresenter, selectedNodePresenter, nodeStore, treeService);
+		MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder()
+				.view(mainPanelView)
+				.treePresenter(treePresenter)
+				.selectedNodePresenter(selectedNodePresenter)
+				.tablePresenter(tablePresenter)
+				.treeService(treeService)
+				.nodeStore(nodeStore)
+				.build();
 
 		mainPanelPresenter.go(RootPanel.get("mainContainer"));
 

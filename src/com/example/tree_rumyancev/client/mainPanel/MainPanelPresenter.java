@@ -29,16 +29,63 @@ public class MainPanelPresenter {
 
 	private final NodeStore nodeStore;
 
-	public MainPanelPresenter(MainPanelDisplay view, TreePresenter treePresenter, TablePresenter tablePresenter,
-			SelectedNodePresenter selectedNodePresenter, NodeStore nodeStore, TreeServiceAsync treeService) {
-		this.view = view;
-		this.treePresenter = treePresenter;
-		this.tablePresenter = tablePresenter;
-		this.selectedNodePresenter = selectedNodePresenter;
-		this.nodeStore = nodeStore;
-		this.treeService = treeService;
+	public MainPanelPresenter(Builder bulder) {
+		this.view = bulder.view;
+		this.treePresenter = bulder.treePresenter;
+		this.tablePresenter = bulder.tablePresenter;
+		this.selectedNodePresenter = bulder.selectedNodePresenter;
+		this.nodeStore = bulder.nodeStore;
+		this.treeService = bulder.treeService;
 		loadData();
 		bind();
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+		private TreeServiceAsync treeService;
+		private MainPanelDisplay view;
+		private TreePresenter treePresenter;
+		private TablePresenter tablePresenter;
+		private SelectedNodePresenter selectedNodePresenter;
+
+		private NodeStore nodeStore;
+
+		public Builder treeService(TreeServiceAsync treeService) {
+			this.treeService = treeService;
+			return this;
+		}
+
+		public Builder view(MainPanelDisplay view) {
+			this.view = view;
+			return this;
+		}
+
+		public Builder treePresenter(TreePresenter treePresenter) {
+			this.treePresenter = treePresenter;
+			return this;
+		}
+
+		public Builder tablePresenter(TablePresenter tablePresenter) {
+			this.tablePresenter = tablePresenter;
+			return this;
+		}
+
+		public Builder selectedNodePresenter(SelectedNodePresenter selectedNodePresenter) {
+			this.selectedNodePresenter = selectedNodePresenter;
+			return this;
+		}
+
+		public Builder nodeStore(NodeStore nodeStore) {
+			this.nodeStore = nodeStore;
+			return this;
+		}
+
+		public MainPanelPresenter build() {
+			return new MainPanelPresenter(this);
+		}
 	}
 
 	public void go(HasWidgets container) {
