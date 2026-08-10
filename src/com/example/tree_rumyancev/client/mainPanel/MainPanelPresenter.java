@@ -113,9 +113,7 @@ public class MainPanelPresenter {
 				tablePresenter.loadData(result);
 				List<Node> roots = nodeStore.getRoots();
 				treePresenter.loadData(roots);
-				for(Node root : roots) {
-					treePresenter.setButtonVisible(root.getId(), nodeStore.hasChild(root.getId()));
-				}
+				updateTreeButtons(roots);
 			}
 
 			@Override
@@ -124,8 +122,7 @@ public class MainPanelPresenter {
 
 			}
 		});
-		
-		
+
 	}
 
 	private void bindTreeHandlers() {
@@ -224,9 +221,6 @@ public class MainPanelPresenter {
 			return;
 		}
 		final Long parentId = newNode.getParentId();
-		final boolean hasChild = nodeStore.hasChild(parentId);
-		
-		
 
 		treeService.create(newNode, new AsyncCallback<Node>() {
 
@@ -234,9 +228,7 @@ public class MainPanelPresenter {
 			public void onSuccess(Node result) {
 				nodeStore.save(result);
 				treePresenter.createNode(result);
-				if(!hasChild) {
-					treePresenter.setButtonVisible(parentId, true);
-				}
+				updateTreeButton(parentId);
 				Window.alert("Дочерняя ветвь создана успешно");
 			}
 
@@ -261,7 +253,7 @@ public class MainPanelPresenter {
 			public void onSuccess(Node result) {
 				nodeStore.save(result);
 				treePresenter.createRoot(result);
-				treePresenter.setButtonVisible(result.getId(), false);
+				updateTreeButton(result.getId());
 				Window.alert("Корень создан успешно");
 			}
 
@@ -314,9 +306,7 @@ public class MainPanelPresenter {
 				treePresenter.deleteNode(deletedId, parentId, removedIds);
 				selectedNodePresenter.clean();
 				nodeStore.clearSelection();
-				if (!nodeStore.hasChild(parentId)) {
-					treePresenter.setButtonVisible(parentId, false);
-				}
+				updateTreeButton(parentId);
 
 			}
 
@@ -332,11 +322,21 @@ public class MainPanelPresenter {
 	private void handleTreeButtonClicked(Long nodeId) {
 		List<Node> children = nodeStore.getChildrenList(nodeId);
 		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
-		if((children == null || children.isEmpty()) == false) {
-			for (Node node : children) {
-				treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
-			}
-		}
+		updateTreeButtons(children);
 		treePresenter.colorLabel(nodeStore.getSelectedNodeId());
+	}
+
+	private void updateTreeButton(Long nodeId) {
+		treePresenter.setButtonVisible(nodeId, nodeStore.hasChild(nodeId));
+	}
+
+	private void updateTreeButtons(List<Node> nodes) {
+		if (nodes == null) {
+			return;
+		}
+
+		for (Node node : nodes) {
+			treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
+		}
 	}
 }
