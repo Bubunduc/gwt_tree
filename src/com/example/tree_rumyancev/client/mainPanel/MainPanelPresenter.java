@@ -332,6 +332,11 @@ public class MainPanelPresenter {
 	private void handleTreeButtonClicked(Long nodeId) {
 		List<Node> children = nodeStore.getChildrenList(nodeId);
 		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
+		if((children == null || children.isEmpty()) == false) {
+			for (Node node : children) {
+				treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
+			}
+		}
 		treePresenter.colorLabel(nodeStore.getSelectedNodeId());
 	}
 }
