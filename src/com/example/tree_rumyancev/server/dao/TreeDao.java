@@ -8,10 +8,6 @@ public interface TreeDao {
 
 	List<Node> getAllData();
 
-	List<Node> getChildrenList(Long parentId);
-
-	List<Node> getParentList();
-
 	Node create(Node node);
 
 	void update(Node node);

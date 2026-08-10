@@ -45,20 +45,13 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	}
 
-	@Override
-	public List<Node> getChildrenList(Long parentId) {
-		return dao.getChildrenList(parentId);
-	}
 
 	@Override
 	public List<Node> getAllData() {
 		return dao.getAllData();
 	}
 
-	@Override
-	public List<Node> getParentList() {
-		return dao.getParentList();
-	}
+
 
 	@Override
 	public Node findById(Long id) {

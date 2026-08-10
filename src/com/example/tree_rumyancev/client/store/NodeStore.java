@@ -79,14 +79,39 @@ public class NodeStore {
 	}
 	
 	public boolean hasChild(Long id) {
+	    if (id == null) {
+	        return false;
+	    }
+
+	    for (Node node : nodes.values()) {
+	        if (id.equals(node.getParentId())) {
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
+	public List<Node> getRoots() {
+	    List<Node> roots = new ArrayList<Node>();
+
+	    for (Node node : nodes.values()) {
+	        if (node.getParentId() == null) {
+	            roots.add(node);
+	        }
+	    }
+
+	    return roots;
+	}
+	
+	public List<Node> getChildrenList(Long parentId) {
+		List<Node> childrenList = new ArrayList<Node>();
 		
-		Node node = nodes.get(id);
-		for(Node i : nodes.values()) {
-			if(i.getParentId().equals(node.getId())) {
-				return true;
+		for (Node node : nodes.values()) {
+			if (parentId.equals(node.getParentId())) {
+				childrenList.add(node);
 			}
 		}
-		return false;
+		return childrenList;
 	}
 
 }

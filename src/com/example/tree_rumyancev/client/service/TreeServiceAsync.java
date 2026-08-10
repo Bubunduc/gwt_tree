@@ -14,11 +14,7 @@ public interface TreeServiceAsync {
 
 	void delete(Long id, AsyncCallback<Void> callback);
 
-	void getChildrenList(Long parentId, AsyncCallback<List<Node>> callback);
-
 	void getAllData(AsyncCallback<List<Node>> callback);
-
-	void getParentList(AsyncCallback<List<Node>> callback);
 
 	void findById(Long id, AsyncCallback<Node> callback);
 }

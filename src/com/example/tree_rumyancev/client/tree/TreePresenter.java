@@ -49,7 +49,7 @@ public class TreePresenter {
 		treeView.eraseNode(deletedNode, parentId, deletedChildIds);
 
 		if (treeView.hasNodechild(parentId) == false) {
-			treeView.setButtonEnabled(parentId, false);
+			treeView.setButtonVisible(parentId, false);
 		}
 		Window.alert("Удаление прошло успешно");
 	}
@@ -59,7 +59,7 @@ public class TreePresenter {
 		loadedNodes.put(newRoot.getId(), false);
 	}
 
-	public void createNode(Node node,boolean hasChild) {
+	public void createNode(Node node) {
 
 		if (loadedNodes.containsKey(node.getParentId()) == false) {
 			return;
@@ -69,7 +69,7 @@ public class TreePresenter {
 			return;
 		}
 		if (treeView.isNodeButtonVisible(node.getParentId()) == false) {
-			treeView.setButtonEnabled(node.getParentId(), true);
+			treeView.setButtonVisible(node.getParentId(), true);
 		}
 		loadedNodes.put(node.getId(), false);
 		treeView.insertNode(TreeViewData.toViewData(node));
@@ -97,7 +97,7 @@ public class TreePresenter {
 		loadedNodes.put(parentNode.getId(), true);
 
 		if (childNodes == null || childNodes.isEmpty()) {
-			treeView.setButtonEnabled(parentNode.getId(), false);
+			treeView.setButtonVisible(parentNode.getId(), false);
 			treeView.setNodeVisible(parentNode.getId(), false);
 
 			return;
@@ -136,5 +136,9 @@ public class TreePresenter {
 
 	public void setSelectedNodeId(Long id) {
 		this.selectedNodeId = id;
+	}
+	
+	public void setButtonVisible(Long id,boolean stage) {
+		treeView.setButtonVisible(id, stage);
 	}
 }

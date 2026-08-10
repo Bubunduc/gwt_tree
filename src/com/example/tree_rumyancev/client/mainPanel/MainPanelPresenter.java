@@ -111,7 +111,11 @@ public class MainPanelPresenter {
 				}
 
 				tablePresenter.loadData(result);
-
+				List<Node> roots = nodeStore.getRoots();
+				treePresenter.loadData(roots);
+				for(Node root : roots) {
+					treePresenter.setButtonVisible(root.getId(), nodeStore.hasChild(root.getId()));
+				}
 			}
 
 			@Override
@@ -120,19 +124,8 @@ public class MainPanelPresenter {
 
 			}
 		});
-		treeService.getParentList(new AsyncCallback<List<Node>>() {
-
-			@Override
-			public void onSuccess(List<Node> result) {
-				treePresenter.loadData(result);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Ошибка загрузки корней");
-
-			}
-		});
+		
+		
 	}
 
 	private void bindTreeHandlers() {
@@ -230,8 +223,9 @@ public class MainPanelPresenter {
 		if (newNode == null) {
 			return;
 		}
-		final boolean hasChild = nodeStore.hasChild(newNode.getId());
-
+		final Long parentId = newNode.getParentId();
+		final boolean hasChild = nodeStore.hasChild(parentId);
+		
 		
 
 		treeService.create(newNode, new AsyncCallback<Node>() {
@@ -239,7 +233,10 @@ public class MainPanelPresenter {
 			@Override
 			public void onSuccess(Node result) {
 				nodeStore.save(result);
-				treePresenter.createNode(result, hasChild);
+				treePresenter.createNode(result);
+				if(!hasChild) {
+					treePresenter.setButtonVisible(parentId, true);
+				}
 				Window.alert("Дочерняя ветвь создана успешно");
 			}
 
@@ -264,6 +261,7 @@ public class MainPanelPresenter {
 			public void onSuccess(Node result) {
 				nodeStore.save(result);
 				treePresenter.createRoot(result);
+				treePresenter.setButtonVisible(result.getId(), false);
 				Window.alert("Корень создан успешно");
 			}
 
@@ -316,6 +314,9 @@ public class MainPanelPresenter {
 				treePresenter.deleteNode(deletedId, parentId, removedIds);
 				selectedNodePresenter.clean();
 				nodeStore.clearSelection();
+				if (!nodeStore.hasChild(parentId)) {
+					treePresenter.setButtonVisible(parentId, false);
+				}
 
 			}
 
@@ -328,21 +329,9 @@ public class MainPanelPresenter {
 		});
 	}
 
-	private void handleTreeButtonClicked(final Long nodeId) {
-		treeService.getChildrenList(nodeId, new AsyncCallback<List<Node>>() {
-			@Override
-			public void onSuccess(List<Node> children) {
-
-				treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
-				treePresenter.colorLabel(nodeStore.getSelectedNodeId());
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("Ошибка загрузки дочерних узлов");
-
-			}
-		});
+	private void handleTreeButtonClicked(Long nodeId) {
+		List<Node> children = nodeStore.getChildrenList(nodeId);
+		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
+		treePresenter.colorLabel(nodeStore.getSelectedNodeId());
 	}
 }

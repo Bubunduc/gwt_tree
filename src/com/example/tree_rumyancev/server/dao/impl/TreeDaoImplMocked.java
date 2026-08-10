@@ -46,8 +46,8 @@ public class TreeDaoImplMocked implements TreeDao {
 		return nodes;
 	}
 
-	@Override
-	public List<Node> getChildrenList(Long parentId) {
+	
+	private List<Node> getChildrenList(Long parentId) {
 		List<Node> childrenList = new ArrayList<Node>();
 		List<Node> nodes = getAllData();
 		for (Node node : nodes) {
@@ -94,18 +94,6 @@ public class TreeDaoImplMocked implements TreeDao {
 		}
 		return null;
 
-	}
-
-	@Override
-	public List<Node> getParentList() {
-
-		List<Node> result = new ArrayList<Node>();
-		for (Node node : nodes) {
-			if (node.getParentId() == null) {
-				result.add(node);
-			}
-		}
-		return result;
 	}
 
 	@Override

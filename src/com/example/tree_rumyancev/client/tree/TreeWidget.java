@@ -187,7 +187,7 @@ public class TreeWidget extends Composite {
 		return !treeNodes.get(id).getChildIds().isEmpty();
 	}
 
-	public void setButtonEnabled(Long id, boolean stage) {
+	public void setButtonVisible(Long id, boolean stage) {
 		treeNodes.get(id).setButtonVisible(stage);
 	}
 

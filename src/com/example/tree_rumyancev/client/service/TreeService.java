@@ -15,11 +15,7 @@ public interface TreeService extends RemoteService {
 
 	void delete(Long id);
 
-	List<Node> getChildrenList(Long parentId);
-
 	List<Node> getAllData();
-
-	List<Node> getParentList();
 
 	Node findById(Long id);
 }

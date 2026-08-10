@@ -51,8 +51,8 @@ public class TreeView implements TreeDisplay {
 	}
 
 	@Override
-	public void setButtonEnabled(Long id, boolean stage) {
-		treeWidget.setButtonEnabled(id, stage);
+	public void setButtonVisible(Long id, boolean stage) {
+		treeWidget.setButtonVisible(id, stage);
 	}
 
 	@Override
