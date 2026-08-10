@@ -34,14 +34,14 @@
 	</target>
 
 	<target name="gwtc" depends="javac" description="GWT compile to JavaScript (production mode)">
-		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler" maxmemory="256m">
+		<java failonerror="true" fork="true" jvm="C:/Program Files/Java/jdk1.8.0_241/bin/java.exe" classname="com.google.gwt.dev.Compiler" maxmemory="256m">
 			<classpath>
 				<pathelement location="src" />
 				<path refid="project.class.path" />
+
 			</classpath>
 			<arg line="-war" />
 			<arg value="war" />
-			<!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
 			<arg line="${gwt.args}" />
 			<arg value="com.example.tree_rumyancev.Tree_rumyancev" />
 		</java>
@@ -80,7 +80,7 @@ Test targets suppressed because -junit argument was not specified when running w
 
   <target name="javac.tests" depends="javac" description="Compiles test code">
     <javac srcdir="test" includes="**" encoding="utf-8"
-      source="1.7" target="1.7" nowarn="true"
+      source="1.8" target="1.8" nowarn="true"
       destdir="war/WEB-INF/classes"
       debug="true" debuglevel="lines,vars,source">
       <classpath location="path_to_the_junit_jar"/>

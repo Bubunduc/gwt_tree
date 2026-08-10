@@ -77,5 +77,16 @@ public class NodeStore {
 	public List<Node> getValuesList() {
 		return new ArrayList<Node>(nodes.values());
 	}
+	
+	public boolean hasChild(Long id) {
+		
+		Node node = nodes.get(id);
+		for(Node i : nodes.values()) {
+			if(i.getParentId().equals(node.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

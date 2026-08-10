@@ -73,9 +73,9 @@ public class TreeView implements TreeDisplay {
 	}
 
 	@Override
-	public boolean isNodeButtonEnabled(Long id) {
+	public boolean isNodeButtonVisible(Long id) {
 
-		return treeWidget.isNodeButtonEnabled(id);
+		return treeWidget.isNodeButtonVisible(id);
 	}
 
 	@Override

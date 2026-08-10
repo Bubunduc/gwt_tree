@@ -20,7 +20,6 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		initSelectedNodeTable();
 	}
 
-	
 	private void initSelectedNodeTable() {
 		TextBox id = new TextBox();
 		id.setReadOnly(true);
@@ -102,8 +101,12 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		String ip = ((TextBox) selectedNodeTable.getWidget(3, 1)).getText();
 		Short port;
 		try {
-			port = Short.valueOf(((TextBox) selectedNodeTable.getWidget(4, 1)).getText());
-		} catch (Exception e) {
+			String stringPort = ((TextBox) selectedNodeTable.getWidget(4, 1)).getText();
+
+			port = Short.valueOf(stringPort);
+		}
+
+		catch (Exception e) {
 			port = null;
 		}
 

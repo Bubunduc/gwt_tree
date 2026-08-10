@@ -63,15 +63,15 @@ public class NodeViewHolder extends FlowPanel {
 		this.childIds = childIds;
 	}
 
-	public void setEnabled(boolean stage) {
-		showNode.setValue(stage);
-
-		showNode.setEnabled(stage);
+	public void setButtonVisible(boolean stage) {
+		//showNode.setValue(stage);
+		showNode.setVisible(stage);
+		//showNode.setEnabled(stage);
 
 	}
 
-	public boolean isButtonEnabled() {
-		return showNode.isEnabled();
+	public boolean isButtonVisible() {
+		return showNode.isVisible();
 	}
 
 	public void removeFromChildList(Long id) {

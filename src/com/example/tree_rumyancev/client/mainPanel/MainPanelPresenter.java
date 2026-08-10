@@ -227,17 +227,19 @@ public class MainPanelPresenter {
 	private void createNode() {
 
 		Node newNode = selectedNodePresenter.getNodeToCreate();
-
 		if (newNode == null) {
 			return;
 		}
+		final boolean hasChild = nodeStore.hasChild(newNode.getId());
+
+		
 
 		treeService.create(newNode, new AsyncCallback<Node>() {
 
 			@Override
 			public void onSuccess(Node result) {
 				nodeStore.save(result);
-				treePresenter.createNode(result);
+				treePresenter.createNode(result, hasChild);
 				Window.alert("Дочерняя ветвь создана успешно");
 			}
 

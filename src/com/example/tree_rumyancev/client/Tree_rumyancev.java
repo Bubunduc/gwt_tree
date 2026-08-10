@@ -1,7 +1,6 @@
 package com.example.tree_rumyancev.client;
 
 import com.example.tree_rumyancev.client.actions.ActionsDisplay;
-import com.example.tree_rumyancev.client.actions.ActionsPresenter;
 import com.example.tree_rumyancev.client.actions.ActionsView;
 import com.example.tree_rumyancev.client.mainPanel.MainPanelDisplay;
 import com.example.tree_rumyancev.client.mainPanel.MainPanelPresenter;
@@ -43,7 +42,6 @@ public class Tree_rumyancev implements EntryPoint {
 		TreePresenter treePresenter = new TreePresenter(treeView);
 
 		ActionsDisplay actionsView = new ActionsView();
-		ActionsPresenter actionsPresenter = new ActionsPresenter(actionsView);
 
 		TableDisplay allNodesTable = new TableView();
 		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);

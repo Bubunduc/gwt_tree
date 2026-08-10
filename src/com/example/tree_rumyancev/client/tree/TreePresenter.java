@@ -59,7 +59,7 @@ public class TreePresenter {
 		loadedNodes.put(newRoot.getId(), false);
 	}
 
-	public void createNode(Node node) {
+	public void createNode(Node node,boolean hasChild) {
 
 		if (loadedNodes.containsKey(node.getParentId()) == false) {
 			return;
@@ -68,7 +68,7 @@ public class TreePresenter {
 
 			return;
 		}
-		if (treeView.isNodeButtonEnabled(node.getParentId()) == false) {
+		if (treeView.isNodeButtonVisible(node.getParentId()) == false) {
 			treeView.setButtonEnabled(node.getParentId(), true);
 		}
 		loadedNodes.put(node.getId(), false);

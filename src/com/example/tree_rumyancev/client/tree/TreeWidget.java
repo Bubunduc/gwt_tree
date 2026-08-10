@@ -150,9 +150,9 @@ public class TreeWidget extends Composite {
 		return childHolder.isVisible();
 	}
 
-	public boolean isNodeButtonEnabled(Long id) {
+	public boolean isNodeButtonVisible(Long id) {
 		NodeViewHolder holder = treeNodes.get(id);
-		return holder.isButtonEnabled();
+		return holder.isButtonVisible();
 
 	}
 
@@ -188,7 +188,7 @@ public class TreeWidget extends Composite {
 	}
 
 	public void setButtonEnabled(Long id, boolean stage) {
-		treeNodes.get(id).setEnabled(stage);
+		treeNodes.get(id).setButtonVisible(stage);
 	}
 
 	private void handleTreeClick(ClickEvent event) {
