@@ -1,5 +1,6 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
+import com.example.tree_rumyancev.shared.dto.SelectedNodeData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -20,20 +21,24 @@ public class SelectedNodePresenter {
 	}
 
 	public Node getRootToCreate() {
-		Node newNode = view.getCurrentNode();
 
-		if (hasEmptyRequeredFields(newNode)) {
+		SelectedNodeData selectedNode = view.getData();
+		if (hasEmptyRequeredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-
+		Short port = checkPort(selectedNode.getPort());
+		if (port == null) {
+			return null;
+		}
+		Node newNode = getSelectedNode(selectedNode, port);
 		newNode.setParentId(null);
 		return newNode;
 
 	}
 
 	public Node getNodeToCreate() {
-		Node selectedNode = view.getCurrentNode();
+		SelectedNodeData selectedNode = view.getData();
 
 		if (selectedNode.getId() == null) {
 			Window.alert("Сначала выберите родительский узел");
@@ -43,41 +48,48 @@ public class SelectedNodePresenter {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-
+		Short port = checkPort(selectedNode.getPort());
+		if (port == null) {
+			return null;
+		}
 		Node newNode = new Node();
 		newNode.setParentId(selectedNode.getId());
 		newNode.setName(selectedNode.getName());
 		newNode.setIp(selectedNode.getIp());
-		newNode.setPort(selectedNode.getPort());
+		newNode.setPort(port);
 		return newNode;
 	}
 
 	public Node getNodeToUpdate() {
-		Node newNode = view.getCurrentNode();
-		if (hasEmptyRequeredFields(newNode)) {
+
+		SelectedNodeData selectedNode = view.getData();
+		if (hasEmptyRequeredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-		if (newNode.getId() == null) {
+		Short port = checkPort(selectedNode.getPort());
+		if (port == null) {
+			return null;
+		}
+		if (selectedNode.getId() == null) {
 			Window.alert("Id является обязательным полем");
 			return null;
 		}
-		return newNode;
+		return getSelectedNode(selectedNode, port);
 	}
 
 	public Long getIdToDelete() {
-		Node deletedNode = view.getCurrentNode();
-
-		if (deletedNode.getId() == null) {
+		SelectedNodeData selectedNode = view.getData();
+		if (selectedNode.getId() == null) {
 			Window.alert("Сначала выберите узел");
 			return null;
 		}
 
-		if (deletedNode.getParentId() == null) {
+		if (selectedNode.getParentId() == null) {
 			Window.alert("корень удалить нельзя");
 			return null;
 		}
-		return deletedNode.getId();
+		return selectedNode.getId();
 	}
 
 	public void clean() {
@@ -89,9 +101,24 @@ public class SelectedNodePresenter {
 
 	}
 
-	private boolean hasEmptyRequeredFields(Node node) {
-		return (node.getName().isEmpty() || node.getIp().isEmpty() || node.getPort() == null);
+	private boolean hasEmptyRequeredFields(SelectedNodeData node) {
+		return (node.getName().isEmpty() || node.getIp().isEmpty() || node.getPort().isEmpty());
 
 	}
 
+	private Node getSelectedNode(SelectedNodeData nodedata, Short port) {
+		Node node = new Node(nodedata.getId(), nodedata.getParentId(), nodedata.getName(), nodedata.getIp(), port);
+		return node;
+	}
+
+	private Short checkPort(String stringPort) {
+		Short port;
+		try {
+			port = Short.valueOf(stringPort);
+		} catch (NumberFormatException e) {
+			Window.alert("Некорректный порт");
+			return null;
+		}
+		return port;
+	}
 }

@@ -1,5 +1,6 @@
 package com.example.tree_rumyancev.client.selectedNode;
 
+import com.example.tree_rumyancev.shared.dto.SelectedNodeData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -82,8 +83,19 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 	}
 
 	@Override
-	public Node getCurrentNode() {
+	public void cleanSelected() {
+		selectedNodeTable.removeAllRows();
+		initSelectedNodeTable();
+	}
 
+	@Override
+	public Widget asWidget() {
+
+		return selectedNodePanel;
+	}
+
+	@Override
+	public SelectedNodeData getData() {
 		Long id;
 		try {
 			id = Long.valueOf(((TextBox) selectedNodeTable.getWidget(0, 1)).getText());
@@ -99,32 +111,9 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 
 		String name = ((TextBox) selectedNodeTable.getWidget(2, 1)).getText();
 		String ip = ((TextBox) selectedNodeTable.getWidget(3, 1)).getText();
-		Short port;
-		try {
-			String stringPort = ((TextBox) selectedNodeTable.getWidget(4, 1)).getText();
-
-			port = Short.valueOf(stringPort);
-		}
-
-		catch (Exception e) {
-			port = null;
-		}
-
-		Node node = new Node(id, parentId, name, ip, port);
-		return node;
-
-	}
-
-	@Override
-	public void cleanSelected() {
-		selectedNodeTable.removeAllRows();
-		initSelectedNodeTable();
-	}
-
-	@Override
-	public Widget asWidget() {
-
-		return selectedNodePanel;
+		String port = ((TextBox) selectedNodeTable.getWidget(4, 1)).getText();
+		
+		return new SelectedNodeData(id, parentId, name, ip, port);
 	}
 
 }

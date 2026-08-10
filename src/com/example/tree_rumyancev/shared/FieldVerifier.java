@@ -12,7 +12,7 @@ public class FieldVerifier {
 		}
 
 		if ((node.getPort() < 0)) {
-			return "Некорректный порт";
+			return "Порт не может быть отрицательным";
 		}
 
 		return null;

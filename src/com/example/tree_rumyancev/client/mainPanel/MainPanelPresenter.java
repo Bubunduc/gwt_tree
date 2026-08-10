@@ -156,19 +156,20 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onSelected(Long nodeId) {
-				
+
 				Node node = nodeStore.get(nodeId);
-				if(node.getParentId() != null) {
+				if (node.getParentId() != null) {
 					List<Long> pathList = nodeStore.getHierarchyIdList(nodeId);
 					if (!pathList.isEmpty()) {
 						for (Long pathId : pathList) {
-							treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));;
+							treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
+							;
 						}
-					}	
+					}
 				}
 				selectNode(nodeId);
 			}
-			
+
 		});
 	}
 
@@ -216,7 +217,7 @@ public class MainPanelPresenter {
 		nodeStore.setSelectedNodeId(id);
 		selectedNodePresenter.loadNode(node);
 		tablePresenter.colorRow(id);
-			
+
 		treePresenter.colorLabel(id);
 	}
 
