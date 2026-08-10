@@ -1,6 +1,7 @@
 package com.example.tree_rumyancev.client.store;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,41 +78,67 @@ public class NodeStore {
 	public List<Node> getValuesList() {
 		return new ArrayList<Node>(nodes.values());
 	}
-	
+
 	public boolean hasChild(Long id) {
-	    if (id == null) {
-	        return false;
-	    }
+		if (id == null) {
+			return false;
+		}
 
-	    for (Node node : nodes.values()) {
-	        if (id.equals(node.getParentId())) {
-	            return true;
-	        }
-	    }
+		for (Node node : nodes.values()) {
+			if (id.equals(node.getParentId())) {
+				return true;
+			}
+		}
 
-	    return false;
+		return false;
 	}
+
 	public List<Node> getRoots() {
-	    List<Node> roots = new ArrayList<Node>();
+		List<Node> roots = new ArrayList<Node>();
 
-	    for (Node node : nodes.values()) {
-	        if (node.getParentId() == null) {
-	            roots.add(node);
-	        }
-	    }
+		for (Node node : nodes.values()) {
+			if (node.getParentId() == null) {
+				roots.add(node);
+			}
+		}
 
-	    return roots;
+		return roots;
 	}
-	
+
 	public List<Node> getChildrenList(Long parentId) {
 		List<Node> childrenList = new ArrayList<Node>();
-		
+
 		for (Node node : nodes.values()) {
 			if (parentId.equals(node.getParentId())) {
 				childrenList.add(node);
 			}
 		}
 		return childrenList;
+	}
+
+	public List<Long> getHierarchyIdList(Long id) {
+
+		List<Long> idList = new ArrayList<Long>();
+
+		if (id == null) {
+			return idList;
+		}
+
+		Long upperId = id;
+		while (upperId != null) {
+			idList.add(upperId);
+
+			Node node = nodes.get(upperId);
+
+			if (node == null) {
+				break;
+			}
+
+			upperId = node.getParentId();
+		}
+		Collections.reverse(idList);
+		idList.remove(id);
+		return idList;
 	}
 
 }

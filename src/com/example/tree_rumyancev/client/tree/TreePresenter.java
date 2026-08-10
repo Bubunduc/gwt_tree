@@ -114,6 +114,32 @@ public class TreePresenter {
 
 	}
 
+	public void expandNode(Node parentNode, List<Node> childNodes) {
+
+		Long parentId = parentNode.getId();
+
+		Boolean loaded = loadedNodes.get(parentId);
+
+		if (loaded == null) {
+			return;
+		}
+
+		if (loaded) {
+			treeView.setNodeVisible(parentId, true);
+			return;
+		}
+
+		loadedNodes.put(parentId, true);
+
+		for (Node child : childNodes) {
+			loadedNodes.put(child.getId(), false);
+		}
+
+		treeView.showChildList(TreeViewData.toViewDataList(childNodes));
+
+		treeView.setNodeVisible(parentId, true);
+	}
+
 	public void colorLabel(final Long id) {
 
 		if (!loadedNodes.containsKey(id)) {
@@ -137,8 +163,8 @@ public class TreePresenter {
 	public void setSelectedNodeId(Long id) {
 		this.selectedNodeId = id;
 	}
-	
-	public void setButtonVisible(Long id,boolean stage) {
+
+	public void setButtonVisible(Long id, boolean stage) {
 		treeView.setButtonVisible(id, stage);
 	}
 }
