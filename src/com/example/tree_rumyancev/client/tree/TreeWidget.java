@@ -184,6 +184,7 @@ public class TreeWidget extends Composite {
 	}
 
 	public boolean hasNodechild(Long id) {
+
 		return !treeNodes.get(id).getChildIds().isEmpty();
 	}
 

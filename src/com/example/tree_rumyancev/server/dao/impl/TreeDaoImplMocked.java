@@ -42,14 +42,14 @@ public class TreeDaoImplMocked implements TreeDao {
 	}
 
 	@Override
-	public List<Node> getAllData() {
+	public List<Node> findAll() {
 		return nodes;
 	}
 
 	
 	private List<Node> getChildrenList(Long parentId) {
 		List<Node> childrenList = new ArrayList<Node>();
-		List<Node> nodes = getAllData();
+		List<Node> nodes = findAll();
 		for (Node node : nodes) {
 			if (parentId.equals(node.getParentId())) {
 				childrenList.add(node);

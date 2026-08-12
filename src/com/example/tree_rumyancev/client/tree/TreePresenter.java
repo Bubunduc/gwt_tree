@@ -47,10 +47,12 @@ public class TreePresenter {
 		loadedNodes.remove(deletedNode);
 		loadedNodes.keySet().removeAll(deletedChildIds);
 		treeView.eraseNode(deletedNode, parentId, deletedChildIds);
-
-		if (treeView.hasNodechild(parentId) == false) {
-			treeView.setButtonVisible(parentId, false);
+		if(parentId != null) {
+			if (treeView.hasNodechild(parentId) == false) {
+				treeView.setButtonVisible(parentId, false);
+			}
 		}
+		
 		Window.alert("Удаление прошло успешно");
 	}
 

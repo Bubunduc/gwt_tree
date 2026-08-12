@@ -339,6 +339,9 @@ public class MainPanelPresenter {
 	}
 
 	private void updateTreeButton(Long nodeId) {
+		if (nodeId == null) {
+			return;
+		}
 		treePresenter.setButtonVisible(nodeId, nodeStore.hasChild(nodeId));
 	}
 

@@ -13,7 +13,7 @@ import com.example.tree_rumyancev.shared.model.Node;
 public class TreeDaoMyBatisImpl implements TreeDao {
 
     @Override
-    public List<Node> getAllData() {
+    public List<Node> findAll() {
         try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             TreeMapper mapper = session.getMapper(TreeMapper.class);
             return mapper.getAllData();

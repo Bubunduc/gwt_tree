@@ -54,7 +54,7 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	@Override
 	public List<Node> getAllData() {
-		return dao.getAllData();
+		return dao.findAll();
 	}
 
 	@Override

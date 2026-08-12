@@ -6,7 +6,7 @@ import com.example.tree_rumyancev.shared.model.Node;
 
 public interface TreeDao {
 
-	List<Node> getAllData();
+	List<Node> findAll();
 
 	Node create(Node node);
 
