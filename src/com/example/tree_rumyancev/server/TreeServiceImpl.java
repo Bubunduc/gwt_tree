@@ -2,8 +2,6 @@ package com.example.tree_rumyancev.server;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.server.dao.impl.TreeDaoImplMocked;
@@ -17,11 +15,14 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	private final TreeDao dao;
 	private static final boolean USE_MYBATIS = true;
+
 	public TreeServiceImpl() {
-		this.dao = new TreeDaoImplMocked();
-	}
-	public TreeServiceImpl(SqlSessionFactory sqlSessionFactory) {
-		this.dao = new TreeDaoMyBatisImpl(sqlSessionFactory);
+		if (USE_MYBATIS) {
+			this.dao = new TreeDaoMyBatisImpl();
+		} else {
+			this.dao = new TreeDaoImplMocked();
+		}
+
 	}
 
 	@Override
@@ -51,13 +52,10 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 
 	}
 
-
 	@Override
 	public List<Node> getAllData() {
 		return dao.getAllData();
 	}
-
-
 
 	@Override
 	public Node findById(Long id) {

@@ -6,20 +6,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.example.tree_rumyancev.server.dao.TreeDao;
+import com.example.tree_rumyancev.server.mybatis.MyBatisUtil;
 import com.example.tree_rumyancev.server.mybatis.TreeMapper;
 import com.example.tree_rumyancev.shared.model.Node;
 
 public class TreeDaoMyBatisImpl implements TreeDao {
 
-    private final SqlSessionFactory sqlSessionFactory;
-
-    public TreeDaoMyBatisImpl(SqlSessionFactory sqlSessionFactory) {
-        this.sqlSessionFactory = sqlSessionFactory;
-    }
-
     @Override
     public List<Node> getAllData() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             TreeMapper mapper = session.getMapper(TreeMapper.class);
             return mapper.getAllData();
         }
@@ -27,7 +22,7 @@ public class TreeDaoMyBatisImpl implements TreeDao {
 
     @Override
     public Node findById(Long id) {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
+        try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             TreeMapper mapper = session.getMapper(TreeMapper.class);
             return mapper.findById(id);
         }
@@ -35,26 +30,29 @@ public class TreeDaoMyBatisImpl implements TreeDao {
 
     @Override
     public Node create(Node node) {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) { // true = autocommit
+        try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) { 
             TreeMapper mapper = session.getMapper(TreeMapper.class);
-            mapper.create(node); // MyBatis сам подставит сгенерированный id в объект node
+            mapper.create(node);
+            session.commit();
             return node;
         }
     }
 
     @Override
     public void update(Node node) {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+        try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             TreeMapper mapper = session.getMapper(TreeMapper.class);
             mapper.update(node);
+            session.commit();
         }
     }
 
     @Override
     public void delete(Long id) {
-        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+        try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
             TreeMapper mapper = session.getMapper(TreeMapper.class);
             mapper.delete(id);
+            session.commit();
         }
     }
 }

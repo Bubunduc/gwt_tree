@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.example.tree_rumyancev.server.mybatis.TreeMapper">
+
+	<resultMap id="NodeResultMap"
+		type="com.example.tree_rumyancev.shared.model.Node">
+		<id property="id" column="id" />
+		<result property="parentId" column="parent_id" />
+		<result property="name" column="name" />
+		<result property="ip" column="ip" />
+		<result property="port" column="port" />
+	</resultMap>
+
+	<select id="getAllData" resultMap="NodeResultMap">
+		SELECT * FROM client_node
+	</select>
+
+	<select id="findById" parameterType="long"
+		resultMap="NodeResultMap">
+		SELECT * FROM client_node WHERE id = #{id}
+	</select>
+
+	<insert id="create"
+		parameterType="com.example.tree_rumyancev.shared.model.Node"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO client_node (parent_id, name, ip, port)
+		VALUES (#{parentId}, #{name}, #{ip}, #{port})
+	</insert>
+
+	<update id="update"
+		parameterType="com.example.tree_rumyancev.shared.model.Node">
+		UPDATE client_node
+		SET parent_id = #{parentId},
+		name = #{name},
+		ip = #{ip},
+		port = #{port}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		DELETE FROM client_node WHERE id = #{id}
+	</delete>
+
+</mapper>

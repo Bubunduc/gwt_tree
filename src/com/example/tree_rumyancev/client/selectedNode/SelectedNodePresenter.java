@@ -85,10 +85,6 @@ public class SelectedNodePresenter {
 			return null;
 		}
 
-		if (selectedNode.getParentId() == null) {
-			Window.alert("корень удалить нельзя");
-			return null;
-		}
 		return selectedNode.getId();
 	}
 

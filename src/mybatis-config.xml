@@ -15,6 +15,6 @@
   </environments>
 
   <mappers>
-    <mapper class="com.example.tree_rumyancev.server.dao.impl.TreeDaoImplMybatis"/>
+   <mapper resource="TreeMapper.xml"/>
   </mappers>
 </configuration>
