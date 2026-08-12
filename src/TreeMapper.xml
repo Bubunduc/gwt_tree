@@ -14,7 +14,7 @@
 		<result property="port" column="port" />
 	</resultMap>
 
-	<select id="getAllData" resultMap="NodeResultMap">
+	<select id="findAll" resultMap="NodeResultMap">
 		SELECT * FROM client_node
 	</select>
 
@@ -33,7 +33,7 @@
 	<update id="update"
 		parameterType="com.example.tree_rumyancev.shared.model.Node">
 		UPDATE client_node
-		SET parent_id = #{parentId},
+		SET 
 		name = #{name},
 		ip = #{ip},
 		port = #{port}

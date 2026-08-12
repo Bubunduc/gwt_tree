@@ -101,7 +101,7 @@ public class MainPanelPresenter {
 	}
 
 	public void loadData() {
-		treeService.getAllData(new AsyncCallback<List<Node>>() {
+		treeService.findAll(new AsyncCallback<List<Node>>() {
 
 			@Override
 			public void onSuccess(List<Node> result) {

@@ -4,7 +4,7 @@ import java.util.List;
 import com.example.tree_rumyancev.shared.model.Node;
 
 public interface TreeMapper {
-    List<Node> getAllData();
+    List<Node> findAll();
     Node findById(Long id);
     void create(Node node);
     void update(Node node);
