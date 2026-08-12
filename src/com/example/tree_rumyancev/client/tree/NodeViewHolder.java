@@ -11,7 +11,7 @@ public class NodeViewHolder extends FlowPanel {
 	private ToggleButton showNode;
 	private Label nodeName;
 	private Set<Long> childIds;
-
+	private String status;
 	public NodeViewHolder(Long id, String name) {
 		childIds = new HashSet<Long>();
 		createPanel(id, name);
@@ -26,8 +26,9 @@ public class NodeViewHolder extends FlowPanel {
 		showNode.getElement().setAttribute("data-tree-id", id.toString());
 		nodeName.getElement().setAttribute("data-tree-id", id.toString());
 		getElement().setId("Panel " + id.toString());
-
+		
 		add(showNode);
+		
 		add(nodeName);
 
 		setStyleName("nodePanel");
@@ -36,7 +37,7 @@ public class NodeViewHolder extends FlowPanel {
 		
 		setButtonVisible(false);
 	}
-
+	
 	public void addChildId(Long id) {
 		childIds.add(id);
 	}
@@ -66,9 +67,7 @@ public class NodeViewHolder extends FlowPanel {
 	}
 
 	public void setButtonVisible(boolean stage) {
-		//showNode.setValue(stage);
 		showNode.setVisible(stage);
-		//showNode.setEnabled(stage);
 
 	}
 
@@ -79,5 +78,21 @@ public class NodeViewHolder extends FlowPanel {
 	public void removeFromChildList(Long id) {
 		childIds.remove(id);
 	}
+	
+	public void setStatus(String status) {
+		nodeName.setText("("+status+") "+nodeName.getText());
+	}
+	
+	public void colorNode(boolean stage) {
+		if (stage == true) {
+			nodeName.addStyleName("selectedLabel");
+			
+		} else {
+			nodeName.removeStyleName("selectedLabel");
+		}
+	}
+	
+
+	
 
 }

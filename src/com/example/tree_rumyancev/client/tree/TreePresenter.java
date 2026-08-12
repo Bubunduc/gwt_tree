@@ -169,4 +169,8 @@ public class TreePresenter {
 	public void setButtonVisible(Long id, boolean stage) {
 		treeView.setButtonVisible(id, stage);
 	}
+	
+	public void setStatus(String status) {
+		treeView.setStatus(selectedNodeId, status);
+	}
 }

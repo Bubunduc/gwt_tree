@@ -33,6 +33,10 @@ public class NodeStore {
 	public Long getSelectedNodeId() {
 		return selectedNodeId;
 	}
+	
+	public Node getSelectedNode() {
+		return nodes.get(selectedNodeId);
+	}
 
 	public void clearSelection() {
 		selectedNodeId = null;

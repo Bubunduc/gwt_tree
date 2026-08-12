@@ -89,4 +89,10 @@ public class TreeView implements TreeDisplay {
 		treeWidget.updateNodeName(id, name);
 	}
 
+	@Override
+	public void setStatus(Long id, String status) {
+		treeWidget.setStatus(id, status);
+		
+	}
+
 }

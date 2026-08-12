@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
@@ -15,6 +16,14 @@ import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.shared.model.Node;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -205,6 +214,13 @@ public class MainPanelPresenter {
 				deleteNode();
 			}
 		});
+		view.setPingNodeHandler(new PingNodeClicklHandler() {
+
+			@Override
+			public void onClick() {
+				pingNode();
+			}
+		});
 	}
 
 	private void selectNode(Long id) {
@@ -352,6 +368,48 @@ public class MainPanelPresenter {
 
 		for (Node node : nodes) {
 			treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
+		}
+	}
+
+	private void pingNode() {
+		Node selectedNode = nodeStore.getSelectedNode();
+		StringBuilder url = new StringBuilder("http://");
+		url.append(selectedNode.getIp());
+		url.append(":" + selectedNode.getPort().toString());
+		url.append("/health");
+		RequestBuilder request = new RequestBuilder(RequestBuilder.GET, url.toString());
+
+		try {
+			request.sendRequest(null, new RequestCallback() {
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+
+					String jsonText = response.getText();
+					if (response.getStatusCode() == 0) {
+						Window.alert("Нет ответа");
+						treePresenter.setStatus("CORS");
+						return;
+					}
+					
+					JSONValue jsonValue = JSONParser.parseStrict(jsonText);
+					Window.alert(jsonValue.toString());
+					if (jsonValue.isObject() != null) {
+						JSONObject jsonObject = jsonValue.isObject();
+						String statusString = jsonObject.get("status").isString().stringValue();
+						treePresenter.setStatus(statusString);
+
+					}
+
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					Window.alert(exception.getMessage());
+				}
+			});
+
+		} catch (RequestException e) {
+			Window.alert(e.getLocalizedMessage());
 		}
 	}
 }

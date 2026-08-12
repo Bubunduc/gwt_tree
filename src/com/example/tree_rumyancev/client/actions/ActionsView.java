@@ -3,6 +3,7 @@ package com.example.tree_rumyancev.client.actions;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,6 +19,7 @@ public class ActionsView implements ActionsDisplay {
 	private CreateRootClickHandler createRootHandler;
 	private CreateNodeClickHandler createNodeHandler;
 	private UpdateNodeClickHandler updateNodeHandler;
+	private PingNodeClicklHandler pingNodelHandler;
 
 	public ActionsView() {
 		initButtonsPanel();
@@ -70,11 +72,22 @@ public class ActionsView implements ActionsDisplay {
 			}
 		});
 		deleteButton.addStyleName("deleteButton");
-
+		
+		Button pingButton = new Button("Ping");
+		pingButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				pingNodelHandler.onClick();
+				
+			}
+		});
+		
 		buttonPanel.add(addNodeButton);
 		buttonPanel.add(addRootButton);
 		buttonPanel.add(editButton);
 		buttonPanel.add(deleteButton);
+		buttonPanel.add(pingButton);
 
 	}
 
@@ -109,6 +122,13 @@ public class ActionsView implements ActionsDisplay {
 	public Widget asWidget() {
 
 		return buttonPanel.asWidget();
+	}
+
+
+	@Override
+	public void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler) {
+		this.pingNodelHandler = pingNodeClicklHandler;
+		
 	}
 
 }

@@ -29,6 +29,8 @@ public interface TreeDisplay extends IsWidget {
 	boolean hasNodechild(Long id);
 
 	void setButtonVisible(Long id, boolean stage);
+	
+	void setStatus(Long id,String status);
 
 	void colorSelectedNode(Long id, boolean stage);
 

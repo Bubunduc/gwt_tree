@@ -225,11 +225,11 @@ public class TreeWidget extends Composite {
 		if (selectedHolder == null) {
 			return;
 		}
-		if (stage == true) {
-			selectedHolder.getNodeName().addStyleName("selectedLabel");
-		} else {
-			selectedHolder.getNodeName().removeStyleName("selectedLabel");
-		}
+		selectedHolder.colorNode(stage);
 
+	}
+	
+	public void setStatus(Long id,String status) {
+		treeNodes.get(id).setStatus(status);
 	}
 }
