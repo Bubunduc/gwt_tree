@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.server.dao.TreeDao;
-import com.example.tree_rumyancev.server.dao.impl.TreeDaoImplMocked;
 import com.example.tree_rumyancev.server.dao.impl.TreeDaoMyBatisImpl;
 import com.example.tree_rumyancev.shared.FieldVerifier;
 import com.example.tree_rumyancev.shared.exception.NodeValidationException;
@@ -14,15 +13,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class TreeServiceImpl extends RemoteServiceServlet implements TreeService {
 
 	private final TreeDao dao;
-	private static final boolean USE_MYBATIS = true;
+	private static final long serialVersionUID = 1L;
 
 	public TreeServiceImpl() {
-		if (USE_MYBATIS) {
-			this.dao = new TreeDaoMyBatisImpl();
-		} else {
-			this.dao = new TreeDaoImplMocked();
-		}
-
+		this.dao = new TreeDaoMyBatisImpl();
 	}
 
 	@Override

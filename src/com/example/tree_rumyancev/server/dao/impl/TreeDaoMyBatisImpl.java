@@ -3,7 +3,6 @@ package com.example.tree_rumyancev.server.dao.impl;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.example.tree_rumyancev.server.dao.TreeDao;
 import com.example.tree_rumyancev.server.mybatis.MyBatisUtil;
