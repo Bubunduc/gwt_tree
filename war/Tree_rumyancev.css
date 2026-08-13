@@ -203,3 +203,30 @@ h1 {
 .selectedRow{
 	background-color: #17a9bd !important;
 }
+
+.circle {
+	width: 10px;
+	height: 10px;
+	background: gray;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+	border-radius: 50px;
+	margin-left: auto;
+	margin-right: 15px;
+}
+.circleUp{
+	background: green;
+}
+.circleDown{
+	background: red;
+}
+.circleNa{
+	background: gray;
+}
+.circleUnkwonw{
+	background: yellow;
+}
+.statusPanel{
+	background-color: #dbae84;
+	height: 184px;
+}

@@ -1,5 +1,8 @@
 package com.example.tree_rumyancev.client;
 
+import com.example.tree_rumyancev.client.ServerStatus.ServerStatusDisplay;
+import com.example.tree_rumyancev.client.ServerStatus.ServerStatusPresenter;
+import com.example.tree_rumyancev.client.ServerStatus.ServerStatusView;
 import com.example.tree_rumyancev.client.actions.ActionsDisplay;
 import com.example.tree_rumyancev.client.actions.ActionsView;
 import com.example.tree_rumyancev.client.mainPanel.MainPanelDisplay;
@@ -35,23 +38,27 @@ public class Tree_rumyancev implements EntryPoint {
 		final TreeServiceAsync treeService = GWT.create(TreeService.class);
 		final NodeStore nodeStore = new NodeStore();
 
-		SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
-		SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView);
+		final SelectedNodeDisplay selectedNodeView = new SelectedNodeView();
+		final SelectedNodePresenter selectedNodePresenter = new SelectedNodePresenter(selectedNodeView);
 
-		TreeDisplay treeView = new TreeView();
-		TreePresenter treePresenter = new TreePresenter(treeView);
+		final TreeDisplay treeView = new TreeView();
+		final TreePresenter treePresenter = new TreePresenter(treeView);
 
-		ActionsDisplay actionsView = new ActionsView();
+		final ActionsDisplay actionsView = new ActionsView();
 
-		TableDisplay allNodesTable = new TableView();
-		TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
-
-		MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView);
-		MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder()
+		final TableDisplay allNodesTable = new TableView();
+		final TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
+		
+		final ServerStatusDisplay serverStatus = new ServerStatusView();
+		final ServerStatusPresenter serverStatusPresenter = new ServerStatusPresenter(serverStatus);
+		
+		final MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView,serverStatus);
+		final MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder()
 				.view(mainPanelView)
 				.treePresenter(treePresenter)
 				.selectedNodePresenter(selectedNodePresenter)
 				.tablePresenter(tablePresenter)
+				.serverStatusPresenter(serverStatusPresenter)
 				.treeService(treeService)
 				.nodeStore(nodeStore)
 				.build();

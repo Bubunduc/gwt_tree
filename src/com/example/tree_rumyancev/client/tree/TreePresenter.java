@@ -173,4 +173,5 @@ public class TreePresenter {
 	public void setStatus(String status) {
 		treeView.setStatus(selectedNodeId, status);
 	}
+	
 }

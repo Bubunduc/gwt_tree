@@ -5,13 +5,15 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public class NodeViewHolder extends FlowPanel {
 	private ToggleButton showNode;
 	private Label nodeName;
+	private SimplePanel circle;
 	private Set<Long> childIds;
-	private String status;
+
 	public NodeViewHolder(Long id, String name) {
 		childIds = new HashSet<Long>();
 		createPanel(id, name);
@@ -22,22 +24,25 @@ public class NodeViewHolder extends FlowPanel {
 
 		showNode = new ToggleButton("+", "-");
 		nodeName = new Label(name);
-
+		circle = new SimplePanel();
 		showNode.getElement().setAttribute("data-tree-id", id.toString());
 		nodeName.getElement().setAttribute("data-tree-id", id.toString());
 		getElement().setId("Panel " + id.toString());
-		
+
 		add(showNode);
-		
+
 		add(nodeName);
+
+		add(circle);
 
 		setStyleName("nodePanel");
 		nodeName.setStyleName("nodeLabel");
 		showNode.setStyleName("nodeButton nodeButtonUp");
-		
+		circle.setStyleName("circle");
+
 		setButtonVisible(false);
 	}
-	
+
 	public void addChildId(Long id) {
 		childIds.add(id);
 	}
@@ -78,21 +83,35 @@ public class NodeViewHolder extends FlowPanel {
 	public void removeFromChildList(Long id) {
 		childIds.remove(id);
 	}
-	
+
 	public void setStatus(String status) {
-		nodeName.setText("("+status+") "+nodeName.getText());
+		switch (status) {
+		case "UP": {
+			circle.setStyleName("circle circleUp");
+			break;
+		}
+		case "DOWN": {
+			circle.setStyleName("circle circleDown");
+			break;
+		}
+		case "N/A":{
+			circle.setStyleName("circle circleNa");
+			break;
+		}
+		default: {
+			circle.setStyleName("circle circleUnkwonw");
+			break;
+		}
+		}
 	}
-	
+
 	public void colorNode(boolean stage) {
 		if (stage == true) {
 			nodeName.addStyleName("selectedLabel");
-			
+
 		} else {
 			nodeName.removeStyleName("selectedLabel");
 		}
 	}
-	
-
-	
 
 }

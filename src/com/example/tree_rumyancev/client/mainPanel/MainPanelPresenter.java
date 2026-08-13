@@ -1,7 +1,9 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+import com.example.tree_rumyancev.client.ServerStatus.ServerStatusPresenter;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
@@ -15,12 +17,14 @@ import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
+import com.example.tree_rumyancev.shared.dto.ServerStatusViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -35,16 +39,19 @@ public class MainPanelPresenter {
 	private final TreePresenter treePresenter;
 	private final TablePresenter tablePresenter;
 	private final SelectedNodePresenter selectedNodePresenter;
+	private final ServerStatusPresenter serverStatusPresenter;
 
 	private final NodeStore nodeStore;
 
-	public MainPanelPresenter(Builder bulder) {
-		this.view = bulder.view;
-		this.treePresenter = bulder.treePresenter;
-		this.tablePresenter = bulder.tablePresenter;
-		this.selectedNodePresenter = bulder.selectedNodePresenter;
-		this.nodeStore = bulder.nodeStore;
-		this.treeService = bulder.treeService;
+	public MainPanelPresenter(Builder builder) {
+		this.view = builder.view;
+		this.treePresenter = builder.treePresenter;
+		this.tablePresenter = builder.tablePresenter;
+		this.selectedNodePresenter = builder.selectedNodePresenter;
+		this.serverStatusPresenter = builder.serverStatusPresenter;
+		this.nodeStore = builder.nodeStore;
+		this.treeService = builder.treeService;
+
 		loadData();
 		bind();
 	}
@@ -59,6 +66,7 @@ public class MainPanelPresenter {
 		private TreePresenter treePresenter;
 		private TablePresenter tablePresenter;
 		private SelectedNodePresenter selectedNodePresenter;
+		private ServerStatusPresenter serverStatusPresenter;
 
 		private NodeStore nodeStore;
 
@@ -89,6 +97,11 @@ public class MainPanelPresenter {
 
 		public Builder nodeStore(NodeStore nodeStore) {
 			this.nodeStore = nodeStore;
+			return this;
+		}
+
+		public Builder serverStatusPresenter(ServerStatusPresenter serverStatusPresenter) {
+			this.serverStatusPresenter = serverStatusPresenter;
 			return this;
 		}
 
@@ -177,6 +190,7 @@ public class MainPanelPresenter {
 					}
 				}
 				selectNode(nodeId);
+
 			}
 
 		});
@@ -233,8 +247,8 @@ public class MainPanelPresenter {
 		nodeStore.setSelectedNodeId(id);
 		selectedNodePresenter.loadNode(node);
 		tablePresenter.colorRow(id);
-
 		treePresenter.colorLabel(id);
+		serverStatusPresenter.showData(id);
 	}
 
 	private void refreshData() {
@@ -386,17 +400,34 @@ public class MainPanelPresenter {
 
 					String jsonText = response.getText();
 					if (response.getStatusCode() == 0) {
-						Window.alert("Нет ответа");
-						treePresenter.setStatus("CORS");
+
+						Timestamp time = new Timestamp(System.currentTimeMillis());
+						Long serverId = null;
+						String statusString = "N/A";
+						ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
+						serverStatusPresenter.loadData(nodeStore.getSelectedNodeId(), viewData);
+						treePresenter.setStatus(statusString);
 						return;
 					}
-					
+
 					JSONValue jsonValue = JSONParser.parseStrict(jsonText);
-					Window.alert(jsonValue.toString());
+
 					if (jsonValue.isObject() != null) {
-						JSONObject jsonObject = jsonValue.isObject();
-						String statusString = jsonObject.get("status").isString().stringValue();
-						treePresenter.setStatus(statusString);
+						try {
+							JSONObject jsonObject = jsonValue.isObject();
+							String timeStr = jsonObject.get("timestamp").isString().stringValue();
+							DateTimeFormat isoFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+							Timestamp time = new Timestamp(isoFormat.parse(timeStr).getTime());
+							Long serverId = (long) jsonObject.get("serverId").isNumber().doubleValue();
+							String statusString = jsonObject.get("status").isString().stringValue();
+
+							ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
+							serverStatusPresenter.loadData(nodeStore.getSelectedNodeId(), viewData);
+							treePresenter.setStatus(statusString);
+						} catch (Exception e) {
+							Window.alert("При чтении ответа произошла ошибка" + e.getMessage());
+						}
 
 					}
 
@@ -409,7 +440,7 @@ public class MainPanelPresenter {
 			});
 
 		} catch (RequestException e) {
-			Window.alert(e.getLocalizedMessage());
+			Window.alert(e.getMessage());
 		}
 	}
 }

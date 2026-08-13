@@ -1,5 +1,6 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
+import com.example.tree_rumyancev.client.ServerStatus.ServerStatusDisplay;
 import com.example.tree_rumyancev.client.actions.ActionsDisplay;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
@@ -24,16 +25,17 @@ public class MainPanelView implements MainPanelDisplay {
 	private final ActionsDisplay actionsView;
 
 	public MainPanelView(TableDisplay tableView, TreeDisplay treeView, ActionsDisplay actionsView,
-			SelectedNodeDisplay selectedNodeView) {
+			SelectedNodeDisplay selectedNodeView,ServerStatusDisplay serverStatusDisplay) {
 		this.tableView = tableView;
 		this.treeView = treeView;
 		this.actionsView = actionsView;
 		topPanel.add(treeView.asWidget());
 		topPanel.add(selectedNodeView.asWidget());
+		topPanel.add(serverStatusDisplay.asWidget());
 		mainPanel.add(topPanel);
 		mainPanel.add(actionsView.asWidget());
 		mainPanel.add(tableView.asWidget());
-
+		
 		topPanel.setStyleName("topPanel");
 	}
 
