@@ -53,7 +53,7 @@ public class TreePresenter {
 			}
 		}
 		
-		Window.alert("Удаление прошло успешно");
+		
 	}
 
 	public void createRoot(Node newRoot) {
@@ -79,7 +79,6 @@ public class TreePresenter {
 
 	public void updateNode(Node updatedNode) {
 		if (!loadedNodes.containsKey(updatedNode.getId())) {
-			Window.alert("Обновление прошло успешно");
 			return;
 		}
 

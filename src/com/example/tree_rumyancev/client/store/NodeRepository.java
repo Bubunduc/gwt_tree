@@ -55,13 +55,13 @@ public class NodeRepository {
 		});
 	}
 
-	public static void update(final Node updatedNode, final AsyncCallback<Void> callback) {
+	public static void update(final Node updatedNode, final AsyncCallback<Node> callback) {
 		treeService.update(updatedNode, new AsyncCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
 				nodeStore.save(updatedNode);
-
+				callback.onSuccess(updatedNode);
 			}
 
 			@Override

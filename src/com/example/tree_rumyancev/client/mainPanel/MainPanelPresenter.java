@@ -1,6 +1,5 @@
 package com.example.tree_rumyancev.client.mainPanel;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.example.tree_rumyancev.client.ServerStatus.ServerStatusPresenter;
@@ -14,6 +13,8 @@ import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeC
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
+import com.example.tree_rumyancev.client.request.HealthRequest;
+import com.example.tree_rumyancev.client.request.PingCallback;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.client.store.NodeRepository;
@@ -21,15 +22,6 @@ import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -125,23 +117,22 @@ public class MainPanelPresenter {
 
 	public void loadData() {
 		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
-			
+
 			@Override
 			public void onSuccess(List<Node> result) {
 				List<Node> roots = nodeStore.getRoots();
 				treePresenter.loadData(roots);
 				tablePresenter.loadData(result);
 				updateTreeButtons(roots);
-				
+
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Ошибка");
-				
+
 			}
 		});
-
 
 	}
 
@@ -183,7 +174,7 @@ public class MainPanelPresenter {
 					if (!pathList.isEmpty()) {
 						for (Long pathId : pathList) {
 							treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
-							
+
 						}
 					}
 				}
@@ -251,20 +242,20 @@ public class MainPanelPresenter {
 
 	private void refreshData() {
 		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
-			
+
 			@Override
 			public void onSuccess(List<Node> result) {
 				tablePresenter.loadData(result);
 				tablePresenter.colorRow(nodeStore.getSelectedNodeId());
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
-				
+
 			}
 		});
-		
+
 	}
 
 	private void createNode() {
@@ -281,6 +272,7 @@ public class MainPanelPresenter {
 			public void onSuccess(Node result) {
 				treePresenter.createNode(result);
 				updateTreeButton(parentId);
+				Window.alert("Дочерняя ветвь создана успешно");
 			}
 
 			@Override
@@ -289,7 +281,7 @@ public class MainPanelPresenter {
 
 			}
 		});
-		Window.alert("Дочерняя ветвь создана успешно");
+
 	}
 
 	private void createRoot() {
@@ -324,12 +316,11 @@ public class MainPanelPresenter {
 			return;
 		}
 
-		NodeRepository.update(updatedNode, new AsyncCallback<Void>() {
+		NodeRepository.update(updatedNode, new AsyncCallback<Node>() {
 
 			@Override
-			public void onSuccess(Void result) {
-				nodeStore.save(updatedNode);
-				treePresenter.updateNode(updatedNode);
+			public void onSuccess(Node result) {
+				treePresenter.updateNode(result);
 				Window.alert("Обновление прошло успешно");
 			}
 
@@ -356,7 +347,7 @@ public class MainPanelPresenter {
 				treePresenter.deleteNode(deletedId, parentId, removedIds);
 				selectedNodePresenter.clean();
 				updateTreeButton(parentId);
-
+				Window.alert("Удаление прошло успешно");
 			}
 
 			@Override
@@ -394,69 +385,20 @@ public class MainPanelPresenter {
 
 	private void pingNode() {
 		final Node selectedNode = nodeStore.getSelectedNode();
-		
-		if (selectedNode == null) {
-			Window.alert("Для посылки запроса выберите ноду");
-			return;
-		}
+		HealthRequest.ping(selectedNode, new PingCallback() {
 
-		StringBuilder url = new StringBuilder("http://");
-		url.append(selectedNode.getIp());
-		url.append(":" + selectedNode.getPort().toString());
-		url.append("/health");
-		
-		RequestBuilder request = new RequestBuilder(RequestBuilder.GET, url.toString());
+			@Override
+			public void onSuccess(ServerStatusViewData data) {
+				serverStatusPresenter.setData(selectedNode.getId(), data);
+				treePresenter.setStatus(data.getStatus());
 
-		try {
-			request.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
+			}
 
-					String jsonText = response.getText();
-					if (response.getStatusCode() == 0) {
+			@Override
+			public void onFailure(String message) {
+				Window.alert(message);
 
-						Timestamp time = new Timestamp(System.currentTimeMillis());
-						Long serverId = null;
-						String statusString = "N/A";
-						
-						ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
-						serverStatusPresenter.setData(selectedNode.getId(), viewData);
-						treePresenter.setStatus(statusString);
-						
-						return;
-					}
-
-					JSONValue jsonValue = JSONParser.parseStrict(jsonText);
-
-					if (jsonValue.isObject() != null) {
-						try {
-							JSONObject jsonObject = jsonValue.isObject();
-							String timeStr = jsonObject.get("timestamp").isString().stringValue();
-							DateTimeFormat isoFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-							Timestamp time = new Timestamp(isoFormat.parse(timeStr).getTime());
-							Long serverId = (long) jsonObject.get("serverId").isNumber().doubleValue();
-							String statusString = jsonObject.get("status").isString().stringValue();
-
-							ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
-							serverStatusPresenter.setData(selectedNode.getId(), viewData);
-							treePresenter.setStatus(statusString);
-						} catch (Exception e) {
-							Window.alert("При чтении ответа произошла ошибка" + e.getMessage());
-						}
-
-					}
-
-				}
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					Window.alert(exception.getMessage());
-				}
-			});
-
-		} catch (RequestException e) {
-			Window.alert(e.getMessage());
-		}
+			}
+		});
 	}
 }
