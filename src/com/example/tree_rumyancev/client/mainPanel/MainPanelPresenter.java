@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.example.tree_rumyancev.client.ServerStatus.ServerStatusPresenter;
+import com.example.tree_rumyancev.client.dto.ServerStatusViewData;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
@@ -17,7 +18,6 @@ import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
-import com.example.tree_rumyancev.shared.dto.ServerStatusViewData;
 import com.example.tree_rumyancev.shared.model.Node;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;

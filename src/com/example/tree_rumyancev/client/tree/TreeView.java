@@ -2,8 +2,8 @@ package com.example.tree_rumyancev.client.tree;
 
 import java.util.List;
 
+import com.example.tree_rumyancev.client.dto.TreeViewData;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
-import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TreeView implements TreeDisplay {

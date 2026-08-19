@@ -1,6 +1,6 @@
 package com.example.tree_rumyancev.client.ServerStatus;
 
-import com.example.tree_rumyancev.shared.dto.ServerStatusViewData;
+import com.example.tree_rumyancev.client.dto.ServerStatusViewData;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.example.tree_rumyancev.client.dto.TreeViewData;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
-import com.example.tree_rumyancev.shared.dto.TreeViewData;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -2,9 +2,9 @@ package com.example.tree_rumyancev.client.table;
 
 import java.util.List;
 
+import com.example.tree_rumyancev.client.dto.TableViewData;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
-import com.example.tree_rumyancev.shared.dto.TableViewData;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 

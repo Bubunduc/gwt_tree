@@ -1,4 +1,4 @@
-package com.example.tree_rumyancev.shared.dto;
+package com.example.tree_rumyancev.client.dto;
 
 import java.sql.Timestamp;
 

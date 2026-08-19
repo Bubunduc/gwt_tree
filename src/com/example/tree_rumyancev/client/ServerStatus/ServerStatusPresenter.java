@@ -3,7 +3,7 @@ package com.example.tree_rumyancev.client.ServerStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.tree_rumyancev.shared.dto.ServerStatusViewData;
+import com.example.tree_rumyancev.client.dto.ServerStatusViewData;
 
 public class ServerStatusPresenter {
 
