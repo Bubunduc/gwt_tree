@@ -9,14 +9,14 @@ public class ServerStatusPresenter {
 
 	private final ServerStatusDisplay view;
 
-	Map<Long, ServerStatusViewData> responses;
+	private final Map<Long, ServerStatusViewData> responses;
 
 	public ServerStatusPresenter(ServerStatusDisplay view) {
 		responses = new HashMap<Long, ServerStatusViewData>();
 		this.view = view;
 	}
 
-	public void loadData(Long id, ServerStatusViewData data) {
+	public void setData(Long id, ServerStatusViewData data) {
 
 		if (id == null || data == null) {
 			return;

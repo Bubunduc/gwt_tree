@@ -5,9 +5,13 @@ import com.example.tree_rumyancev.shared.model.Node;
 public class FieldVerifier {
 
 	public static String validateNode(Node node) {
-		
+
 		if (node == null) {
 			return "Нода не может быть null";
+		}
+
+		if ((node.getIp() == null) || (node.getName() == null) || node.getPort() == null) {
+			return "Поля не могут быть пустыми";
 		}
 
 		if (!node.getIp()

@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 
 public class ServerStatusViewData {
 	private Timestamp time;
-	private Long sereverId;
+	private Long serverId;
 	private String status;
 	
 	public ServerStatusViewData(Timestamp time, Long sereverId, String status) {
 		super();
 		this.time = time;
-		this.sereverId = sereverId;
+		this.serverId = sereverId;
 		this.status = status;
 	}
 	public Timestamp getTime() {
@@ -20,10 +20,10 @@ public class ServerStatusViewData {
 		this.time = time;
 	}
 	public Long getSereverId() {
-		return sereverId;
+		return serverId;
 	}
 	public void setSereverId(Long sereverId) {
-		this.sereverId = sereverId;
+		this.serverId = sereverId;
 	}
 	public String getStatus() {
 		return status;

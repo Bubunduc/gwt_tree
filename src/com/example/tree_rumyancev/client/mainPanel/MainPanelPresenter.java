@@ -185,7 +185,7 @@ public class MainPanelPresenter {
 					if (!pathList.isEmpty()) {
 						for (Long pathId : pathList) {
 							treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
-							;
+							
 						}
 					}
 				}
@@ -386,11 +386,18 @@ public class MainPanelPresenter {
 	}
 
 	private void pingNode() {
-		Node selectedNode = nodeStore.getSelectedNode();
+		final Node selectedNode = nodeStore.getSelectedNode();
+		
+		if (selectedNode == null) {
+			Window.alert("Для посылки запроса выберите ноду");
+			return;
+		}
+
 		StringBuilder url = new StringBuilder("http://");
 		url.append(selectedNode.getIp());
 		url.append(":" + selectedNode.getPort().toString());
 		url.append("/health");
+		
 		RequestBuilder request = new RequestBuilder(RequestBuilder.GET, url.toString());
 
 		try {
@@ -404,9 +411,11 @@ public class MainPanelPresenter {
 						Timestamp time = new Timestamp(System.currentTimeMillis());
 						Long serverId = null;
 						String statusString = "N/A";
+						
 						ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
-						serverStatusPresenter.loadData(nodeStore.getSelectedNodeId(), viewData);
+						serverStatusPresenter.setData(selectedNode.getId(), viewData);
 						treePresenter.setStatus(statusString);
+						
 						return;
 					}
 
@@ -423,7 +432,7 @@ public class MainPanelPresenter {
 							String statusString = jsonObject.get("status").isString().stringValue();
 
 							ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
-							serverStatusPresenter.loadData(nodeStore.getSelectedNodeId(), viewData);
+							serverStatusPresenter.setData(selectedNode.getId(), viewData);
 							treePresenter.setStatus(statusString);
 						} catch (Exception e) {
 							Window.alert("При чтении ответа произошла ошибка" + e.getMessage());
