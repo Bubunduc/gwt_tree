@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.example.tree_rumyancev.client.ServerStatus.ServerStatusPresenter;
+import com.example.tree_rumyancev.client.dto.DeletedNodeData;
 import com.example.tree_rumyancev.client.dto.ServerStatusViewData;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
@@ -15,6 +16,7 @@ import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
 import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
+import com.example.tree_rumyancev.client.store.NodeRepository;
 import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
@@ -40,7 +42,6 @@ public class MainPanelPresenter {
 	private final TablePresenter tablePresenter;
 	private final SelectedNodePresenter selectedNodePresenter;
 	private final ServerStatusPresenter serverStatusPresenter;
-
 	private final NodeStore nodeStore;
 
 	public MainPanelPresenter(Builder builder) {
@@ -51,7 +52,7 @@ public class MainPanelPresenter {
 		this.serverStatusPresenter = builder.serverStatusPresenter;
 		this.nodeStore = builder.nodeStore;
 		this.treeService = builder.treeService;
-
+		NodeRepository.init(treeService, nodeStore);
 		loadData();
 		bind();
 	}
@@ -123,27 +124,24 @@ public class MainPanelPresenter {
 	}
 
 	public void loadData() {
-		treeService.findAll(new AsyncCallback<List<Node>>() {
-
+		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
+			
 			@Override
 			public void onSuccess(List<Node> result) {
-				nodeStore.clear();
-				for (Node node : result) {
-					nodeStore.save(node);
-				}
-
-				tablePresenter.loadData(result);
 				List<Node> roots = nodeStore.getRoots();
 				treePresenter.loadData(roots);
+				tablePresenter.loadData(result);
 				updateTreeButtons(roots);
+				
 			}
-
+			
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Ошибка");
-
+				
 			}
 		});
+
 
 	}
 
@@ -252,8 +250,21 @@ public class MainPanelPresenter {
 	}
 
 	private void refreshData() {
-		tablePresenter.loadData(nodeStore.getValuesList());
-		tablePresenter.colorRow(nodeStore.getSelectedNodeId());
+		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
+			
+			@Override
+			public void onSuccess(List<Node> result) {
+				tablePresenter.loadData(result);
+				tablePresenter.colorRow(nodeStore.getSelectedNodeId());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+				
+			}
+		});
+		
 	}
 
 	private void createNode() {
@@ -264,14 +275,12 @@ public class MainPanelPresenter {
 		}
 		final Long parentId = newNode.getParentId();
 
-		treeService.create(newNode, new AsyncCallback<Node>() {
+		NodeRepository.create(newNode, new AsyncCallback<Node>() {
 
 			@Override
 			public void onSuccess(Node result) {
-				nodeStore.save(result);
 				treePresenter.createNode(result);
 				updateTreeButton(parentId);
-				Window.alert("Дочерняя ветвь создана успешно");
 			}
 
 			@Override
@@ -280,6 +289,7 @@ public class MainPanelPresenter {
 
 			}
 		});
+		Window.alert("Дочерняя ветвь создана успешно");
 	}
 
 	private void createRoot() {
@@ -289,11 +299,10 @@ public class MainPanelPresenter {
 			return;
 		}
 
-		treeService.create(newRoot, new AsyncCallback<Node>() {
+		NodeRepository.create(newRoot, new AsyncCallback<Node>() {
 
 			@Override
 			public void onSuccess(Node result) {
-				nodeStore.save(result);
 				treePresenter.createRoot(result);
 				updateTreeButton(result.getId());
 				Window.alert("Корень создан успешно");
@@ -315,7 +324,7 @@ public class MainPanelPresenter {
 			return;
 		}
 
-		treeService.update(updatedNode, new AsyncCallback<Void>() {
+		NodeRepository.update(updatedNode, new AsyncCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
@@ -338,16 +347,14 @@ public class MainPanelPresenter {
 		if (deletedId == null) {
 			return;
 		}
-		treeService.delete(deletedId, new AsyncCallback<Void>() {
+		NodeRepository.delete(deletedId, new AsyncCallback<DeletedNodeData>() {
 
 			@Override
-			public void onSuccess(Void result) {
-				Long parentId = nodeStore.get(deletedId).getParentId();
-				List<Long> removedIds = nodeStore.removeSubTrees(deletedId);
-				nodeStore.remove(deletedId);
+			public void onSuccess(DeletedNodeData result) {
+				Long parentId = result.getParentId();
+				List<Long> removedIds = result.getRemovedIds();
 				treePresenter.deleteNode(deletedId, parentId, removedIds);
 				selectedNodePresenter.clean();
-				nodeStore.clearSelection();
 				updateTreeButton(parentId);
 
 			}
