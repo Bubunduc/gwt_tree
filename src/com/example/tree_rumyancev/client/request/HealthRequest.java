@@ -13,13 +13,12 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.Window;
 
 public class HealthRequest {
 	
 	public static void ping(final Node selectedNode,final PingCallback callback) {
 		if (selectedNode == null) {
-			Window.alert("Для посылки запроса выберите ноду");
+			callback.onFailure("Для посылки запроса выберите ноду");
 			return;
 		}
 
@@ -65,7 +64,7 @@ public class HealthRequest {
 							callback.onSuccess(viewData);
 							
 						} catch (Exception e) {
-							Window.alert("При чтении ответа произошла ошибка" + e.getMessage());
+							callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 						}
 
 					}
@@ -74,12 +73,12 @@ public class HealthRequest {
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					Window.alert(exception.getMessage());
+					callback.onFailure("При чтении ответа произошла ошибка" + exception.getMessage());
 				}
 			});
 
 		} catch (RequestException e) {
-			Window.alert(e.getMessage());
+			callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 		}
 	}
 	

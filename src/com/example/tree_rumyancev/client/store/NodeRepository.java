@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.tree_rumyancev.client.dto.DeletedNodeData;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class NodeRepository {
@@ -32,7 +31,7 @@ public class NodeRepository {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Ошибка");
+				callback.onFailure(caught);
 
 			}
 		});
@@ -49,7 +48,7 @@ public class NodeRepository {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				callback.onFailure(caught);
 
 			}
 		});
@@ -66,7 +65,7 @@ public class NodeRepository {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				callback.onFailure(caught);
 
 			}
 		});
@@ -87,7 +86,7 @@ public class NodeRepository {
 			@Override
 			public void onFailure(Throwable caught) {
 
-				Window.alert("Ошибка при удалении");
+				callback.onFailure(caught);
 
 			}
 		});

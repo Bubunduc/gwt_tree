@@ -129,7 +129,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Ошибка");
+				Window.alert("Ошибка при инициализации" + caught.getMessage());
 
 			}
 		});
@@ -251,7 +251,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				Window.alert("Ошибка при получении всех нод " + caught.getMessage());
 
 			}
 		});
@@ -277,7 +277,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				Window.alert("Ошибка при создании ноды " + caught.getMessage());
 
 			}
 		});
@@ -302,7 +302,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				Window.alert("Ошибка при создании корня " + caught.getMessage());
 
 			}
 
@@ -326,7 +326,7 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert(caught.getMessage());
+				Window.alert("Ошибка при обновлении " + caught.getMessage());
 
 			}
 		});
@@ -342,18 +342,16 @@ public class MainPanelPresenter {
 
 			@Override
 			public void onSuccess(DeletedNodeData result) {
-				Long parentId = result.getParentId();
-				List<Long> removedIds = result.getRemovedIds();
-				treePresenter.deleteNode(deletedId, parentId, removedIds);
+				treePresenter.deleteNode(deletedId, result.getParentId(), result.getRemovedIds());
 				selectedNodePresenter.clean();
-				updateTreeButton(parentId);
+				updateTreeButton(result.getParentId());
 				Window.alert("Удаление прошло успешно");
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
 
-				Window.alert("Ошибка при удалении");
+				Window.alert("Ошибка при удалении " + caught.getMessage());
 
 			}
 		});
@@ -397,7 +395,6 @@ public class MainPanelPresenter {
 			@Override
 			public void onFailure(String message) {
 				Window.alert(message);
-
 			}
 		});
 	}
