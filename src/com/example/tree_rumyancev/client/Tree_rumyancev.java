@@ -13,6 +13,7 @@ import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodeView;
 import com.example.tree_rumyancev.client.service.TreeService;
 import com.example.tree_rumyancev.client.service.TreeServiceAsync;
+import com.example.tree_rumyancev.client.store.NodeRepository;
 import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TableDisplay;
 import com.example.tree_rumyancev.client.table.TablePresenterImpl;
@@ -53,13 +54,15 @@ public class Tree_rumyancev implements EntryPoint {
 		final ServerStatusPresenter serverStatusPresenter = new ServerStatusPresenter(serverStatus);
 		
 		final MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView,serverStatus);
+		
+		NodeRepository.init(treeService, nodeStore);
+		
 		final MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder()
 				.view(mainPanelView)
 				.treePresenter(treePresenter)
 				.selectedNodePresenter(selectedNodePresenter)
 				.tablePresenter(tablePresenter)
 				.serverStatusPresenter(serverStatusPresenter)
-				.treeService(treeService)
 				.nodeStore(nodeStore)
 				.build();
 

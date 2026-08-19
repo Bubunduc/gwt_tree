@@ -3,10 +3,8 @@ package com.example.tree_rumyancev.client.tree;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.example.tree_rumyancev.client.dto.TreeViewData;
 import com.example.tree_rumyancev.shared.model.Node;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 public class TreePresenter {
@@ -41,19 +39,17 @@ public class TreePresenter {
 
 	public void deleteNode(Long deletedNode, Long parentId, List<Long> deletedChildIds) {
 		if (!loadedNodes.containsKey(deletedNode)) {
-			Window.alert("Удаление прошло успешно");
 			return;
 		}
 		loadedNodes.remove(deletedNode);
 		loadedNodes.keySet().removeAll(deletedChildIds);
 		treeView.eraseNode(deletedNode, parentId, deletedChildIds);
-		if(parentId != null) {
+		if (parentId != null) {
 			if (treeView.hasNodechild(parentId) == false) {
 				treeView.setButtonVisible(parentId, false);
 			}
 		}
-		
-		
+
 	}
 
 	public void createRoot(Node newRoot) {
@@ -168,9 +164,9 @@ public class TreePresenter {
 	public void setButtonVisible(Long id, boolean stage) {
 		treeView.setButtonVisible(id, stage);
 	}
-	
+
 	public void setStatus(String status) {
 		treeView.setStatus(selectedNodeId, status);
 	}
-	
+
 }

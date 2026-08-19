@@ -16,7 +16,6 @@ import com.example.tree_rumyancev.client.handlers.tree.TreeHandler;
 import com.example.tree_rumyancev.client.request.HealthRequest;
 import com.example.tree_rumyancev.client.request.PingCallback;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
-import com.example.tree_rumyancev.client.service.TreeServiceAsync;
 import com.example.tree_rumyancev.client.store.NodeRepository;
 import com.example.tree_rumyancev.client.store.NodeStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
@@ -28,7 +27,6 @@ import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MainPanelPresenter {
 
-	private final TreeServiceAsync treeService;
 	private final MainPanelDisplay view;
 	private final TreePresenter treePresenter;
 	private final TablePresenter tablePresenter;
@@ -43,8 +41,6 @@ public class MainPanelPresenter {
 		this.selectedNodePresenter = builder.selectedNodePresenter;
 		this.serverStatusPresenter = builder.serverStatusPresenter;
 		this.nodeStore = builder.nodeStore;
-		this.treeService = builder.treeService;
-		NodeRepository.init(treeService, nodeStore);
 		loadData();
 		bind();
 	}
@@ -54,7 +50,6 @@ public class MainPanelPresenter {
 	}
 
 	public static class Builder {
-		private TreeServiceAsync treeService;
 		private MainPanelDisplay view;
 		private TreePresenter treePresenter;
 		private TablePresenter tablePresenter;
@@ -62,11 +57,6 @@ public class MainPanelPresenter {
 		private ServerStatusPresenter serverStatusPresenter;
 
 		private NodeStore nodeStore;
-
-		public Builder treeService(TreeServiceAsync treeService) {
-			this.treeService = treeService;
-			return this;
-		}
 
 		public Builder view(MainPanelDisplay view) {
 			this.view = view;
