@@ -23,7 +23,7 @@ public class SelectedNodePresenter {
 	public Node getRootToCreate() {
 
 		SelectedNodeData selectedNode = view.getData();
-		if (hasEmptyRequeredFields(selectedNode)) {
+		if (hasEmptyRequiredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -44,7 +44,7 @@ public class SelectedNodePresenter {
 			Window.alert("Сначала выберите родительский узел");
 			return null;
 		}
-		if (hasEmptyRequeredFields(selectedNode)) {
+		if (hasEmptyRequiredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -63,7 +63,7 @@ public class SelectedNodePresenter {
 	public Node getNodeToUpdate() {
 
 		SelectedNodeData selectedNode = view.getData();
-		if (hasEmptyRequeredFields(selectedNode)) {
+		if (hasEmptyRequiredFields(selectedNode)) {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
@@ -97,13 +97,13 @@ public class SelectedNodePresenter {
 
 	}
 
-	private boolean hasEmptyRequeredFields(SelectedNodeData node) {
+	private boolean hasEmptyRequiredFields(SelectedNodeData node) {
 		return (node.getName().isEmpty() || node.getIp().isEmpty() || node.getPort().isEmpty());
 
 	}
 
-	private Node getSelectedNode(SelectedNodeData nodedata, Integer port) {
-		Node node = new Node(nodedata.getId(), nodedata.getParentId(), nodedata.getName(), nodedata.getIp(), port);
+	private Node getSelectedNode(SelectedNodeData nodeData, Integer port) {
+		Node node = new Node(nodeData.getId(), nodeData.getParentId(), nodeData.getName(), nodeData.getIp(), port);
 		return node;
 	}
 

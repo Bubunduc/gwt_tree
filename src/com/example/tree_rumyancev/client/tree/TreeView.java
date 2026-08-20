@@ -68,8 +68,8 @@ public class TreeView implements TreeDisplay {
 	}
 
 	@Override
-	public boolean hasNodechild(Long id) {
-		return treeWidget.hasNodechild(id);
+	public boolean hasNodeChild(Long id) {
+		return treeWidget.hasNodeChild(id);
 	}
 
 	@Override

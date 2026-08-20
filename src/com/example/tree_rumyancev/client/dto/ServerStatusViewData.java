@@ -7,10 +7,10 @@ public class ServerStatusViewData {
 	private Long serverId;
 	private String status;
 
-	public ServerStatusViewData(Timestamp time, Long sereverId, String status) {
+	public ServerStatusViewData(Timestamp time, Long serverId, String status) {
 		super();
 		this.time = time;
-		this.serverId = sereverId;
+		this.serverId = serverId;
 		this.status = status;
 	}
 
@@ -26,8 +26,8 @@ public class ServerStatusViewData {
 		return serverId;
 	}
 
-	public void setServerId(Long sereverId) {
-		this.serverId = sereverId;
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
 	}
 
 	public String getStatus() {

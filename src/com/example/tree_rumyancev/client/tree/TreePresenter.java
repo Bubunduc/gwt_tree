@@ -50,7 +50,7 @@ public class TreePresenter {
 		loadedNodes.keySet().removeAll(deletedChildIds);
 		treeView.eraseNode(deletedNode, parentId, deletedChildIds);
 		if (parentId != null) {
-			if (treeView.hasNodechild(parentId) == false) {
+			if (treeView.hasNodeChild(parentId) == false) {
 				treeView.setButtonVisible(parentId, false);
 			}
 		}

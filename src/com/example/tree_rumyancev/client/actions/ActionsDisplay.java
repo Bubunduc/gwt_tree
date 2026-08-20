@@ -17,5 +17,5 @@ public interface ActionsDisplay extends IsWidget {
 
 	void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler);
 	
-	void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler);
+	void setPingNodeHandler(PingNodeClickHandler pingNodeClickHandler);
 }

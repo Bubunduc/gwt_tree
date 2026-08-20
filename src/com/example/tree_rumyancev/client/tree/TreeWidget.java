@@ -63,15 +63,15 @@ public class TreeWidget extends Composite {
 
 	public void showChildList(List<TreeViewData> child) {
 		Long parentId = child.get(0).getParentId();
-		NodeViewHolder parentpanel;
+		NodeViewHolder parentPanel;
 
 		if (treeNodes.get(parentId) != null) {
-			parentpanel = treeNodes.get(parentId);
+			parentPanel = treeNodes.get(parentId);
 		}
 
 		else {
 			Long panelId = child.get(0).getNodeId();
-			parentpanel = treeNodes.get(panelId);
+			parentPanel = treeNodes.get(panelId);
 		}
 
 		Set<Long> childIds = new HashSet<Long>();
@@ -84,11 +84,11 @@ public class TreeWidget extends Composite {
 
 			childIds.add(children.getNodeId());
 
-			parentpanel.add(childPanel);
+			parentPanel.add(childPanel);
 
 		}
 
-		parentpanel.setChildIds(childIds);
+		parentPanel.setChildIds(childIds);
 
 	}
 
@@ -183,7 +183,7 @@ public class TreeWidget extends Composite {
 		}
 	}
 
-	public boolean hasNodechild(Long id) {
+	public boolean hasNodeChild(Long id) {
 
 		return !treeNodes.get(id).getChildIds().isEmpty();
 	}
