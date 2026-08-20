@@ -25,6 +25,10 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 		if (error != null) {
 			throw new NodeValidationException(error);
 		}
+		if (node.getParentId() != null && dao.findById(node.getParentId()) == null) {
+
+			throw new NodeValidationException("Родительская нода с id " + node.getParentId() + " не найдена");
+		}
 		Node createdNode = dao.create(node);
 
 		return createdNode;

@@ -35,7 +35,7 @@ public class TreePresenter {
 		}
 		treeView.drawRoots(rootNodesViewDataList);
 	}
-	
+
 	public void reloadData(List<Node> rootNodes) {
 		loadedNodes.clear();
 		treeView.clear();
@@ -131,6 +131,11 @@ public class TreePresenter {
 			return;
 		}
 
+		if (childNodes == null || childNodes.isEmpty()) {
+			treeView.setButtonVisible(parentId, false);
+			return;
+		}
+
 		loadedNodes.put(parentId, true);
 
 		for (Node child : childNodes) {
@@ -163,7 +168,7 @@ public class TreePresenter {
 		treeView.setButtonVisible(id, stage);
 	}
 
-	public void setStatus(Long selectedNodeId,String status) {
+	public void setStatus(Long selectedNodeId, String status) {
 		treeView.setStatus(selectedNodeId, status);
 	}
 
