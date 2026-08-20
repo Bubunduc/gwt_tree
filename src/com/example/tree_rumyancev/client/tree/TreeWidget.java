@@ -232,4 +232,9 @@ public class TreeWidget extends Composite {
 	public void setStatus(Long id, String status) {
 		treeNodes.get(id).setStatus(status);
 	}
+	
+	public void clear() {
+		rootPanel.clear();
+		treeNodes.clear();
+	}
 }

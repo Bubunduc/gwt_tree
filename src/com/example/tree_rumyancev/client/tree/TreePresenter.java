@@ -29,11 +29,19 @@ public class TreePresenter {
 	}
 
 	public void loadData(List<Node> rootNodes) {
+		loadedNodes.clear();
+		treeView.clear();
 		List<TreeViewData> rootNodesViewDataList = TreeViewData.toViewDataList(rootNodes);
 		for (TreeViewData i : rootNodesViewDataList) {
 			loadedNodes.put(i.getNodeId(), false);
 		}
 		treeView.drawRoots(rootNodesViewDataList);
+	}
+	
+	public void reloadData(List<Node> rootNodes) {
+		loadedNodes.clear();
+		treeView.clear();
+		loadData(rootNodes);
 	}
 
 	public void deleteNode(Long deletedNode, Long parentId, List<Long> deletedChildIds) {

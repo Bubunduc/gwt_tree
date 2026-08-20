@@ -95,4 +95,10 @@ public class TreeView implements TreeDisplay {
 
 	}
 
+	@Override
+	public void clear() {
+		treeWidget.clear();
+		
+	}
+
 }

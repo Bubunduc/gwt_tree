@@ -113,8 +113,10 @@ public class MainPanelPresenter {
 				List<Node> roots = nodeStore.getRoots();
 				treePresenter.loadData(roots);
 				tablePresenter.loadData(result);
+				expandTree(nodeStore.getSelectedNodeId());
+				selectNode(nodeStore.getSelectedNodeId());
 				updateTreeButtons(roots);
-
+				
 			}
 
 			@Override
@@ -158,16 +160,7 @@ public class MainPanelPresenter {
 			@Override
 			public void onSelected(Long nodeId) {
 
-				Node node = nodeStore.get(nodeId);
-				if (node.getParentId() != null) {
-					List<Long> pathList = nodeStore.getHierarchyIdList(nodeId);
-					if (!pathList.isEmpty()) {
-						for (Long pathId : pathList) {
-							treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
-
-						}
-					}
-				}
+				expandTree(nodeId);
 				selectNode(nodeId);
 
 			}
@@ -232,21 +225,9 @@ public class MainPanelPresenter {
 	}
 
 	private void refreshData() {
-		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
 
-			@Override
-			public void onSuccess(List<Node> result) {
-				tablePresenter.loadData(result);
-				selectNode(nodeStore.getSelectedNodeId());
-				
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Ошибка при получении всех нод " + caught.getMessage());
-
-			}
-		});
+		loadData();
+		
 
 	}
 
@@ -387,6 +368,21 @@ public class MainPanelPresenter {
 
 		for (Node node : nodes) {
 			treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
+		}
+	}
+	private void expandTree(Long nodeId) {
+		if (nodeId == null) {
+	        return;
+	    }
+		Node node = nodeStore.get(nodeId);
+		if (node.getParentId() != null) {
+			List<Long> pathList = nodeStore.getHierarchyIdList(nodeId);
+			if (!pathList.isEmpty()) {
+				for (Long pathId : pathList) {
+					treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
+
+				}
+			}
 		}
 	}
 
