@@ -1,6 +1,6 @@
 CREATE TABLE client_node (
 	id bigserial NOT NULL,
-	parent_id int8 NOT NULL,
+	parent_id int8 NULL,
 	"name" varchar(256) NOT NULL,
 	ip varchar(256) NOT NULL,
 	port int4 NOT NULL,
