@@ -22,11 +22,11 @@ public class ServerStatusViewData {
 		this.time = time;
 	}
 
-	public Long getSereverId() {
+	public Long getServerId() {
 		return serverId;
 	}
 
-	public void setSereverId(Long sereverId) {
+	public void setServerId(Long sereverId) {
 		this.serverId = sereverId;
 	}
 

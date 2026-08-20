@@ -13,7 +13,7 @@ public class TableViewData {
 
 	private String ip;
 
-	private Short port;
+	private Integer port;
 
 	public static TableViewData toViewData(Node node) {
 		TableViewData result = new TableViewData();
@@ -64,11 +64,11 @@ public class TableViewData {
 		this.ip = ip;
 	}
 
-	public Short getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public void setPort(Short port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 }

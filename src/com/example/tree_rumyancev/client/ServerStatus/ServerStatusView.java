@@ -37,11 +37,11 @@ public class ServerStatusView implements ServerStatusDisplay {
 			return;
 		}
 		statusTable.setWidget(0, 1, new Label(viewData.getTime().toString()));
-		if(viewData.getSereverId() == null) {
+		if(viewData.getServerId() == null) {
 			statusTable.setWidget(1, 1, new Label("N/A"));
 		}
 		else {
-			statusTable.setWidget(1, 1, new Label(viewData.getSereverId().toString()));
+			statusTable.setWidget(1, 1, new Label(viewData.getServerId().toString()));
 		}
 		statusTable.setWidget(2, 1, new Label(viewData.getStatus()));
 		

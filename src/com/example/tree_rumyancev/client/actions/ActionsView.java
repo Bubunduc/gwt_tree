@@ -3,7 +3,7 @@ package com.example.tree_rumyancev.client.actions;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,7 +19,7 @@ public class ActionsView implements ActionsDisplay {
 	private CreateRootClickHandler createRootHandler;
 	private CreateNodeClickHandler createNodeHandler;
 	private UpdateNodeClickHandler updateNodeHandler;
-	private PingNodeClicklHandler pingNodelHandler;
+	private PingNodeClickHandler pingNodelHandler;
 
 	public ActionsView() {
 		initButtonsPanel();
@@ -124,7 +124,7 @@ public class ActionsView implements ActionsDisplay {
 	}
 
 	@Override
-	public void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler) {
+	public void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler) {
 		this.pingNodelHandler = pingNodeClicklHandler;
 
 	}

@@ -8,7 +8,7 @@ import com.example.tree_rumyancev.client.dto.ServerStatusViewData;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
@@ -207,7 +207,7 @@ public class MainPanelPresenter {
 				deleteNode();
 			}
 		});
-		view.setPingNodeHandler(new PingNodeClicklHandler() {
+		view.setPingNodeHandler(new PingNodeClickHandler() {
 
 			@Override
 			public void onClick() {
@@ -218,7 +218,8 @@ public class MainPanelPresenter {
 
 	private void selectNode(Long id) {
 		Node node = nodeStore.get(id);
-
+		
+		Long oldId = nodeStore.getSelectedNodeId();
 		if (node == null) {
 			return;
 		}
@@ -226,7 +227,7 @@ public class MainPanelPresenter {
 		nodeStore.setSelectedNodeId(id);
 		selectedNodePresenter.loadNode(node);
 		tablePresenter.colorRow(id);
-		treePresenter.colorLabel(id);
+		treePresenter.colorLabel(id,oldId);
 		serverStatusPresenter.showData(id);
 	}
 
@@ -236,7 +237,8 @@ public class MainPanelPresenter {
 			@Override
 			public void onSuccess(List<Node> result) {
 				tablePresenter.loadData(result);
-				tablePresenter.colorRow(nodeStore.getSelectedNodeId());
+				selectNode(nodeStore.getSelectedNodeId());
+				
 			}
 
 			@Override
@@ -354,7 +356,7 @@ public class MainPanelPresenter {
 			@Override
 			public void onSuccess(ServerStatusViewData data) {
 				serverStatusPresenter.setData(selectedNode.getId(), data);
-				treePresenter.setStatus(data.getStatus());
+				treePresenter.setStatus(selectedNode.getId(),data.getStatus());
 			}
 
 			@Override
@@ -368,7 +370,7 @@ public class MainPanelPresenter {
 		List<Node> children = nodeStore.getChildrenList(nodeId);
 		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
 		updateTreeButtons(children);
-		treePresenter.colorLabel(nodeStore.getSelectedNodeId());
+		treePresenter.colorLabel(nodeStore.getSelectedNodeId(),nodeStore.getSelectedNodeId());
 	}
 
 	private void updateTreeButton(Long nodeId) {

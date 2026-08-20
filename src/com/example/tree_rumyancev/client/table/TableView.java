@@ -25,7 +25,6 @@ public class TableView implements TableDisplay {
 	private FlexTable allDatatable;
 	private Button refreshButton;
 
-	private Integer selectedRowId;
 	private Map<Integer, Long> rowToNodeId;
 	private RefreshButtonClickHandler buttonClickHandler;
 	private SelectedRowHandler selectedRowHandler;
@@ -100,46 +99,35 @@ public class TableView implements TableDisplay {
 
 	}
 
-	private void addStyleSelectedRow(int rowIndex) {
-		int rows = allDatatable.getCellCount(rowIndex);
-		if (selectedRowId != null) {
-			for (int i = 0; i < rows; i++) {
-				allDatatable.getCellFormatter().removeStyleName(selectedRowId, i, "selectedRow");
-			}
-		}
-
-		selectedRowId = rowIndex;
-		for (int i = 0; i < rows; i++) {
-			allDatatable.getCellFormatter().addStyleName(selectedRowId, i, "selectedRow");
-		}
-	}
-
 	@Override
 	public void colorSelectedRow(Long id) {
 
-		if (id == null) {
-			return;
-		}
-
-		int rowIndex = -1;
 		for (Map.Entry<Integer, Long> entry : rowToNodeId.entrySet()) {
-			if (id.equals(entry.getValue())) {
-				rowIndex = entry.getKey();
-				break;
+			
+			int rowIndex = entry.getKey();
+			Long nodeId = entry.getValue();
+			
+			
+			int cellCount = allDatatable.getCellCount(rowIndex);
+
+			for (int column = 0; column < cellCount; column++) {
+
+				if (id != null && id.equals(nodeId)) {
+
+					allDatatable.getCellFormatter().addStyleName(rowIndex, column, "selectedRow");
+
+				} else {
+
+					allDatatable.getCellFormatter().removeStyleName(rowIndex, column, "selectedRow");
+				}
 			}
 		}
-		if (rowIndex == -1) {
-			return;
-		}
-
-		addStyleSelectedRow(rowIndex);
 	}
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
 		allDatatable.removeAllRows();
 		rowToNodeId.clear();
-		selectedRowId = null;
 
 		initHeaders();
 		int counter = 1;

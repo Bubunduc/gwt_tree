@@ -14,8 +14,6 @@ public class TreePresenter {
 
 	private Map<Long, Boolean> loadedNodes;
 
-	private Long selectedNodeId;
-
 	public TreePresenter(TreeDisplay treeView) {
 
 		loadedNodes = new HashMap<Long, Boolean>();
@@ -138,35 +136,28 @@ public class TreePresenter {
 		treeView.setNodeVisible(parentId, true);
 	}
 
-	public void colorLabel(final Long id) {
+	public void colorLabel(final Long id, Long oldId) {
 
 		if (!loadedNodes.containsKey(id)) {
-			treeView.colorSelectedNode(this.selectedNodeId, false);
+			treeView.colorSelectedNode(oldId, false);
 			return;
 		}
-		if ((this.selectedNodeId == null)) {
-			this.selectedNodeId = id;
-			treeView.colorSelectedNode(this.selectedNodeId, true);
+		if ((oldId == null)) {
+			treeView.colorSelectedNode(id, true);
 			return;
 		}
 
-		treeView.colorSelectedNode(this.selectedNodeId, false);
+		treeView.colorSelectedNode(oldId, false);
 
-		this.selectedNodeId = id;
+		treeView.colorSelectedNode(id, true);
 
-		treeView.colorSelectedNode(this.selectedNodeId, true);
-
-	}
-
-	public void setSelectedNodeId(Long id) {
-		this.selectedNodeId = id;
 	}
 
 	public void setButtonVisible(Long id, boolean stage) {
 		treeView.setButtonVisible(id, stage);
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Long selectedNodeId,String status) {
 		treeView.setStatus(selectedNodeId, status);
 	}
 

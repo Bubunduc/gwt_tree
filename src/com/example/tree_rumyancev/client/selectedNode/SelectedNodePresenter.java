@@ -27,7 +27,7 @@ public class SelectedNodePresenter {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-		Short port = checkPort(selectedNode.getPort());
+		Integer port = checkPort(selectedNode.getPort());
 		if (port == null) {
 			return null;
 		}
@@ -48,7 +48,7 @@ public class SelectedNodePresenter {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-		Short port = checkPort(selectedNode.getPort());
+		Integer port = checkPort(selectedNode.getPort());
 		if (port == null) {
 			return null;
 		}
@@ -67,7 +67,7 @@ public class SelectedNodePresenter {
 			Window.alert("Текстовые поля являются обязательными для заполнения");
 			return null;
 		}
-		Short port = checkPort(selectedNode.getPort());
+		Integer port = checkPort(selectedNode.getPort());
 		if (port == null) {
 			return null;
 		}
@@ -102,15 +102,15 @@ public class SelectedNodePresenter {
 
 	}
 
-	private Node getSelectedNode(SelectedNodeData nodedata, Short port) {
+	private Node getSelectedNode(SelectedNodeData nodedata, Integer port) {
 		Node node = new Node(nodedata.getId(), nodedata.getParentId(), nodedata.getName(), nodedata.getIp(), port);
 		return node;
 	}
 
-	private Short checkPort(String stringPort) {
-		Short port;
+	private Integer checkPort(String stringPort) {
+		Integer port;
 		try {
-			port = Short.valueOf(stringPort);
+			port = Integer.valueOf(stringPort);
 		} catch (NumberFormatException e) {
 			Window.alert("Некорректный порт");
 			return null;

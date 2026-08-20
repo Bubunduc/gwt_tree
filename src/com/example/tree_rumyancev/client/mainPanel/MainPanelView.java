@@ -5,7 +5,7 @@ import com.example.tree_rumyancev.client.actions.ActionsDisplay;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
@@ -88,7 +88,7 @@ public class MainPanelView implements MainPanelDisplay {
 	}
 
 	@Override
-	public void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler) {
+	public void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler) {
 		actionsView.setPingNodeHandler(pingNodeClicklHandler);
 
 	}

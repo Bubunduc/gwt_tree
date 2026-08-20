@@ -3,7 +3,7 @@ package com.example.tree_rumyancev.client.mainPanel;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.CreateRootClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.DeleteClickHandler;
-import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClicklHandler;
+import com.example.tree_rumyancev.client.handlers.selectedNode.click.PingNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.selectedNode.click.UpdateNodeClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.RefreshButtonClickHandler;
 import com.example.tree_rumyancev.client.handlers.table.SelectedRowHandler;
@@ -29,7 +29,7 @@ public interface MainPanelDisplay {
 
 	void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler);
 	
-	void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler);
+	void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler);
 
 	Widget asWidget();
 }

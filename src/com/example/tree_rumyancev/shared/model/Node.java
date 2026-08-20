@@ -14,13 +14,13 @@ public class Node implements Serializable {
 
 	private String ip;
 
-	private Short port;
+	private Integer port;
 
 	public Node() {
 
 	}
 
-	public Node(Long id, Long parentId, String name, String ip, Short port) {
+	public Node(Long id, Long parentId, String name, String ip, Integer port) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
@@ -61,11 +61,11 @@ public class Node implements Serializable {
 		this.ip = ip;
 	}
 
-	public Short getPort() {
+	public Integer getPort() {
 		return port;
 	}
 
-	public void setPort(Short port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
 

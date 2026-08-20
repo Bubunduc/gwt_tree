@@ -99,7 +99,7 @@ public class NodeViewHolder extends FlowPanel {
 			break;
 		}
 		default: {
-			circle.setStyleName("circle circleUnkwonw");
+			circle.setStyleName("circle circleUnknown");
 			break;
 		}
 		}
