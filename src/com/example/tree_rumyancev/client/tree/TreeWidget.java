@@ -228,8 +228,8 @@ public class TreeWidget extends Composite {
 		selectedHolder.colorNode(stage);
 
 	}
-	
-	public void setStatus(Long id,String status) {
+
+	public void setStatus(Long id, String status) {
 		treeNodes.get(id).setStatus(status);
 	}
 }

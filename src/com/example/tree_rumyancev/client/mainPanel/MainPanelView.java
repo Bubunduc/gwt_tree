@@ -25,7 +25,7 @@ public class MainPanelView implements MainPanelDisplay {
 	private final ActionsDisplay actionsView;
 
 	public MainPanelView(TableDisplay tableView, TreeDisplay treeView, ActionsDisplay actionsView,
-			SelectedNodeDisplay selectedNodeView,ServerStatusDisplay serverStatusDisplay) {
+			SelectedNodeDisplay selectedNodeView, ServerStatusDisplay serverStatusDisplay) {
 		this.tableView = tableView;
 		this.treeView = treeView;
 		this.actionsView = actionsView;
@@ -35,7 +35,7 @@ public class MainPanelView implements MainPanelDisplay {
 		mainPanel.add(topPanel);
 		mainPanel.add(actionsView.asWidget());
 		mainPanel.add(tableView.asWidget());
-		
+
 		topPanel.setStyleName("topPanel");
 	}
 
@@ -86,18 +86,16 @@ public class MainPanelView implements MainPanelDisplay {
 		actionsView.setUpdateNodeHandler(updateNodeHandler);
 
 	}
-	
+
 	@Override
 	public void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler) {
 		actionsView.setPingNodeHandler(pingNodeClicklHandler);
-		
+
 	}
-	
+
 	@Override
 	public Widget asWidget() {
 		return mainPanel;
 	}
-
-	
 
 }

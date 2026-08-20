@@ -112,7 +112,7 @@ public class SelectedNodeView implements SelectedNodeDisplay {
 		String name = ((TextBox) selectedNodeTable.getWidget(2, 1)).getText();
 		String ip = ((TextBox) selectedNodeTable.getWidget(3, 1)).getText();
 		String port = ((TextBox) selectedNodeTable.getWidget(4, 1)).getText();
-		
+
 		return new SelectedNodeData(id, parentId, name, ip, port);
 	}
 

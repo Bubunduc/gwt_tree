@@ -46,7 +46,6 @@ public class TreeDaoImplMocked implements TreeDao {
 		return nodes;
 	}
 
-	
 	private List<Node> getChildrenList(Long parentId) {
 		List<Node> childrenList = new ArrayList<Node>();
 		List<Node> nodes = findAll();

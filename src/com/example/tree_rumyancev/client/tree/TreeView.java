@@ -92,7 +92,7 @@ public class TreeView implements TreeDisplay {
 	@Override
 	public void setStatus(Long id, String status) {
 		treeWidget.setStatus(id, status);
-		
+
 	}
 
 }

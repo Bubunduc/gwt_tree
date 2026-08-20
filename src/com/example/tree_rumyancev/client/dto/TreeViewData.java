@@ -12,7 +12,7 @@ public class TreeViewData {
 	private Long parentId;
 
 	private String name;
-	
+
 	public Long getNodeId() {
 		return nodeId;
 	}

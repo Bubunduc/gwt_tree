@@ -49,21 +49,18 @@ public class Tree_rumyancev implements EntryPoint {
 
 		final TableDisplay allNodesTable = new TableView();
 		final TablePresenterImpl tablePresenter = new TablePresenterImpl(allNodesTable);
-		
+
 		final ServerStatusDisplay serverStatus = new ServerStatusView();
 		final ServerStatusPresenter serverStatusPresenter = new ServerStatusPresenter(serverStatus);
-		
-		final MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView,serverStatus);
-		
+
+		final MainPanelDisplay mainPanelView = new MainPanelView(allNodesTable, treeView, actionsView, selectedNodeView,
+				serverStatus);
+
 		NodeRepository.init(treeService, nodeStore);
-		
-		final MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder()
-				.view(mainPanelView)
-				.treePresenter(treePresenter)
-				.selectedNodePresenter(selectedNodePresenter)
-				.tablePresenter(tablePresenter)
-				.serverStatusPresenter(serverStatusPresenter)
-				.nodeStore(nodeStore)
+
+		final MainPanelPresenter mainPanelPresenter = MainPanelPresenter.builder().view(mainPanelView)
+				.treePresenter(treePresenter).selectedNodePresenter(selectedNodePresenter)
+				.tablePresenter(tablePresenter).serverStatusPresenter(serverStatusPresenter).nodeStore(nodeStore)
 				.build();
 
 		mainPanelPresenter.go(RootPanel.get("mainContainer"));

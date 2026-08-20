@@ -10,7 +10,7 @@ public interface SelectedNodeDisplay extends IsWidget {
 	void cleanSelected();
 
 	void showNode(Node node);
-	
+
 	SelectedNodeData getData();
 
 	Widget asWidget();

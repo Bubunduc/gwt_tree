@@ -94,7 +94,7 @@ public class NodeViewHolder extends FlowPanel {
 			circle.setStyleName("circle circleDown");
 			break;
 		}
-		case "N/A":{
+		case "N/A": {
 			circle.setStyleName("circle circleNa");
 			break;
 		}

@@ -15,8 +15,8 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 
 public class HealthRequest {
-	
-	public static void ping(final Node selectedNode,final PingCallback callback) {
+
+	public static void ping(final Node selectedNode, final PingCallback callback) {
 		if (selectedNode == null) {
 			callback.onFailure("Для посылки запроса выберите ноду");
 			return;
@@ -26,7 +26,7 @@ public class HealthRequest {
 		url.append(selectedNode.getIp());
 		url.append(":" + selectedNode.getPort().toString());
 		url.append("/health");
-		
+
 		RequestBuilder request = new RequestBuilder(RequestBuilder.GET, url.toString());
 
 		try {
@@ -40,11 +40,10 @@ public class HealthRequest {
 						Timestamp time = new Timestamp(System.currentTimeMillis());
 						Long serverId = null;
 						String statusString = "N/A";
-						
+
 						final ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
 						callback.onSuccess(viewData);
-						
-						
+
 						return;
 					}
 
@@ -60,9 +59,10 @@ public class HealthRequest {
 							Long serverId = (long) jsonObject.get("serverId").isNumber().doubleValue();
 							String statusString = jsonObject.get("status").isString().stringValue();
 
-							final ServerStatusViewData viewData = new ServerStatusViewData(time, serverId, statusString);
+							final ServerStatusViewData viewData = new ServerStatusViewData(time, serverId,
+									statusString);
 							callback.onSuccess(viewData);
-							
+
 						} catch (Exception e) {
 							callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 						}
@@ -81,5 +81,5 @@ public class HealthRequest {
 			callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 		}
 	}
-	
+
 }

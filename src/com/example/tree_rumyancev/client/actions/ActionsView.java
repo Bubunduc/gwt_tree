@@ -25,7 +25,6 @@ public class ActionsView implements ActionsDisplay {
 		initButtonsPanel();
 	}
 
-	
 	private void initButtonsPanel() {
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
@@ -72,17 +71,17 @@ public class ActionsView implements ActionsDisplay {
 			}
 		});
 		deleteButton.addStyleName("deleteButton");
-		
+
 		Button pingButton = new Button("Ping");
 		pingButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				pingNodelHandler.onClick();
-				
+
 			}
 		});
-		
+
 		buttonPanel.add(addNodeButton);
 		buttonPanel.add(addRootButton);
 		buttonPanel.add(editButton);
@@ -124,11 +123,10 @@ public class ActionsView implements ActionsDisplay {
 		return buttonPanel.asWidget();
 	}
 
-
 	@Override
 	public void setPingNodeHandler(PingNodeClicklHandler pingNodeClicklHandler) {
 		this.pingNodelHandler = pingNodeClicklHandler;
-		
+
 	}
 
 }
