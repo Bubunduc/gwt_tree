@@ -22,7 +22,7 @@ public class TableView implements TableDisplay {
 
 	private FlowPanel panel;
 	private FlowPanel tablePanel;
-	private FlexTable allDatatable;
+	private FlexTable allDataTable;
 	private Button refreshButton;
 
 	private Map<Integer, Long> rowToNodeId;
@@ -43,15 +43,15 @@ public class TableView implements TableDisplay {
 
 		tablePanel = new FlowPanel();
 		tablePanel.setStyleName("tablePanel");
-		allDatatable = new FlexTable();
+		allDataTable = new FlexTable();
 
-		tablePanel.add(allDatatable);
-		allDatatable.addClickHandler(new ClickHandler() {
+		tablePanel.add(allDataTable);
+		allDataTable.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-				HTMLTable.Cell cell = allDatatable.getCellForEvent(event);
+				HTMLTable.Cell cell = allDataTable.getCellForEvent(event);
 
 				if (cell == null) {
 					return;
@@ -70,7 +70,7 @@ public class TableView implements TableDisplay {
 			}
 		});
 
-		allDatatable.setStyleName("nodeTable");
+		allDataTable.setStyleName("nodeTable");
 
 		refreshButton = new Button("обновить");
 		refreshButton.addClickHandler(new ClickHandler() {
@@ -90,12 +90,12 @@ public class TableView implements TableDisplay {
 
 	private void initHeaders() {
 
-		allDatatable.setWidget(HEADER_ROW, 0, new Label("name"));
-		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 0, "tableHeader");
-		allDatatable.setWidget(HEADER_ROW, 1, new Label("ip"));
-		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 1, "tableHeader");
-		allDatatable.setWidget(HEADER_ROW, 2, new Label("port"));
-		allDatatable.getCellFormatter().addStyleName(HEADER_ROW, 2, "tableHeader");
+		allDataTable.setWidget(HEADER_ROW, 0, new Label("name"));
+		allDataTable.getCellFormatter().addStyleName(HEADER_ROW, 0, "tableHeader");
+		allDataTable.setWidget(HEADER_ROW, 1, new Label("ip"));
+		allDataTable.getCellFormatter().addStyleName(HEADER_ROW, 1, "tableHeader");
+		allDataTable.setWidget(HEADER_ROW, 2, new Label("port"));
+		allDataTable.getCellFormatter().addStyleName(HEADER_ROW, 2, "tableHeader");
 
 	}
 
@@ -108,17 +108,17 @@ public class TableView implements TableDisplay {
 			Long nodeId = entry.getValue();
 			
 			
-			int cellCount = allDatatable.getCellCount(rowIndex);
+			int cellCount = allDataTable.getCellCount(rowIndex);
 
 			for (int column = 0; column < cellCount; column++) {
 
 				if (id != null && id.equals(nodeId)) {
 
-					allDatatable.getCellFormatter().addStyleName(rowIndex, column, "selectedRow");
+					allDataTable.getCellFormatter().addStyleName(rowIndex, column, "selectedRow");
 
 				} else {
 
-					allDatatable.getCellFormatter().removeStyleName(rowIndex, column, "selectedRow");
+					allDataTable.getCellFormatter().removeStyleName(rowIndex, column, "selectedRow");
 				}
 			}
 		}
@@ -126,16 +126,16 @@ public class TableView implements TableDisplay {
 
 	@Override
 	public void fillTable(List<TableViewData> nodes) {
-		allDatatable.removeAllRows();
+		allDataTable.removeAllRows();
 		rowToNodeId.clear();
 
 		initHeaders();
 		int counter = 1;
 		for (TableViewData node : nodes) {
 
-			allDatatable.setWidget(counter, 0, new Label(node.getName()));
-			allDatatable.setWidget(counter, 1, new Label(node.getIp()));
-			allDatatable.setWidget(counter, 2, new Label(node.getPort().toString()));
+			allDataTable.setWidget(counter, 0, new Label(node.getName()));
+			allDataTable.setWidget(counter, 1, new Label(node.getIp()));
+			allDataTable.setWidget(counter, 2, new Label(node.getPort().toString()));
 
 			rowToNodeId.put(counter, node.getNodeId());
 
