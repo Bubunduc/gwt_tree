@@ -347,6 +347,23 @@ public class MainPanelPresenter {
 		});
 	}
 
+	private void pingNode() {
+		final Node selectedNode = nodeStore.getSelectedNode();
+		HealthRequest.ping(selectedNode, new PingCallback() {
+
+			@Override
+			public void onSuccess(ServerStatusViewData data) {
+				serverStatusPresenter.setData(selectedNode.getId(), data);
+				treePresenter.setStatus(data.getStatus());
+			}
+
+			@Override
+			public void onFailure(String message) {
+				Window.alert(message);
+			}
+		});
+	}
+
 	private void handleTreeButtonClicked(Long nodeId) {
 		List<Node> children = nodeStore.getChildrenList(nodeId);
 		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
@@ -371,21 +388,4 @@ public class MainPanelPresenter {
 		}
 	}
 
-	private void pingNode() {
-		final Node selectedNode = nodeStore.getSelectedNode();
-		HealthRequest.ping(selectedNode, new PingCallback() {
-
-			@Override
-			public void onSuccess(ServerStatusViewData data) {
-				serverStatusPresenter.setData(selectedNode.getId(), data);
-				treePresenter.setStatus(data.getStatus());
-
-			}
-
-			@Override
-			public void onFailure(String message) {
-				Window.alert(message);
-			}
-		});
-	}
 }
