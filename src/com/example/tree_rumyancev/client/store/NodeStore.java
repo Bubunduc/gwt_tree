@@ -8,45 +8,53 @@ import java.util.Map;
 
 import com.example.tree_rumyancev.shared.model.Node;
 
-public class NodeStore {
+public class NodeStore implements StoreActions {
 
 	private final Map<Long, Node> nodes = new HashMap<Long, Node>();
 
 	private Long selectedNodeId;
 
+	@Override
 	public void save(Node node) {
 		nodes.put(node.getId(), node);
 	}
 
+	@Override
 	public Node get(Long nodeId) {
 		return nodes.get(nodeId);
 	}
 
+	@Override
 	public void remove(Long nodeId) {
 		nodes.remove(nodeId);
 	}
 
+	@Override
 	public void setSelectedNodeId(Long nodeId) {
 		selectedNodeId = nodeId;
 	}
 
+	@Override
 	public Long getSelectedNodeId() {
 		return selectedNodeId;
 	}
-	
+
+	@Override
 	public Node getSelectedNode() {
 		return nodes.get(selectedNodeId);
 	}
 
+	@Override
 	public void clearSelection() {
 		selectedNodeId = null;
 	}
 
+	@Override
 	public void clear() {
 		nodes.clear();
 	}
 
-	public List<Long> getDirectChildIds(Long parentId) {
+	private List<Long> getDirectChildIds(Long parentId) {
 		List<Long> directChildIds = new ArrayList<Long>();
 
 		for (Node node : nodes.values()) {
@@ -63,6 +71,7 @@ public class NodeStore {
 		return directChildIds;
 	}
 
+	@Override
 	public List<Long> removeSubTrees(Long parentId) {
 		List<Long> removedIds = new ArrayList<>();
 		List<Long> directChildIds = getDirectChildIds(parentId);
@@ -78,10 +87,7 @@ public class NodeStore {
 		return removedIds;
 	}
 
-	public List<Node> getValuesList() {
-		return new ArrayList<Node>(nodes.values());
-	}
-
+	@Override
 	public boolean hasChild(Long id) {
 		if (id == null) {
 			return false;
@@ -96,6 +102,7 @@ public class NodeStore {
 		return false;
 	}
 
+	@Override
 	public List<Node> getRoots() {
 		List<Node> roots = new ArrayList<Node>();
 
@@ -108,6 +115,7 @@ public class NodeStore {
 		return roots;
 	}
 
+	@Override
 	public List<Node> getChildrenList(Long parentId) {
 		List<Node> childrenList = new ArrayList<Node>();
 
@@ -119,6 +127,7 @@ public class NodeStore {
 		return childrenList;
 	}
 
+	@Override
 	public List<Long> getHierarchyIdList(Long id) {
 
 		List<Long> idList = new ArrayList<Long>();

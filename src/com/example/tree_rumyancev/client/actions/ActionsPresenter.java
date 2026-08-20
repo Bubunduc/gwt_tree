@@ -6,7 +6,6 @@ public class ActionsPresenter {
 
 	private final ActionsDisplay view;
 
-
 	public ActionsPresenter(ActionsDisplay view) {
 
 		this.view = view;

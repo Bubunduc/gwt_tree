@@ -4,9 +4,9 @@ import java.util.List;
 
 public class DeletedNodeData {
 
-	Long parentId;
+	private Long parentId;
 
-	List<Long> removedIds;
+	private List<Long> removedIds;
 
 	public DeletedNodeData(Long parentId, List<Long> removedIds) {
 		super();

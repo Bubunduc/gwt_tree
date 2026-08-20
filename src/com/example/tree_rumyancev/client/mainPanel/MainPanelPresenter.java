@@ -17,7 +17,7 @@ import com.example.tree_rumyancev.client.request.HealthRequest;
 import com.example.tree_rumyancev.client.request.PingCallback;
 import com.example.tree_rumyancev.client.selectedNode.SelectedNodePresenter;
 import com.example.tree_rumyancev.client.store.NodeRepository;
-import com.example.tree_rumyancev.client.store.NodeStore;
+import com.example.tree_rumyancev.client.store.TreeSelectionStore;
 import com.example.tree_rumyancev.client.table.TablePresenter;
 import com.example.tree_rumyancev.client.tree.TreePresenter;
 import com.example.tree_rumyancev.shared.model.Node;
@@ -32,7 +32,7 @@ public class MainPanelPresenter {
 	private final TablePresenter tablePresenter;
 	private final SelectedNodePresenter selectedNodePresenter;
 	private final ServerStatusPresenter serverStatusPresenter;
-	private final NodeStore nodeStore;
+	private final TreeSelectionStore nodeStore;
 
 	public MainPanelPresenter(Builder builder) {
 		this.view = builder.view;
@@ -56,7 +56,7 @@ public class MainPanelPresenter {
 		private SelectedNodePresenter selectedNodePresenter;
 		private ServerStatusPresenter serverStatusPresenter;
 
-		private NodeStore nodeStore;
+		private TreeSelectionStore nodeStore;
 
 		public Builder view(MainPanelDisplay view) {
 			this.view = view;
@@ -78,7 +78,7 @@ public class MainPanelPresenter {
 			return this;
 		}
 
-		public Builder nodeStore(NodeStore nodeStore) {
+		public Builder nodeStore(TreeSelectionStore nodeStore) {
 			this.nodeStore = nodeStore;
 			return this;
 		}

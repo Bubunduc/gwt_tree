@@ -10,9 +10,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class NodeRepository {
 
 	private static TreeServiceAsync treeService;
-	private static NodeStore nodeStore;
+	private static StoreActions nodeStore;
 
-	public static void init(TreeServiceAsync service, NodeStore store) {
+	public static void init(TreeServiceAsync service, StoreActions store) {
 		treeService = service;
 		nodeStore = store;
 	}
