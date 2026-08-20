@@ -22,7 +22,7 @@ public class FieldVerifier {
 		if ((node.getPort() < 0)) {
 			return "Порт не может быть отрицательным";
 		}
-		if(node.getPort() > 65535) {
+		if (node.getPort() > 65535) {
 			return "Порт не может быть больше 65535";
 		}
 

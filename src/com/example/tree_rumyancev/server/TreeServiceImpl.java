@@ -37,13 +37,21 @@ public class TreeServiceImpl extends RemoteServiceServlet implements TreeService
 		if (error != null) {
 			throw new NodeValidationException(error);
 		}
+		if (dao.findById(node.getId()) == null) {
+			throw new NodeValidationException("Нода с id " + node.getId() + " не найдена");
+		}
 		dao.update(node);
+
 	}
 
 	@Override
-	public void delete(Long id) {
-		dao.delete(id);
+	public void delete(Long id) throws NodeValidationException {
 
+		if (dao.findById(id) == null) {
+			throw new NodeValidationException("Нода с id " + id + " не найдена");
+		}
+
+		dao.delete(id);
 	}
 
 	@Override

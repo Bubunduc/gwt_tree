@@ -116,7 +116,7 @@ public class MainPanelPresenter {
 				expandTree(nodeStore.getSelectedNodeId());
 				selectNode(nodeStore.getSelectedNodeId());
 				updateTreeButtons(roots);
-				
+
 			}
 
 			@Override
@@ -211,7 +211,7 @@ public class MainPanelPresenter {
 
 	private void selectNode(Long id) {
 		Node node = nodeStore.get(id);
-		
+
 		Long oldId = nodeStore.getSelectedNodeId();
 		if (node == null) {
 			return;
@@ -220,15 +220,35 @@ public class MainPanelPresenter {
 		nodeStore.setSelectedNodeId(id);
 		selectedNodePresenter.loadNode(node);
 		tablePresenter.colorRow(id);
-		treePresenter.colorLabel(id,oldId);
+		treePresenter.colorLabel(id, oldId);
 		serverStatusPresenter.showData(id);
 	}
 
 	private void refreshData() {
+		NodeRepository.findAll(new AsyncCallback<List<Node>>() {
 
-		loadData();
-		
+			@Override
+			public void onSuccess(List<Node> result) {
+				Long selectedId = nodeStore.getSelectedNodeId();
+				tablePresenter.loadData(result);
+				List<Node> roots = nodeStore.getRoots();
+				treePresenter.reloadData(roots);
+				updateTreeButtons(roots);
 
+				if (selectedId != null && nodeStore.get(selectedId) != null) {
+					expandTree(selectedId);
+					selectNode(selectedId);
+				} else {
+					nodeStore.clearSelection();
+					selectedNodePresenter.clean();
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Ошибка обновления данных: " + caught.getMessage());
+			}
+		});
 	}
 
 	private void createNode() {
@@ -337,7 +357,7 @@ public class MainPanelPresenter {
 			@Override
 			public void onSuccess(ServerStatusViewData data) {
 				serverStatusPresenter.setData(selectedNode.getId(), data);
-				treePresenter.setStatus(selectedNode.getId(),data.getStatus());
+				treePresenter.setStatus(selectedNode.getId(), data.getStatus());
 			}
 
 			@Override
@@ -351,7 +371,7 @@ public class MainPanelPresenter {
 		List<Node> children = nodeStore.getChildrenList(nodeId);
 		treePresenter.onNodeButtonClicked(nodeStore.get(nodeId), children);
 		updateTreeButtons(children);
-		treePresenter.colorLabel(nodeStore.getSelectedNodeId(),nodeStore.getSelectedNodeId());
+		treePresenter.colorLabel(nodeStore.getSelectedNodeId(), nodeStore.getSelectedNodeId());
 	}
 
 	private void updateTreeButton(Long nodeId) {
@@ -370,19 +390,27 @@ public class MainPanelPresenter {
 			treePresenter.setButtonVisible(node.getId(), nodeStore.hasChild(node.getId()));
 		}
 	}
+
 	private void expandTree(Long nodeId) {
 		if (nodeId == null) {
-	        return;
-	    }
-		Node node = nodeStore.get(nodeId);
-		if (node.getParentId() != null) {
-			List<Long> pathList = nodeStore.getHierarchyIdList(nodeId);
-			if (!pathList.isEmpty()) {
-				for (Long pathId : pathList) {
-					treePresenter.expandNode(nodeStore.get(pathId), nodeStore.getChildrenList(pathId));
+			return;
+		}
 
-				}
-			}
+		Node node = nodeStore.get(nodeId);
+
+		if (node == null || node.getParentId() == null) {
+			return;
+		}
+
+		List<Long> pathList = nodeStore.getHierarchyIdList(nodeId);
+
+		for (Long pathId : pathList) {
+
+			List<Node> children = nodeStore.getChildrenList(pathId);
+
+			treePresenter.expandNode(nodeStore.get(pathId), children);
+
+			updateTreeButtons(children);
 		}
 	}
 

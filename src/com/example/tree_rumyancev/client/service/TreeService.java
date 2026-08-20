@@ -13,7 +13,7 @@ public interface TreeService extends RemoteService {
 
 	void update(Node node) throws NodeValidationException;
 
-	void delete(Long id);
+	void delete(Long id) throws NodeValidationException;
 
 	List<Node> findAll();
 

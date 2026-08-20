@@ -91,24 +91,4 @@ public class NodeRepository {
 			}
 		});
 	}
-	public static void isExists(final Long selectedId,final AsyncCallback<Boolean> callback) {
-		treeService.findById(selectedId, new AsyncCallback<Node>() {
-			
-			@Override
-			public void onSuccess(Node result) {
-				if (result == null) {
-					callback.onSuccess(true);
-					return;
-				}
-				callback.onSuccess(false);
-				
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
-				
-			}
-		} );
-	}
 }
