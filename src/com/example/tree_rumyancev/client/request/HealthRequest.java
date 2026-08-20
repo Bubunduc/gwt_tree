@@ -46,11 +46,11 @@ public class HealthRequest {
 
 						return;
 					}
+					try {
+						JSONValue jsonValue = JSONParser.parseStrict(jsonText);
 
-					JSONValue jsonValue = JSONParser.parseStrict(jsonText);
+						if (jsonValue.isObject() != null) {
 
-					if (jsonValue.isObject() != null) {
-						try {
 							JSONObject jsonObject = jsonValue.isObject();
 							String timeStr = jsonObject.get("timestamp").isString().stringValue();
 							DateTimeFormat isoFormat = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -63,10 +63,9 @@ public class HealthRequest {
 									statusString);
 							callback.onSuccess(viewData);
 
-						} catch (Exception e) {
-							callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 						}
-
+					} catch (Exception e) {
+						callback.onFailure("При чтении ответа произошла ошибка" + e.getMessage());
 					}
 
 				}
