@@ -29,7 +29,7 @@ public interface MainPanelDisplay {
 
 	void setUpdateNodeHandler(UpdateNodeClickHandler updateNodeHandler);
 	
-	void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler);
+	void setPingNodeHandler(PingNodeClickHandler pingNodeClickHandler);
 
 	Widget asWidget();
 }

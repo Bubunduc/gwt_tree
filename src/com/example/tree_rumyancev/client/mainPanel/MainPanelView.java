@@ -88,8 +88,8 @@ public class MainPanelView implements MainPanelDisplay {
 	}
 
 	@Override
-	public void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler) {
-		actionsView.setPingNodeHandler(pingNodeClicklHandler);
+	public void setPingNodeHandler(PingNodeClickHandler pingNodeClickHandler) {
+		actionsView.setPingNodeHandler(pingNodeClickHandler);
 
 	}
 

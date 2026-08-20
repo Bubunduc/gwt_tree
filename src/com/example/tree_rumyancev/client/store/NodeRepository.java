@@ -78,9 +78,9 @@ public class NodeRepository {
 			public void onSuccess(Void result) {
 				Long parentId = nodeStore.get(deletedId).getParentId();
 				List<Long> removedIds = nodeStore.removeSubTrees(deletedId);
-				callback.onSuccess(new DeletedNodeData(parentId, removedIds));
 				nodeStore.remove(deletedId);
 				nodeStore.clearSelection();
+				callback.onSuccess(new DeletedNodeData(parentId, removedIds));
 			}
 
 			@Override

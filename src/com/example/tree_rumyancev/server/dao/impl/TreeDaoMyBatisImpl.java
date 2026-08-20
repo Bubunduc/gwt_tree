@@ -41,8 +41,8 @@ public class TreeDaoMyBatisImpl implements TreeDao {
 	public void update(Node node) {
 		try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
 			TreeMapper mapper = session.getMapper(TreeMapper.class);
-			if(findById(node.getId())== null) {
-				return;
+			if (mapper.findById(node.getId()) == null) {
+				throw new IllegalArgumentException("Нода с id " + node.getId() + " не найдена");
 			}
 			mapper.update(node);
 			session.commit();
@@ -53,8 +53,8 @@ public class TreeDaoMyBatisImpl implements TreeDao {
 	public void delete(Long id) {
 		try (SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession()) {
 			TreeMapper mapper = session.getMapper(TreeMapper.class);
-			if(findById(id)== null) {
-				return;
+			if (mapper.findById(id) == null) {
+				throw new IllegalArgumentException("Нода с id " + id + " не найдена");
 			}
 			mapper.delete(id);
 			session.commit();

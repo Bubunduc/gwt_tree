@@ -19,7 +19,7 @@ public class ActionsView implements ActionsDisplay {
 	private CreateRootClickHandler createRootHandler;
 	private CreateNodeClickHandler createNodeHandler;
 	private UpdateNodeClickHandler updateNodeHandler;
-	private PingNodeClickHandler pingNodelHandler;
+	private PingNodeClickHandler pingNodeHandler;
 
 	public ActionsView() {
 		initButtonsPanel();
@@ -77,7 +77,7 @@ public class ActionsView implements ActionsDisplay {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				pingNodelHandler.onClick();
+				pingNodeHandler.onClick();
 
 			}
 		});
@@ -124,8 +124,8 @@ public class ActionsView implements ActionsDisplay {
 	}
 
 	@Override
-	public void setPingNodeHandler(PingNodeClickHandler pingNodeClicklHandler) {
-		this.pingNodelHandler = pingNodeClicklHandler;
+	public void setPingNodeHandler(PingNodeClickHandler pingNodeClickHandler) {
+		this.pingNodeHandler = pingNodeClickHandler;
 
 	}
 
